@@ -7,78 +7,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
-        
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); 
-            margin: 0; padding: 0; overflow-x: hidden; user-select: none;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* SECCIÓN 1: OCUPA EL 100% DE LA PANTALLA SI O SI */
-        .hero-section {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 0;
-            overflow: hidden; /* Evita que se asome lo de abajo */
-            position: relative;
-        }
-
+        /* SECCIÓN HERO (AJUSTE DE PANTALLA) */
+        .hero-section { height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 15px 0; overflow: hidden; position: relative; }
         #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; }
 
-        /* INTRO Y VIDEO */
-        #intro-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        /* INTRO Y VIDEO (OPTIMIZADO) */
+        #intro-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s; }
         #comenzar-btn { 
-            padding: 18px 45px; border-radius: 50px; border: none; background: white; 
-            color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.2rem; 
-            font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            padding: 20px 50px; border-radius: 50px; border: none; background: white; 
+            color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.3rem; 
+            font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         #video-wrap { position: absolute; inset: 0; display: none; background: #000; }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* COMPONENTES */
+        /* HEADER Y SOCIAL (ICONOS GRANDES Y CLICKEABLES) */
         .header { text-align: center; flex-shrink: 0; }
         .logo-img { width: 85px; height: auto; mix-blend-mode: multiply; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 5px 0; }
-        .social-bar { display: flex; justify-content: center; gap: 12px; margin-top: 5px; }
-        .social-bar img { width: 22px; height: 22px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 5px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 25px; margin-top: 15px; }
+        .social-bar a { display: inline-block; padding: 5px; }
+        .social-bar img { width: 40px; height: 40px; } /* Tamaño aumentado para Bella */
 
-        .cover-img { 
-            width: 90%; 
-            margin: 10px auto; 
-            border-radius: 20px; 
-            object-fit: cover;
-            flex-grow: 1; /* Estira la imagen para llenar el espacio medio */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            max-height: 48vh;
-        }
+        .cover-img { width: 92%; margin: 10px auto; border-radius: 25px; object-fit: cover; flex-grow: 1; box-shadow: 0 12px 30px rgba(0,0,0,0.1); max-height: 45vh; }
 
-        .buttons-wrap { flex-shrink: 0; padding-bottom: 10px; }
+        .buttons-wrap { flex-shrink: 0; padding-bottom: 25px; }
         .flat-btn { 
-            display: block; width: 85%; margin: 8px auto; padding: 15px 0; background: var(--btn-pink); 
-            color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 700; 
-            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+            display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); 
+            color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; 
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
         }
 
         /* SECCIONES COLAPSABLES */
-        .collapsible-section { width: 92%; margin: 30px auto; border-radius: 20px; overflow: hidden; cursor: pointer; }
-        .section-banner { width: 100%; display: block; }
-        .content-area { display: none; background: var(--card-crema); padding: 35px 20px; border-radius: 20px; text-align: center; position: relative; animation: slideUp 0.4s ease; }
+        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .section-banner { width: 100%; display: block; object-fit: cover; min-height: 150px; }
+        .content-area { display: none; background: var(--card-crema); padding: 40px 25px; text-align: center; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .active .content-area { display: block; }
         .active .section-banner { display: none; }
 
         /* SLIDER AUTORIDADES */
-        .slider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; }
-        .auth-img { width: 150px; height: 200px; object-fit: cover; border-radius: 15px; border: 4px solid white; background: #fff; }
-        .nav-arrow { background: none; border: none; font-size: 2rem; color: var(--text-purple); cursor: pointer; }
+        .slider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 25px 0; }
+        .auth-img { width: 170px; height: 230px; object-fit: cover; border-radius: 20px; border: 5px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .nav-arrow { background: #eee; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
 
         /* JEROVIAHA */
-        .btn-help { display: block; padding: 16px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 15px 0; }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+        .btn-help { display: block; padding: 18px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 15px; font-weight: 700; margin: 20px 0; }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
 
         #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; }
     </style>
@@ -87,7 +66,7 @@
 
     <div id="intro-screen">
         <button id="comenzar-btn" onclick="iniciarVideo()">COMENZAR 🌸</button>
-        <div id="video-wrap"><video id="intro-video" playsinline></video></div>
+        <div id="video-wrap"><video id="intro-video" playsinline preload="auto"></video></div>
     </div>
 
     <div id="app-container">
@@ -97,9 +76,7 @@
                 <h1 id="titulo">Cargando...</h1>
                 <div class="social-bar" id="socials"></div>
             </div>
-
             <img id="portada" src="" class="cover-img">
-
             <div class="buttons-wrap">
                 <a id="link-postulate" href="#" class="flat-btn">Postulate!</a>
                 <a id="link-instagram" href="#" class="flat-btn">Instagram</a>
@@ -109,16 +86,17 @@
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
             <img id="banner-aut" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin: 0 0 15px;"></h2>
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin: 0;"></h2>
+                <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 20px; opacity: 0.7;"></p>
                 <div class="slider">
                     <button class="nav-arrow" onclick="moveAuth(-1)">&#10094;</button>
                     <img id="auth-foto" src="" class="auth-img">
                     <button class="nav-arrow" onclick="moveAuth(1)">&#10095;</button>
                 </div>
-                <div id="auth-nombre" style="font-weight: 800; text-transform: uppercase; font-size: 1rem;"></div>
+                <div id="auth-nombre" style="font-weight: 800; text-transform: uppercase; font-size: 1.1rem;"></div>
                 <div id="auth-cargo" style="font-size: 0.7rem; color: var(--btn-pink); font-weight: 700; margin-bottom: 10px;"></div>
-                <div id="auth-bio" style="font-size: 0.8rem; text-align: left; line-height: 1.5; color: #444;"></div>
-                <p onclick="toggleSec('sec-aut')" style="margin-top:25px; font-size:0.6rem; opacity:0.3; font-weight:700;">CERRAR X</p>
+                <div id="auth-bio" style="font-size: 0.85rem; text-align: left; line-height: 1.6; color: #555;"></div>
+                <p onclick="toggleSec('sec-aut')" style="margin-top:30px; font-size:0.7rem; letter-spacing:2px; font-weight:700; color: var(--btn-pink);">CERRAR X</p>
             </div>
         </div>
 
@@ -126,10 +104,10 @@
             <img id="banner-jero" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
                 <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0;"></h2>
-                <p id="j-desc" style="font-size: 0.8rem; margin: 15px 0; text-align: left; line-height: 1.5; color: #444;"></p>
+                <p id="j-desc" style="font-size: 0.85rem; margin: 20px 0; text-align: left; line-height: 1.6; color: #555;"></p>
                 <a id="j-btn" href="#" class="btn-help" target="_blank"></a>
                 <div class="insta-grid" id="j-grid"></div>
-                <p onclick="toggleSec('sec-jero')" style="margin-top:25px; font-size:0.6rem; opacity:0.3; font-weight:700;">CERRAR X</p>
+                <p onclick="toggleSec('sec-jero')" style="margin-top:30px; font-size:0.7rem; letter-spacing:2px; font-weight:700; color: var(--btn-pink);">CERRAR X</p>
             </div>
         </div>
     </div>
@@ -143,8 +121,14 @@
 
         function fix(url) {
             if(!url) return "";
-            let id = url.split('/').pop().split('#')[0].split('.')[0];
-            return url.includes('imgur.com') ? `https://i.imgur.com/${id}.jpg` : url;
+            if(url.includes('imgur.com')) {
+                let id = url.split('/').pop().split('#')[0].split('.')[0];
+                return `https://i.imgur.com/${id}.jpg`;
+            }
+            if(url.includes('postimg.cc') || url.includes('postimg.org')) {
+                if(!url.includes('i.postimg.cc')) return url.replace('postimg.cc', 'i.postimg.cc') + '.jpg';
+            }
+            return url;
         }
 
         async function init() {
@@ -152,12 +136,13 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
 
-                // Video
+                // Precarga de Video
                 const vid = document.getElementById('intro-video');
                 let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                 vid.src = `https://i.imgur.com/${vidId}.mp4`;
+                vid.load(); // Fuerza el inicio de descarga inmediata
 
-                // Datos
+                // Carga de UI
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
@@ -165,14 +150,15 @@
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
                 document.getElementById('socials').innerHTML = `
-                    <a href="${d.principal.linkInsta}"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${d.principal.iconWapp}"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="https://wa.me/${d.principal.iconWapp}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                 `;
 
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
+                document.getElementById('sub-aut').innerText = d.portadaAut.desc;
                 updateAuth();
 
                 document.getElementById('banner-jero').src = fix(d.jeroviaha.fotoPortada);
@@ -188,15 +174,22 @@
         function iniciarVideo() {
             const wrap = document.getElementById('video-wrap');
             const vid = document.getElementById('intro-video');
-            document.getElementById('comenzar-btn').style.display = 'none';
-            wrap.style.display = 'block';
-            vid.play();
-            vid.onended = () => {
-                document.getElementById('intro-screen').style.opacity = '0';
-                document.getElementById('app-container').style.display = 'block';
-                setTimeout(() => document.getElementById('intro-screen').remove(), 600);
-            };
-            setTimeout(() => { if(document.getElementById('intro-screen')) vid.onended(); }, 8500);
+            document.getElementById('comenzar-btn').innerText = "CARGANDO...";
+            
+            vid.play().then(() => {
+                document.getElementById('comenzar-btn').style.display = 'none';
+                wrap.style.display = 'block';
+            }).catch(() => finalizarIntro());
+
+            vid.onended = finalizarIntro;
+            setTimeout(() => { if(document.getElementById('intro-screen')) finalizarIntro(); }, 8000);
+        }
+
+        function finalizarIntro() {
+            const intro = document.getElementById('intro-screen');
+            intro.style.opacity = '0';
+            document.getElementById('app-container').style.display = 'block';
+            setTimeout(() => intro.remove(), 600);
         }
 
         function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
