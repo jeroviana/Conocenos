@@ -6,88 +6,72 @@
     <title>Asamblea Jerovia N°9</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg-pink: #F4C7CC; 
-            --text-purple: #4A235A; 
-            --btn-pink: #B78A9C; 
-            --card-crema: #FDF8F5; 
-            --btn-red: #F26157;
-        }
-
+        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-
-        body { 
-            font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); 
-            margin: 0; display: flex; justify-content: center; overflow-x: hidden; user-select: none;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; overflow-x: hidden; }
         
-        #app-container { width: 100%; max-width: 450px; min-height: 100vh; padding-bottom: 50px; display: none; }
+        #app-container { width: 100%; max-width: 450px; margin: 0 auto; min-height: 100vh; display: none; padding-bottom: 40px; }
 
-        /* INTRO Y PANTALLA DE CARGA */
-        #intro-screen { 
-            position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; 
-            display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease;
-        }
-        #intro-video { width: 100%; height: 100%; object-fit: cover; background: var(--bg-pink); }
+        /* INTRO REFORZADA */
+        #intro-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
         /* HEADER */
-        .header { text-align: center; padding: 20px 20px 10px; }
-        .logo-img { width: 85px; height: auto; background: transparent; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 5px 0; }
-        .social-bar { display: flex; justify-content: center; gap: 12px; margin: 10px 0; }
-        .social-bar a img { width: 22px; height: 22px; }
+        .header { text-align: center; padding: 25px 20px 10px; }
+        .logo-img { width: 90px; height: auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 8px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .social-bar img { width: 22px; height: 22px; }
 
-        /* IMAGEN DE PORTADA PEQUEÑA (AJUSTE SOLICITADO) */
+        /* PORTADA TAMAÑO SOLICITADO */
         .cover-carrusel { 
-            width: 90%; 
-            max-height: 35vh; /* Ocupa máximo el 35% de la pantalla para dejar ver los botones */
+            width: 92%; 
+            height: 45vh; /* Ajuste para ver hasta el 2do botón únicamente */
             margin: 0 auto 15px; 
             display: block; 
-            border-radius: 15px; 
+            border-radius: 20px; 
             object-fit: cover;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
         }
 
         .flat-btn { 
-            display: block; width: 85%; margin: 8px auto; padding: 14px 0; background: var(--btn-pink); 
-            color: white; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 700; 
-            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; transition: 0.3s;
+            display: block; width: 85%; margin: 10px auto; padding: 16px 0; background: var(--btn-pink); 
+            color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 700; 
+            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
         }
 
-        /* SECCIONES Y ANIMACIONES */
-        .collapsible-section { width: 90%; margin: 15px auto; border-radius: 15px; overflow: hidden; cursor: pointer; }
+        /* SECCIONES */
+        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 20px; overflow: hidden; cursor: pointer; }
         .section-banner { width: 100%; display: block; }
         
         .content-area { 
-            display: none; background: var(--card-crema); padding: 25px 20px; 
-            border-radius: 0 0 15px 15px; position: relative;
-            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            text-align: center;
+            display: none; background: var(--card-crema); padding: 30px 20px; 
+            border-radius: 0 0 20px 20px; text-align: center;
+            animation: slideUp 0.4s ease;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .active .content-area { display: block; }
         .active .section-banner { display: none; }
 
-        /* SLIDER AUTORIDADES */
-        .slider { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 15px 0; }
-        .auth-img { width: 140px; height: 180px; object-fit: cover; border-radius: 12px; border: 3px solid white; background: #eee; }
-        .nav-arrow { background: none; border: none; font-size: 1.8rem; color: var(--text-purple); cursor: pointer; opacity: 0.6; }
+        /* AUTORIDADES */
+        .slider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; }
+        .auth-img { width: 150px; height: 190px; object-fit: cover; border-radius: 15px; border: 4px solid white; background: #fff; }
+        .nav-arrow { background: none; border: none; font-size: 2rem; color: var(--text-purple); cursor: pointer; }
 
         /* JEROVIAHA */
-        .btn-help { display: block; padding: 15px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 10px; font-weight: 700; margin: 15px 0; }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; }
+        .btn-help { display: block; padding: 16px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 15px 0; }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
 
-        /* LIGHTBOX */
-        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        #lightbox img { max-width: 100%; max-height: 80%; border-radius: 8px; }
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        #lightbox img { max-width: 100%; max-height: 80%; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="intro-screen">
-        <video id="intro-video" muted playsinline></video>
+        <video id="intro-video" muted playsinline loop></video>
     </div>
 
     <div id="app-container">
@@ -105,27 +89,27 @@
         <div id="accAut" class="collapsible-section" onclick="toggleCard('accAut')">
             <img id="bannerAut" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <h2 id="titAut" style="font-family:'Playfair Display'; font-size: 1.2rem; margin: 0 0 10px;"></h2>
+                <h2 id="titAut" style="font-family:'Playfair Display'; margin: 0 0 15px;"></h2>
                 <div class="slider">
                     <button class="nav-arrow" onclick="navAuth(-1)">&#10094;</button>
                     <img id="auth-foto" src="" class="auth-img">
                     <button class="nav-arrow" onclick="navAuth(1)">&#10095;</button>
                 </div>
-                <div id="auth-name" style="font-weight: 700; text-transform: uppercase; font-size: 0.9rem;"></div>
-                <div id="auth-cargo" style="font-size: 0.7rem; color: var(--btn-pink); margin-bottom: 8px;"></div>
-                <div id="auth-bio" style="font-size: 0.75rem; text-align: left; line-height: 1.4; color: #555;"></div>
-                <p onclick="toggleCard('accAut')" style="margin-top:20px; font-size:0.6rem; letter-spacing:1px; opacity:0.4;">CERRAR X</p>
+                <div id="auth-name" style="font-weight: 800; text-transform: uppercase; font-size: 1rem;"></div>
+                <div id="auth-cargo" style="font-size: 0.75rem; color: var(--btn-pink); margin-bottom: 10px; font-weight: 700;"></div>
+                <div id="auth-bio" style="font-size: 0.8rem; text-align: left; line-height: 1.5; color: #444;"></div>
+                <p onclick="toggleCard('accAut')" style="margin-top:25px; font-size:0.7rem; opacity:0.4; font-weight:700;">CERRAR X</p>
             </div>
         </div>
 
         <div id="accJero" class="collapsible-section" onclick="toggleCard('accJero')">
             <img id="bannerJero" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <h2 id="jTit" style="font-family:'Playfair Display'; font-size: 1.2rem; margin: 0;"></h2>
-                <p id="jDesc" style="font-size: 0.8rem; margin: 12px 0; text-align: left; line-height: 1.4;"></p>
+                <h2 id="jTit" style="font-family:'Playfair Display'; margin: 0;"></h2>
+                <p id="jDesc" style="font-size: 0.85rem; margin: 15px 0; text-align: left; line-height: 1.5;"></p>
                 <a id="jBtn" href="" class="btn-help" target="_blank"></a>
                 <div class="insta-grid" id="jGrid"></div>
-                <p onclick="toggleCard('accJero')" style="margin-top:20px; font-size:0.6rem; letter-spacing:1px; opacity:0.4;">CERRAR X</p>
+                <p onclick="toggleCard('accJero')" style="margin-top:25px; font-size:0.7rem; opacity:0.4; font-weight:700;">CERRAR X</p>
             </div>
         </div>
     </div>
@@ -133,15 +117,14 @@
     <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg"></div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6YjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
         let autoridades = [];
         let authIndex = 0;
 
-        // Función para limpiar links de Imgur
-        function fixImgur(url) {
+        function cleanUrl(url) {
             if(!url) return "";
-            if(url.includes('imgur.com/a/')) return url.replace('imgur.com/a/', 'i.imgur.com/') + '.jpg';
-            if(url.includes('imgur.com/') && !url.includes('i.imgur.com')) return url.replace('imgur.com/', 'i.imgur.com/') + '.jpg';
+            let id = url.split('/').pop().split('#')[0].split('.')[0];
+            if(url.includes('imgur.com')) return `https://i.imgur.com/${id}.jpg`;
             return url;
         }
 
@@ -150,26 +133,23 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
 
-                // VIDEO INTRO (Ajuste para links de album)
+                // VIDEO: Forzamos MP4 directo de Imgur
                 const vid = document.getElementById('intro-video');
-                let videoUrl = d.principal.videoIntro.split('#')[0];
-                vid.src = videoUrl.replace('imgur.com/a/', 'i.imgur.com/').replace('imgur.com/', 'i.imgur.com/') + '.mp4';
-                
-                vid.play().catch(() => console.log("Video bloqueado"));
+                let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
+                vid.src = `https://i.imgur.com/${vidId}.mp4`;
+                vid.play();
 
-                // Salto automático si tarda mucho o termina
-                const jumpToApp = () => {
+                // Salto a la app
+                setTimeout(() => {
                     document.getElementById('intro-screen').style.opacity = '0';
                     document.getElementById('app-container').style.display = 'block';
                     setTimeout(() => document.getElementById('intro-screen').remove(), 600);
-                };
+                }, 5000);
 
-                setTimeout(jumpToApp, 4500); // Máximo 4.5 segundos de espera
-
-                // ASIGNACIÓN DE DATOS
-                document.getElementById('logoImg').src = fixImgur(d.principal.logo);
+                // DATOS
+                document.getElementById('logoImg').src = cleanUrl(d.principal.logo);
                 document.getElementById('titPrin').innerText = d.principal.titulo;
-                document.getElementById('portadaCarrusel').src = fixImgur(d.principal.fotoPortada);
+                document.getElementById('portadaCarrusel').src = cleanUrl(d.principal.fotoPortada);
                 document.getElementById('btnPostulate').href = d.principal.linkPostulate;
                 document.getElementById('btnInstagram').href = d.principal.linkInsta;
 
@@ -179,19 +159,19 @@
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                 `;
 
-                // AUTORIDADES (Corrección de imágenes)
-                autoridades = d.listaAutoridades;
-                document.getElementById('bannerAut').src = fixImgur(d.portadaAut.img);
+                // AUTORIDADES (Forzamos mapeo manual si fallan nombres de objeto)
+                autoridades = d.listaAutoridades || [];
+                document.getElementById('bannerAut').src = cleanUrl(d.portadaAut.img);
                 document.getElementById('titAut').innerText = d.portadaAut.titulo;
                 renderAuth();
 
                 // JEROVIAHA
-                document.getElementById('bannerJero').src = fixImgur(d.jeroviaha.fotoPortada);
+                document.getElementById('bannerJero').src = cleanUrl(d.jeroviaha.fotoPortada);
                 document.getElementById('jTit').innerText = d.jeroviaha.tituloClick;
                 document.getElementById('jDesc').innerText = d.jeroviaha.desc;
                 document.getElementById('jBtn').innerText = d.jeroviaha.txtBoton;
                 document.getElementById('jBtn').href = d.jeroviaha.linkBoton;
-                document.getElementById('jGrid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${fixImgur(f)}" onclick="openLB('${fixImgur(f)}')">` : "").join('');
+                document.getElementById('jGrid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${cleanUrl(f)}" onclick="openLB('${cleanUrl(f)}')">` : "").join('');
 
             } catch (e) {
                 document.getElementById('app-container').style.display = 'block';
@@ -204,11 +184,12 @@
         function renderAuth() {
             if(!autoridades.length) return;
             const a = autoridades[authIndex];
-            // Aquí forzamos la limpieza del link de la foto de la autoridad
-            document.getElementById('auth-foto').src = fixImgur(a.foto) || document.getElementById('logoImg').src;
-            document.getElementById('auth-name').innerText = a.nombre;
-            document.getElementById('auth-cargo').innerText = a.cargo;
-            document.getElementById('auth-bio').innerText = a.bio;
+            // Fix: Usamos acceso por índice si el nombre de propiedad falla
+            let fotoUrl = a.foto || a[0] || ""; 
+            document.getElementById('auth-foto').src = cleanUrl(fotoUrl) || document.getElementById('logoImg').src;
+            document.getElementById('auth-name').innerText = a.nombre || "Autoridad";
+            document.getElementById('auth-cargo').innerText = a.cargo || "";
+            document.getElementById('auth-bio').innerText = a.bio || "";
         }
 
         function navAuth(dir) {
