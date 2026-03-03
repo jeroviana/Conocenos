@@ -14,131 +14,74 @@
             --btn-red: #F26157;
         }
 
-        /* EVITAR EL COLOR CELESTE AL TOCAR (HIGHLIGHT) */
-        * { -webkit-tap-highlight-color: transparent; outline: none; }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
         body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-pink); 
-            color: var(--text-purple); 
-            margin: 0; 
-            display: flex; 
-            justify-content: center;
-            overflow-x: hidden;
-            user-select: none;
+            font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); 
+            margin: 0; display: flex; justify-content: center; overflow-x: hidden; user-select: none;
         }
         
-        #app-container { 
-            width: 100%; 
-            max-width: 450px; 
-            min-height: 100vh; 
-            padding-bottom: 50px; 
-            display: none; /* Se activa tras la intro */
-        }
+        #app-container { width: 100%; max-width: 450px; min-height: 100vh; padding-bottom: 50px; display: none; }
 
-        /* --- INTRO: VIDEO FULLSCREEN --- */
+        /* INTRO Y PANTALLA DE CARGA */
         #intro-screen { 
-            position: fixed; 
-            inset: 0; 
-            background: var(--bg-pink); 
-            z-index: 9999; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: opacity 0.8s ease;
+            position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; 
+            display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease;
         }
-        #intro-video { width: 100%; height: 100%; object-fit: cover; }
+        #intro-video { width: 100%; height: 100%; object-fit: cover; background: var(--bg-pink); }
 
-        /* --- HEADER Y REDES (LOGOS PEQUEÑOS) --- */
-        .header { text-align: center; padding: 30px 20px 10px; }
-        .logo-img { width: 100px; height: auto; background: transparent; margin-bottom: 10px; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
-        .slogan { font-size: 0.85rem; font-style: italic; opacity: 0.8; margin: 5px 0; }
+        /* HEADER */
+        .header { text-align: center; padding: 20px 20px 10px; }
+        .logo-img { width: 85px; height: auto; background: transparent; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 5px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 12px; margin: 10px 0; }
+        .social-bar a img { width: 22px; height: 22px; }
 
-        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 15px 0; }
-        .social-bar a img { width: 22px; height: 22px; transition: opacity 0.2s; }
-        .social-bar a:hover img { opacity: 0.6; }
-
-        /* --- CARRUSEL Y BOTONES PRINCIPALES --- */
+        /* IMAGEN DE PORTADA PEQUEÑA (AJUSTE SOLICITADO) */
         .cover-carrusel { 
-            width: 85%; 
+            width: 90%; 
+            max-height: 35vh; /* Ocupa máximo el 35% de la pantalla para dejar ver los botones */
             margin: 0 auto 15px; 
             display: block; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 15px; 
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .flat-btn { 
-            display: block; 
-            width: 85%; 
-            margin: 8px auto; 
-            padding: 16px 0; 
-            background: var(--btn-pink); 
-            color: white; 
-            text-align: center; 
-            text-decoration: none; 
-            border-radius: 10px; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            font-size: 0.8rem; 
-            letter-spacing: 0.5px;
-            transition: background 0.3s;
+            display: block; width: 85%; margin: 8px auto; padding: 14px 0; background: var(--btn-pink); 
+            color: white; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 700; 
+            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; transition: 0.3s;
         }
-        .flat-btn:hover { background: #c597a9; }
 
-        /* --- SECCIONES COLAPSABLES (HOPP STYLE) --- */
-        .collapsible-section { 
-            width: 90%; 
-            margin: 18px auto; 
-            border-radius: 15px; 
-            overflow: hidden; 
-            cursor: pointer; 
-        }
-        .section-banner { width: 100%; display: block; transition: opacity 0.3s; }
-        .section-banner:hover { opacity: 0.9; }
-
+        /* SECCIONES Y ANIMACIONES */
+        .collapsible-section { width: 90%; margin: 15px auto; border-radius: 15px; overflow: hidden; cursor: pointer; }
+        .section-banner { width: 100%; display: block; }
+        
         .content-area { 
-            display: none; 
-            background: var(--card-crema); 
-            margin-top: -5px; 
-            padding: 25px 20px; 
-            border-radius: 0 0 15px 15px; 
-            position: relative;
-            animation: slideDown 0.4s ease-out; 
+            display: none; background: var(--card-crema); padding: 25px 20px; 
+            border-radius: 0 0 15px 15px; position: relative;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
             text-align: center;
         }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .active .content-area { display: block; }
-        .active .section-banner { display: none; } /* Oculta imagen al abrir */
+        .active .section-banner { display: none; }
 
-        .close-x { 
-            position: absolute; top: 10px; right: 15px; font-size: 1.2rem; 
-            font-weight: bold; opacity: 0.4; cursor: pointer; 
-        }
+        /* SLIDER AUTORIDADES */
+        .slider { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 15px 0; }
+        .auth-img { width: 140px; height: 180px; object-fit: cover; border-radius: 12px; border: 3px solid white; background: #eee; }
+        .nav-arrow { background: none; border: none; font-size: 1.8rem; color: var(--text-purple); cursor: pointer; opacity: 0.6; }
 
-        /* --- SLIDER AUTORIDADES --- */
-        .slider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; }
-        .auth-img { width: 140px; height: 180px; object-fit: cover; border-radius: 10px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-arrow { background: none; border: none; font-size: 1.8rem; color: var(--text-purple); cursor: pointer; padding: 10px; }
-        .auth-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; margin-top: 10px; }
-        .auth-bio { font-size: 0.8rem; line-height: 1.5; color: #444; margin-top: 8px; text-align: left; }
+        /* JEROVIAHA */
+        .btn-help { display: block; padding: 15px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 10px; font-weight: 700; margin: 15px 0; }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; }
 
-        /* --- JEROVIAHA (ORDENADO) --- */
-        .btn-help { 
-            display: block; width: 100%; padding: 15px 0; background: var(--btn-red); 
-            color: white; text-decoration: none; border-radius: 10px; font-weight: 700; 
-            margin: 15px 0; font-size: 0.9rem;
-        }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 15px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; cursor: pointer; }
-
-        /* --- LIGHTBOX --- */
-        #lightbox { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 20000; 
-            display: none; align-items: center; justify-content: center; 
-        }
-        #lightbox img { max-width: 90%; max-height: 80%; border: 3px solid white; border-radius: 5px; }
+        /* LIGHTBOX */
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        #lightbox img { max-width: 100%; max-height: 80%; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -151,7 +94,6 @@
         <div class="header">
             <img id="logoImg" src="" class="logo-img">
             <h1 id="titPrin"></h1>
-            <p id="descPrin" class="slogan"></p>
             <div class="social-bar" id="socialBar"></div>
         </div>
 
@@ -163,116 +105,107 @@
         <div id="accAut" class="collapsible-section" onclick="toggleCard('accAut')">
             <img id="bannerAut" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-x" onclick="toggleCard('accAut')">✕</span>
-                <h2 id="titAut" style="font-family:'Playfair Display'; font-size: 1.2rem; margin: 0 0 15px;"></h2>
+                <h2 id="titAut" style="font-family:'Playfair Display'; font-size: 1.2rem; margin: 0 0 10px;"></h2>
                 <div class="slider">
                     <button class="nav-arrow" onclick="navAuth(-1)">&#10094;</button>
                     <img id="auth-foto" src="" class="auth-img">
                     <button class="nav-arrow" onclick="navAuth(1)">&#10095;</button>
                 </div>
-                <div id="auth-name" class="auth-name"></div>
-                <div id="auth-cargo" style="font-size: 0.7rem; color: var(--btn-pink); font-weight:700; margin-bottom:10px;"></div>
-                <div id="auth-bio" class="auth-bio"></div>
+                <div id="auth-name" style="font-weight: 700; text-transform: uppercase; font-size: 0.9rem;"></div>
+                <div id="auth-cargo" style="font-size: 0.7rem; color: var(--btn-pink); margin-bottom: 8px;"></div>
+                <div id="auth-bio" style="font-size: 0.75rem; text-align: left; line-height: 1.4; color: #555;"></div>
+                <p onclick="toggleCard('accAut')" style="margin-top:20px; font-size:0.6rem; letter-spacing:1px; opacity:0.4;">CERRAR X</p>
             </div>
         </div>
 
         <div id="accJero" class="collapsible-section" onclick="toggleCard('accJero')">
             <img id="bannerJero" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-x" onclick="toggleCard('accJero')">✕</span>
-                <h2 id="jTit" style="font-family:'Playfair Display'; font-size: 1.3rem; margin: 0;"></h2>
-                <p id="jDesc" style="font-size: 0.85rem; margin: 10px 0; text-align: left; line-height: 1.4;"></p>
+                <h2 id="jTit" style="font-family:'Playfair Display'; font-size: 1.2rem; margin: 0;"></h2>
+                <p id="jDesc" style="font-size: 0.8rem; margin: 12px 0; text-align: left; line-height: 1.4;"></p>
                 <a id="jBtn" href="" class="btn-help" target="_blank"></a>
                 <div class="insta-grid" id="jGrid"></div>
+                <p onclick="toggleCard('accJero')" style="margin-top:20px; font-size:0.6rem; letter-spacing:1px; opacity:0.4;">CERRAR X</p>
             </div>
         </div>
-
-        <p id="emailFooter" style="text-align:center; font-size:0.75rem; opacity:0.6; margin-top:40px;"></p>
     </div>
 
-    <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lbImg" src="">
-    </div>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg"></div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
         let autoridades = [];
         let authIndex = 0;
 
+        // Función para limpiar links de Imgur
+        function fixImgur(url) {
+            if(!url) return "";
+            if(url.includes('imgur.com/a/')) return url.replace('imgur.com/a/', 'i.imgur.com/') + '.jpg';
+            if(url.includes('imgur.com/') && !url.includes('i.imgur.com')) return url.replace('imgur.com/', 'i.imgur.com/') + '.jpg';
+            return url;
+        }
+
         async function init() {
             try {
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
 
-                // 1. GESTIÓN DEL VIDEO E INTRO
+                // VIDEO INTRO (Ajuste para links de album)
                 const vid = document.getElementById('intro-video');
-                vid.src = d.principal.videoIntro.replace('imgur.com/', 'i.imgur.com/') + '.mp4';
+                let videoUrl = d.principal.videoIntro.split('#')[0];
+                vid.src = videoUrl.replace('imgur.com/a/', 'i.imgur.com/').replace('imgur.com/', 'i.imgur.com/') + '.mp4';
                 
-                // Intentar reproducir con sonido
-                vid.muted = false;
-                vid.play().catch(() => {
-                    vid.muted = true; // Fallback si el navegador bloquea audio
-                    vid.play();
-                });
+                vid.play().catch(() => console.log("Video bloqueado"));
 
-                // Pasar a la página automáticamente a los 6 segundos
-                setTimeout(() => {
+                // Salto automático si tarda mucho o termina
+                const jumpToApp = () => {
                     document.getElementById('intro-screen').style.opacity = '0';
                     document.getElementById('app-container').style.display = 'block';
-                    setTimeout(() => {
-                        // DESTRUIMOS el video para que el sonido pare definitivamente
-                        document.getElementById('intro-screen').remove();
-                    }, 800);
-                }, 6000);
+                    setTimeout(() => document.getElementById('intro-screen').remove(), 600);
+                };
 
-                // 2. CARGA DE DATOS PRINCIPALES
-                document.getElementById('logoImg').src = d.principal.logo;
+                setTimeout(jumpToApp, 4500); // Máximo 4.5 segundos de espera
+
+                // ASIGNACIÓN DE DATOS
+                document.getElementById('logoImg').src = fixImgur(d.principal.logo);
                 document.getElementById('titPrin').innerText = d.principal.titulo;
-                document.getElementById('descPrin').innerText = d.principal.desc;
-                document.getElementById('portadaCarrusel').src = d.principal.fotoPortada;
+                document.getElementById('portadaCarrusel').src = fixImgur(d.principal.fotoPortada);
                 document.getElementById('btnPostulate').href = d.principal.linkPostulate;
                 document.getElementById('btnInstagram').href = d.principal.linkInsta;
-                document.getElementById('emailFooter').innerText = d.principal.correo;
 
                 document.getElementById('socialBar').innerHTML = `
-                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${d.principal.iconWapp}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${d.principal.linkInsta}"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="${d.principal.iconWapp}"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                 `;
 
-                // 3. CARGA DE AUTORIDADES
+                // AUTORIDADES (Corrección de imágenes)
                 autoridades = d.listaAutoridades;
-                document.getElementById('bannerAut').src = d.portadaAut.img;
+                document.getElementById('bannerAut').src = fixImgur(d.portadaAut.img);
                 document.getElementById('titAut').innerText = d.portadaAut.titulo;
                 renderAuth();
 
-                // 4. CARGA DE JEROVIAHA (ORDEN: Título -> Desc -> Botón -> Fotos)
-                document.getElementById('bannerJero').src = d.jeroviaha.fotoPortada;
+                // JEROVIAHA
+                document.getElementById('bannerJero').src = fixImgur(d.jeroviaha.fotoPortada);
                 document.getElementById('jTit').innerText = d.jeroviaha.tituloClick;
                 document.getElementById('jDesc').innerText = d.jeroviaha.desc;
                 document.getElementById('jBtn').innerText = d.jeroviaha.txtBoton;
                 document.getElementById('jBtn').href = d.jeroviaha.linkBoton;
-                
-                const fotosHtml = d.jeroviaha.fotos.map(f => f ? `<img src="${f}" onclick="openLB('${f}')">` : "").join('');
-                document.getElementById('jGrid').innerHTML = fotosHtml;
+                document.getElementById('jGrid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${fixImgur(f)}" onclick="openLB('${fixImgur(f)}')">` : "").join('');
 
             } catch (e) {
-                console.error("Error en conexión:", e);
-                // Si hay error masivo, forzamos entrada para no dejar pantalla rosa
                 document.getElementById('app-container').style.display = 'block';
                 document.getElementById('intro-screen').remove();
             }
         }
 
-        function toggleCard(id) {
-            document.getElementById(id).classList.toggle('active');
-        }
+        function toggleCard(id) { document.getElementById(id).classList.toggle('active'); }
 
         function renderAuth() {
             if(!autoridades.length) return;
             const a = autoridades[authIndex];
-            // Si no hay foto individual, usa el logo
-            document.getElementById('auth-foto').src = (a.foto && a.foto.includes('http')) ? a.foto : document.getElementById('logoImg').src;
+            // Aquí forzamos la limpieza del link de la foto de la autoridad
+            document.getElementById('auth-foto').src = fixImgur(a.foto) || document.getElementById('logoImg').src;
             document.getElementById('auth-name').innerText = a.nombre;
             document.getElementById('auth-cargo').innerText = a.cargo;
             document.getElementById('auth-bio').innerText = a.bio;
