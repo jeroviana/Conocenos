@@ -6,271 +6,207 @@
     <title>Asamblea Jerovia N°9</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg-pink: #F4C7CC; 
-            --text-purple: #4A235A; 
-            --btn-pink: #B78A9C; 
-            --card-crema: #FDF8F5; 
-            --btn-red: #F26157;
-        }
-
-        /* --- RESET Y EVITAR SELECCIÓN --- */
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { 
-            font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); 
-            margin: 0; padding: 0; display: flex; justify-content: center; overflow-x: hidden; user-select: none;
-        }
+        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; user-select: none; }
         
-        #app-container { 
-            width: 100%; max-width: 450px; min-height: 100vh; display: none; padding-bottom: 50px; 
-            animation: fadeInBody 1s ease;
+        /* --- AJUSTE DE PANTALLA COMPLETA --- */
+        .hero-section {
+            height: 100vh; /* Ocupa exactamente toda la pantalla */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Empuja los botones al fondo */
+            padding-bottom: 20px;
         }
-        @keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- 1. INTRO: BOTÓN Y LUEGO VIDEO FULLSCREEN --- */
-        #intro-screen { 
-            position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; 
-            display: flex; align-items: center; justify-content: center; flex-direction: column;
-        }
-        #comenzar-btn {
-            padding: 18px 45px; border-radius: 50px; border: none; background: white; 
-            color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.3rem; 
-            font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: 0.3s;
-        }
-        #comenzar-btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; }
 
-        #video-container { 
-            position: absolute; inset: 0; display: none; background: black; 
-        }
+        /* INTRO */
+        #intro-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #comenzar-btn { padding: 18px 40px; border-radius: 50px; border: none; font-family: 'Playfair Display'; font-weight: 700; font-size: 1.2rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #video-wrap { position: absolute; inset: 0; display: none; background: #000; }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- 2. HEADER: LOGO LIMPIO --- */
-        .header { text-align: center; padding: 20px 20px 10px; }
-        .logo-img { width: 85px; height: auto; background: transparent; mix-blend-mode: multiply; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 8px 0 0; }
-        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
-        .social-bar img { width: 22px; height: 22px; transition: 0.2s; }
-        .social-bar img:hover { opacity: 0.6; }
+        /* HEADER */
+        .header { text-align: center; padding: 20px 20px 5px; }
+        .logo-img { width: 80px; height: auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin: 5px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 12px; }
+        .social-bar img { width: 22px; }
 
-        /* --- 3. PORTADA: TAMAÑO CALCULADO --- */
-        .cover-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
+        /* PORTADA DINÁMICA */
         .cover-img { 
             width: 90%; 
-            height: 42vh; /* Altura ajustada para que entren los botones sin scroll */
-            object-fit: cover; border-radius: 20px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            flex-grow: 1; /* Toma el espacio sobrante */
+            margin: 10px auto; 
+            border-radius: 20px; 
+            object-fit: cover;
+            max-height: 45vh; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        .flat-btn { 
-            display: block; width: 85%; margin: 8px auto; padding: 15px 0; background: var(--btn-pink); 
-            color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 700; 
-            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s;
-        }
-        .flat-btn:hover { background: #b07e92; transform: translateY(-2px); }
+        .flat-btn { display: block; width: 88%; margin: 6px auto; padding: 16px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
 
-        /* --- 4. SECCIONES: BANNER DESAPARECE ALBRIR --- */
-        .collapsible-section { width: 92%; margin: 20px auto; border-radius: 20px; overflow: hidden; cursor: pointer; }
-        .section-banner { width: 100%; display: block; transition: 0.3s; }
-        
-        .content-area { 
-            display: none; background: var(--card-crema); padding: 30px 20px; 
-            border-radius: 20px; position: relative; text-align: center;
-            animation: slideUp 0.5s ease;
-        }
+        /* SECCIONES */
+        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 20px; overflow: hidden; cursor: pointer; }
+        .section-banner { width: 100%; display: block; }
+        .content-area { display: none; background: var(--card-crema); padding: 30px 20px; border-radius: 20px; position: relative; text-align: center; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Cuando está activo: ocultar banner, mostrar contenido */
         .active .content-area { display: block; }
         .active .section-banner { display: none; }
 
-        .close-btn { position: absolute; top: 15px; right: 20px; font-weight: 700; opacity: 0.3; font-size: 1.2rem; }
+        /* SLIDER */
+        .slider { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 15px 0; }
+        .auth-img { width: 150px; height: 190px; object-fit: cover; border-radius: 15px; border: 4px solid white; background: #fff; }
+        .nav-arrow { background: none; border: none; font-size: 2rem; color: var(--text-purple); cursor: pointer; }
 
-        /* --- SLIDER AUTORIDADES --- */
-        .slider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; }
-        .auth-img { 
-            width: 150px; height: 200px; object-fit: cover; border-radius: 15px; 
-            border: 4px solid white; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .nav-arrow { background: none; border: none; font-size: 2.2rem; color: var(--text-purple); cursor: pointer; }
+        /* FILANTROPIA */
+        .btn-help { display: block; padding: 15px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 15px 0; font-size: 0.85rem; }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; }
 
-        /* --- JEROVIAHA --- */
-        .btn-help { display: block; padding: 16px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 20px 0; }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: pointer; }
-
-        /* --- LIGHTBOX --- */
-        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; }
-        #lightbox img { max-width: 90%; max-height: 80%; border: 4px solid white; border-radius: 10px; }
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        #lightbox img { max-width: 100%; max-height: 80%; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="intro-screen">
-        <button id="comenzar-btn" onclick="iniciarExperiencia()">Comenzar 🌸</button>
-        <div id="video-container">
-            <video id="intro-video" playsinline></video>
-        </div>
+        <button id="comenzar-btn" onclick="startVideo()">COMENZAR 🌸</button>
+        <div id="video-wrap"><video id="intro-video" playsinline></video></div>
     </div>
 
     <div id="app-container">
-        <div class="header">
-            <img id="logo" src="" class="logo-img">
-            <h1 id="titulo-principal">Cargando...</h1>
-            <div class="social-bar" id="socials"></div>
-        </div>
+        <div class="hero-section">
+            <div class="header">
+                <img id="logo" src="" class="logo-img">
+                <h1 id="titulo"></h1>
+                <div class="social-bar" id="socials"></div>
+            </div>
 
-        <div class="cover-wrapper">
             <img id="portada" src="" class="cover-img">
+
+            <div class="buttons-wrap">
+                <a id="link-postulate" href="#" class="flat-btn">Postulate!</a>
+                <a id="link-instagram" href="#" class="flat-btn">Instagram</a>
+            </div>
         </div>
 
-        <a id="link-postulate" href="#" class="flat-btn">Postulate!</a>
-        <a id="link-instagram" href="#" class="flat-btn">Instagram</a>
-
-        <div id="sec-aut" class="collapsible-section" onclick="toggleSection('sec-aut')">
+        <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
             <img id="banner-aut" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-btn" onclick="toggleSection('sec-aut')">✕</span>
-                <h2 id="tit-click-aut" style="font-family:'Playfair Display'; margin: 0 0 15px;"></h2>
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin: 0 0 15px;"></h2>
                 <div class="slider">
-                    <button class="nav-arrow" onclick="moverAuth(-1)">&#10094;</button>
+                    <button class="nav-arrow" onclick="moveAuth(-1)">&#10094;</button>
                     <img id="auth-foto" src="" class="auth-img">
-                    <button class="nav-arrow" onclick="moverAuth(1)">&#10095;</button>
+                    <button class="nav-arrow" onclick="moveAuth(1)">&#10095;</button>
                 </div>
-                <div id="auth-nombre" style="font-weight: 800; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px;"></div>
-                <div id="auth-cargo" style="font-size: 0.75rem; color: var(--btn-pink); font-weight: 700; margin: 5px 0 15px;"></div>
-                <div id="auth-bio" style="font-size: 0.85rem; text-align: left; line-height: 1.6; color: #444;"></div>
+                <div id="auth-nombre" style="font-weight: 800; text-transform: uppercase; font-size: 1rem;"></div>
+                <div id="auth-cargo" style="font-size: 0.75rem; color: var(--btn-pink); font-weight: 700; margin-bottom: 10px;"></div>
+                <div id="auth-bio" style="font-size: 0.8rem; text-align: left; line-height: 1.5;"></div>
+                <p onclick="toggleSec('sec-aut')" style="margin-top:20px; font-size:0.6rem; opacity:0.4; font-weight:700; letter-spacing:1px;">CERRAR X</p>
             </div>
         </div>
 
-        <div id="sec-jero" class="collapsible-section" onclick="toggleSection('sec-jero')">
+        <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
             <img id="banner-jero" src="" class="section-banner">
             <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-btn" onclick="toggleSection('sec-jero')">✕</span>
-                <h2 id="j-titulo" style="font-family:'Playfair Display'; margin: 0;"></h2>
-                <p id="j-desc" style="font-size: 0.85rem; margin: 15px 0; text-align: left; line-height: 1.6; color: #444;"></p>
-                <a id="j-btn-link" href="#" class="btn-help" target="_blank">Ayudanos a ayudar</a>
+                <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0;"></h2>
+                <p id="j-desc" style="font-size: 0.8rem; margin: 15px 0; text-align: left;"></p>
+                <a id="j-btn" href="#" class="btn-help" target="_blank"></a>
                 <div class="insta-grid" id="j-grid"></div>
+                <p onclick="toggleSec('sec-jero')" style="margin-top:20px; font-size:0.6rem; opacity:0.4; font-weight:700; letter-spacing:1px;">CERRAR X</p>
             </div>
         </div>
-
-        <p id="footer-email" style="text-align:center; font-size:0.75rem; opacity:0.5; margin-top:40px; font-weight:600;"></p>
     </div>
 
     <div id="lightbox" onclick="this.style.display='none'"><img id="lb-img"></div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
+        const SCRIPT_URL = "TU_NUEVO_URL_AQUI"; // REEMPLAZÁ ESTO
         let autoridades = [];
         let authIdx = 0;
 
-        // Limpieza de URLs de Imgur
-        function getImg(url) {
+        function fixUrl(url) {
             if(!url) return "";
-            if(url.includes('imgur.com/a/')) return url.replace('imgur.com/a/', 'i.imgur.com/') + '.jpg';
-            if(url.includes('imgur.com/') && !url.includes('i.imgur.com')) return url.replace('imgur.com/', 'i.imgur.com/') + '.jpg';
+            let id = url.split('/').pop().split('#')[0].split('.')[0];
+            if(url.includes('imgur.com')) return `https://i.imgur.com/${id}.jpg`;
             return url;
         }
 
-        async function cargarDatos() {
+        async function init() {
             try {
                 const res = await fetch(SCRIPT_URL);
-                const data = await res.json();
+                const d = await res.json();
 
-                // 1. Datos Principales
-                document.getElementById('logo').src = getImg(data.principal.logo);
-                document.getElementById('titulo-principal').innerText = data.principal.titulo;
-                document.getElementById('portada').src = getImg(data.principal.fotoPortada);
-                document.getElementById('link-postulate').href = data.principal.linkPostulate;
-                document.getElementById('link-instagram').href = data.principal.linkInsta;
-                document.getElementById('footer-email').innerText = data.principal.correo;
-
-                document.getElementById('socials').innerHTML = `
-                    <a href="${data.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${data.principal.iconWapp}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
-                    <a href="tel:${data.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
-                `;
-
-                // 2. Video Intro
+                // Video
                 const vid = document.getElementById('intro-video');
-                let vidId = data.principal.videoIntro.split('/').pop().split('#')[0];
+                let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                 vid.src = `https://i.imgur.com/${vidId}.mp4`;
 
-                // 3. Autoridades
-                autoridades = data.listaAutoridades;
-                document.getElementById('banner-aut').src = getImg(data.portadaAut.img);
-                document.getElementById('tit-click-aut').innerText = data.portadaAut.titulo;
-                actualizarAuth();
+                // Carga de datos
+                document.getElementById('logo').src = fixUrl(d.principal.logo);
+                document.getElementById('titulo').innerText = d.principal.titulo;
+                document.getElementById('portada').src = fixUrl(d.principal.fotoPortada);
+                document.getElementById('link-postulate').href = d.principal.linkPostulate;
+                document.getElementById('link-instagram').href = d.principal.linkInsta;
 
-                // 4. Jeroviaha (Filantropía)
-                document.getElementById('banner-jero').src = getImg(data.jeroviaha.fotoPortada);
-                document.getElementById('j-titulo').innerText = data.jeroviaha.tituloClick;
-                document.getElementById('j-desc').innerText = data.jeroviaha.desc;
-                document.getElementById('j-btn-link').innerText = data.jeroviaha.txtBoton;
-                document.getElementById('j-btn-link').href = data.jeroviaha.linkBoton;
-                document.getElementById('j-grid').innerHTML = data.jeroviaha.fotos.map(f => 
-                    f ? `<img src="${getImg(f)}" onclick="abrirLB('${getImg(f)}')">` : ""
-                ).join('');
+                document.getElementById('socials').innerHTML = `
+                    <a href="${d.principal.linkInsta}"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="${d.principal.iconWapp}"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
+                `;
 
-            } catch (e) {
-                console.error("Error cargando el script:", e);
-                document.getElementById('titulo-principal').innerText = "Asamblea Jerovia N°9";
-            }
+                autoridades = d.listaAutoridades;
+                document.getElementById('banner-aut').src = fixUrl(d.portadaAut.img);
+                document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
+                updateAuth();
+
+                document.getElementById('banner-jero').src = fixUrl(d.jeroviaha.fotoPortada);
+                document.getElementById('j-tit').innerText = d.jeroviaha.tituloClick;
+                document.getElementById('j-desc').innerText = d.jeroviaha.desc;
+                document.getElementById('j-btn').innerText = d.jeroviaha.txtBoton;
+                document.getElementById('j-btn').href = d.jeroviaha.linkBoton;
+                document.getElementById('j-grid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${fixUrl(f)}" onclick="openLB('${fixUrl(f)}')">` : "").join('');
+
+            } catch (e) { console.error(e); }
         }
 
-        function iniciarExperiencia() {
+        function startVideo() {
             const btn = document.getElementById('comenzar-btn');
-            const videoCont = document.getElementById('video-container');
+            const wrap = document.getElementById('video-wrap');
             const vid = document.getElementById('intro-video');
-
             btn.style.display = 'none';
-            videoCont.style.display = 'block';
-            
+            wrap.style.display = 'block';
             vid.play();
-
-            // Al terminar el video o a los 7 segundos, pasamos a la app
-            vid.onended = terminarIntro;
-            setTimeout(terminarIntro, 7500);
+            vid.onended = () => {
+                document.getElementById('intro-screen').style.opacity = '0';
+                document.getElementById('app-container').style.display = 'block';
+                setTimeout(() => document.getElementById('intro-screen').remove(), 600);
+            };
+            // Fallback por si el video no termina solo
+            setTimeout(() => { if(document.getElementById('intro-screen')) vid.onended(); }, 8000);
         }
 
-        function terminarIntro() {
-            const intro = document.getElementById('intro-screen');
-            const vid = document.getElementById('intro-video');
-            const app = document.getElementById('app-container');
+        function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
-            vid.pause();
-            vid.src = ""; // Mata el sonido definitivamente
-            
-            intro.style.opacity = '0';
-            app.style.display = 'block';
-            setTimeout(() => intro.remove(), 800);
-        }
-
-        function toggleSection(id) {
-            document.getElementById(id).classList.toggle('active');
-        }
-
-        function actualizarAuth() {
-            if (!autoridades.length) return;
+        function updateAuth() {
+            if(!autoridades.length) return;
             const a = autoridades[authIdx];
-            // Si la foto está en la columna 'foto' o es el primer elemento del array
-            let imgUrl = a.foto || a[0]; 
-            document.getElementById('auth-foto').src = getImg(imgUrl) || document.getElementById('logo').src;
-            document.getElementById('auth-nombre').innerText = a.nombre || a[1];
-            document.getElementById('auth-cargo').innerText = a.cargo || a[2];
-            document.getElementById('auth-bio').innerText = a.bio || a[3];
+            document.getElementById('auth-foto').src = fixUrl(a.foto) || document.getElementById('logo').src;
+            document.getElementById('auth-nombre').innerText = a.nombre;
+            document.getElementById('auth-cargo').innerText = a.cargo;
+            document.getElementById('auth-bio').innerText = a.bio;
         }
 
-        function moverAuth(dir) {
+        function moveAuth(dir) {
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
-            actualizarAuth();
+            updateAuth();
         }
 
-        function abrirLB(url) {
-            document.getElementById('lb-img').src = url;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
+        function openLB(url) { document.getElementById('lb-img').src = url; document.getElementById('lightbox').style.display = 'flex'; }
 
-        cargarDatos();
+        init();
     </script>
 </body>
 </html>
