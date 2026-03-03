@@ -6,7 +6,7 @@
     <title>Asamblea Jerovia N°9</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
+        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; --hover-pink: rgba(74, 35, 90, 0.2); }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; padding: 0; overflow-x: hidden; }
 
@@ -14,7 +14,7 @@
         #welcome-screen { 
             position: fixed; inset: 0; background: var(--bg-pink); z-index: 10000; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 40px; text-align: center; transition: opacity 1.5s ease; /* Transición suave */
+            padding: 40px; text-align: center; transition: opacity 1.5s ease; 
         }
         .welcome-text h2 { 
             font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; 
@@ -25,14 +25,14 @@
             font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.8; 
             margin-bottom: 20px; color: var(--text-purple); opacity: 0;
         }
-        .p1 { animation: fadeInPoetic 2s forwards 2s; } /* Aparece a los 2 seg */
-        .p2 { animation: fadeInPoetic 2s forwards 4s; } /* Aparece a los 4 seg */
+        .p1 { animation: fadeInPoetic 2s forwards 2s; }
+        .p2 { animation: fadeInPoetic 2s forwards 4s; }
         
         #conocenos-btn { 
             margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; 
             color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; 
             font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            opacity: 0; animation: fadeInPoetic 2s forwards 6s; /* Aparece a los 6 seg */
+            opacity: 0; animation: fadeInPoetic 2s forwards 6s;
             transition: transform 0.3s;
         }
 
@@ -49,26 +49,45 @@
         }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* APP CONTAINER (TU DISEÑO PERFECTO) */
+        /* APP CONTAINER */
         #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; opacity: 0; transition: opacity 1.5s ease; }
         .hero-section { height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 15px 0; position: relative; }
         .header { text-align: center; }
         .logo-img { width: 85px; height: auto; mix-blend-mode: multiply; }
         h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 5px 0; }
         .social-bar { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
-        .social-bar img { width: 38px; height: 38px; }
+        .social-bar img { width: 38px; height: 38px; transition: transform 0.2s; }
+        .social-bar a:active img { transform: scale(0.9); }
         .cover-img { width: 92%; margin: 10px auto; border-radius: 25px; object-fit: cover; flex-grow: 1; box-shadow: 0 12px 30px rgba(0,0,0,0.1); max-height: 45vh; }
         .buttons-wrap { flex-shrink: 0; padding-bottom: 25px; }
         .flat-btn { display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
 
-        /* SECCIONES */
-        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; }
-        .section-banner { width: 100%; display: block; object-fit: cover; min-height: 150px; cursor: pointer; }
+        /* SECCIONES CON FEEDBACK VISUAL */
+        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; cursor: pointer; }
+        
+        /* Overlay de Hover/Touch */
+        .section-banner-container { position: relative; width: 100%; }
+        .section-banner-container::after {
+            content: ""; position: absolute; inset: 0; 
+            background: var(--hover-pink); opacity: 0; transition: opacity 0.3s;
+        }
+        .collapsible-section:hover .section-banner-container::after { opacity: 1; }
+
+        .section-banner { width: 100%; display: block; object-fit: cover; min-height: 150px; }
+        
+        /* Texto de ayuda "Toca aquí" */
+        .click-hint {
+            position: absolute; bottom: 15px; left: 0; right: 0; text-align: center;
+            color: rgba(255,255,255,0.8); font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; pointer-events: none;
+        }
+
         .content-area { display: none; background: var(--card-crema); padding: 45px 25px 30px; text-align: center; position: relative; animation: slideUp 0.6s ease; }
         .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; line-height: 1; z-index: 10; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
         .active .content-area { display: block; }
-        .active .section-banner { display: none; }
+        .active .section-banner-container { display: none; }
 
         /* SLIDER Y OTROS */
         .slider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 25px 0; }
@@ -85,7 +104,7 @@
     <div id="welcome-screen">
         <div class="welcome-text">
             <h2>Bienvenido a la Asamblea Jerovia</h2>
-            <p class="p1">Somos una asamblea perteneciente a la gran jurisdicción de Paraguay.</p>
+            <p class="p1">Somos una asamblea perteneciente a la Gran Jurisdicción de Paraguay.</p>
             <p class="p2">Fundadas e instaladas con amor el 9 de octubre del 2021.</p>
         </div>
         <button id="conocenos-btn" onclick="iniciarVideo()">Conócenos 🌸</button>
@@ -109,9 +128,12 @@
             </div>
         </div>
 
-        <div id="sec-aut" class="collapsible-section">
-            <img id="banner-aut" src="" class="section-banner" onclick="toggleSec('sec-aut')">
-            <div class="content-area">
+        <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
+            <div class="section-banner-container">
+                <img id="banner-aut" src="" class="section-banner">
+                <div class="click-hint">Toca para conocer a nuestras autoridades</div>
+            </div>
+            <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                 <h2 id="tit-aut" style="font-family:'Playfair Display'; margin: 0;"></h2>
                 <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 20px; opacity: 0.7;"></p>
@@ -126,9 +148,13 @@
             </div>
         </div>
 
-        <div id="sec-jero" class="collapsible-section">
-            <img id="banner-jero" src="" class="section-banner" onclick="toggleSec('sec-jero')">
-            <div class="content-area">
+        <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
+            <div class="section-banner-container">
+                <img id="banner-jero" src="" class="section-banner">
+                <div id="jero-tit-previo" style="position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Playfair Display'; font-size: 1.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 80%; text-align: center;"></div>
+                <div class="click-hint">Toca para ver más</div>
+            </div>
+            <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
                 <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0;"></h2>
                 <p id="j-desc" style="font-size: 0.85rem; margin: 20px 0; text-align: left; line-height: 1.6; color: #555;"></p>
@@ -164,36 +190,46 @@
             try {
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
+                
+                // Configuración de Video
                 const vid = document.getElementById('intro-video');
                 let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                 vid.src = `https://i.imgur.com/${vidId}.mp4`;
                 vid.load();
 
+                // Datos Principales
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
+                // WhatsApp Fix: Limpiar número de caracteres extraños
+                const cleanWapp = d.principal.iconWapp.toString().replace(/\D/g, '');
+
                 document.getElementById('socials').innerHTML = `
                     <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="https://wa.me/${d.principal.iconWapp}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="https://wa.me/${cleanWapp}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
+                // Autoridades
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
                 document.getElementById('sub-aut').innerText = d.portadaAut.desc;
                 updateAuth();
 
+                // Jeroviaha
                 document.getElementById('banner-jero').src = fix(d.jeroviaha.fotoPortada);
+                document.getElementById('jero-tit-previo').innerText = d.jeroviaha.tituloPrevio || "Jeroviaha"; // Usa el título antes del click
                 document.getElementById('j-tit').innerText = d.jeroviaha.tituloClick;
                 document.getElementById('j-desc').innerText = d.jeroviaha.desc;
                 document.getElementById('j-btn').innerText = d.jeroviaha.txtBoton;
                 document.getElementById('j-btn').href = d.jeroviaha.linkBoton;
                 document.getElementById('j-grid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
+                
             } catch (e) { console.error(e); }
         }
 
@@ -206,7 +242,7 @@
             setTimeout(() => {
                 welcomeS.style.display = 'none';
                 introS.style.display = 'flex';
-                setTimeout(() => { introS.style.opacity = '1'; }, 50); // Fade in suave al negro del video
+                setTimeout(() => { introS.style.opacity = '1'; }, 50);
                 vid.muted = false;
                 vid.play().catch(() => finalizarIntro());
             }, 1500);
@@ -217,12 +253,11 @@
         function finalizarIntro() {
             const intro = document.getElementById('intro-screen');
             const app = document.getElementById('app-container');
-            
             intro.style.opacity = '0';
             setTimeout(() => {
                 intro.style.display = 'none';
                 app.style.display = 'block';
-                setTimeout(() => { app.style.opacity = '1'; }, 50); // Entrada suave a la página
+                setTimeout(() => { app.style.opacity = '1'; }, 50);
             }, 1200);
         }
 
