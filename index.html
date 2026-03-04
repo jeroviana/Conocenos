@@ -40,14 +40,14 @@
         #intro-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 1.2s ease-in-out; }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* APP */
+        /* APP CONTAINER */
         #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; opacity: 0; transition: opacity 1.5s ease-in-out; }
         .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 0; }
         .header { text-align: center; }
         .logo-img { width: 90px; height: auto; mix-blend-mode: multiply; }
         h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 10px 0; }
         
-        /* PORTADA GLOW (Fundida con el fondo) */
+        /* PORTADA DIFUMINADA */
         .cover-img { 
             width: 90%; margin: 15px auto; border-radius: 40px; object-fit: cover; 
             flex-grow: 1; max-height: 48vh;
@@ -59,21 +59,21 @@
 
         /* SECCIONES COLAPSABLES */
         .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        .section-banner-container { position: relative; width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; }
-        .section-banner { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; }
+        .section-banner-container { position: relative; width: 100%; height: 200px; }
+        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         /* HINT CENTRADO */
         .click-hint { 
             position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.95); color: var(--btn-pink); 
-            padding: 10px 20px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; 
+            background: rgba(255, 255, 255, 0.9); color: var(--btn-pink); 
+            padding: 10px 22px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; 
             text-transform: uppercase; border: 1.5px solid var(--btn-pink);
             animation: pulseHint 2.5s infinite; white-space: nowrap; z-index: 5;
         }
         @keyframes pulseHint { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
 
         .content-area { display: none; background: var(--card-crema); padding: 40px 0; text-align: center; position: relative; animation: fadeIn 0.8s ease; }
-        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; }
+        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; z-index: 10; }
         .active .content-area { display: block; }
         .active .section-banner-container { display: none; }
 
@@ -114,7 +114,7 @@
         <div class="hero-section">
             <div class="header">
                 <img id="logo" src="" class="logo-img">
-                <h1 id="titulo">Asamblea Jerovia</h1>
+                <h1 id="titulo">Cargando...</h1>
                 <div class="social-bar" id="socials"></div>
             </div>
             <img id="portada" src="" class="cover-img">
@@ -131,7 +131,8 @@
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 25px;"></h2>
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 5px;"></h2>
+                <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 25px; opacity: 0.7;"></p>
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -161,7 +162,7 @@
         </div>
     </div>
 
-    <div id="lightbox" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:11000; display:none; flex-direction:column; align-items:center; justify-content:center;" onclick="this.style.display='none'">
+    <div id="lightbox" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:11000; display:none; align-items:center; justify-content:center;" onclick="this.style.display='none'">
         <img id="lb-img" style="max-width:90%; border-radius:15px;">
     </div>
 
@@ -174,7 +175,10 @@
             if(!url) return "";
             url = url.trim();
             if(url.includes('postimg.cc')) return `https://i.postimg.cc/${url.split('/').pop()}.jpg`;
-            if(url.includes('imgur.com')) return `https://i.imgur.com/${url.split('/').pop().split('.')[0]}.jpg`;
+            if(url.includes('imgur.com')) {
+                const id = url.split('/').pop().split('.')[0];
+                return `https://i.imgur.com/${id}.jpg`;
+            }
             return url;
         }
 
@@ -183,50 +187,46 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
                 
-                // Mapeo Principal
+                // --- HOJA PRINCIPAL ---
                 document.getElementById('logo').src = fix(d.principal.logo);
-                document.getElementById('titulo').innerText = d.principal.titulo || "Asamblea Jerovia";
+                document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
-                // Redes Sociales
                 let w = d.principal.iconWapp.toString();
                 let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
-                    <a href="${d.principal.linkInsta}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${wLink}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="${wLink}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
-                // Autoridades
+                // --- HOJA AUTORIDADES ---
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
+                document.getElementById('sub-aut').innerText = d.portadaAut.desc;
                 renderAuth();
 
-                // Jeroviaha (LINK B15 CORREGIDO)
+                // --- HOJA JEROVIAHA (NOMBRES SEGÚN TU SCRIPT) ---
                 const j = d.jeroviaha;
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
-                document.getElementById('j-ig-logo').src = fix(j.iconInst) || fix(d.principal.logo);
-                document.getElementById('j-ig-link').href = j.linkInsta; // Toma B15
+                document.getElementById('j-ig-logo').src = fix(j.IconInst) || fix(d.principal.logo);
+                document.getElementById('j-ig-link').href = j.linkIG; // <--- CELDA B15 (linkIG en tu script)
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
                 document.getElementById('j-btn').innerText = j.txtBoton;
                 document.getElementById('j-btn').href = j.linkBoton;
                 document.getElementById('j-grid').innerHTML = j.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
 
-                // Video
+                // --- VIDEO ---
                 const vid = document.getElementById('intro-video');
                 let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                 vid.src = `https://i.imgur.com/${vidId}.mp4`;
 
-            } catch (e) { 
-                console.error("Error cargando Sheet:", e);
-                // Si falla, mostramos el título por defecto
-                document.getElementById('titulo').innerText = "Asamblea Jerovia";
-            }
+            } catch (e) { console.error("Error cargando datos:", e); }
         }
 
         function manejarEntrada() {
@@ -241,26 +241,19 @@
                     v.muted = false;
                     v.play().catch(mostrarApp);
                     v.onended = mostrarApp;
-                } else {
-                    mostrarApp();
-                }
+                } else { mostrarApp(); }
             }, 1200);
         }
 
         function mostrarApp() {
             const intro = document.getElementById('intro-screen');
             const app = document.getElementById('app-container');
-            if (intro.style.display !== 'none') {
-                intro.style.opacity = '0';
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                    app.style.display = 'block';
-                    setTimeout(() => { app.style.opacity = '1'; }, 50);
-                }, 1200);
-            } else {
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.display = 'none';
                 app.style.display = 'block';
                 setTimeout(() => { app.style.opacity = '1'; }, 50);
-            }
+            }, 1200);
         }
 
         function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
