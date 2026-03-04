@@ -6,80 +6,84 @@
     <title>Asamblea Jerovia N°9</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; --hover-pink: rgba(74, 35, 90, 0.2); }
+        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* BIENVENIDA - VELOCIDAD AJUSTADA */
-        #welcome-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; transition: opacity 1s ease; }
+        /* BIENVENIDA - POÉTICO */
+        #welcome-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; transition: opacity 1.2s ease-in-out; }
         .welcome-text h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-purple); opacity: 0; animation: fadeInPoetic 1.2s forwards 0.5s; }
         .welcome-text p { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: var(--text-purple); opacity: 0; }
         .p1 { animation: fadeInPoetic 1.2s forwards 1.5s; }
         .p2 { animation: fadeInPoetic 1.2s forwards 2.5s; }
-        #conocenos-btn { margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05); opacity: 0; animation: fadeInPoetic 1.2s forwards 3.5s; }
-        @keyframes fadeInPoetic { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #conocenos-btn { margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05); opacity: 0; animation: fadeInPoetic 1.2s forwards 3.5s; transition: transform 0.3s; }
+        #conocenos-btn:active { transform: scale(0.95); }
+        @keyframes fadeInPoetic { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* INTRO VIDEO */
-        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 1s ease; }
+        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 1.2s ease-in-out; }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
         /* APP CONTAINER */
-        #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; opacity: 0; transition: opacity 1.2s ease; }
-        .hero-section { height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 15px 0; position: relative; }
+        #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 0; position: relative; }
         .header { text-align: center; }
-        .logo-img { width: 85px; height: auto; mix-blend-mode: multiply; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 5px 0; }
-        .social-bar { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
-        .social-bar img { width: 38px; height: 38px; }
+        .logo-img { width: 90px; height: auto; mix-blend-mode: multiply; margin-bottom: 5px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 5px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 15px 0; }
+        .social-bar img { width: 35px; height: 35px; }
         
-        /* PORTADA CHILL (ESTILO HOPP - Sin borde gordo, con sombra suave) */
-        .cover-img { width: 90%; margin: 10px auto; border-radius: 30px; object-fit: cover; flex-grow: 1; box-shadow: 0 10px 30px rgba(74, 35, 90, 0.15); max-height: 45vh; border: 1px solid rgba(255,255,255,0.3); }
+        /* PORTADA DIFUMINADA */
+        .cover-img { 
+            width: 92%; margin: 10px auto; border-radius: 40px; object-fit: cover; 
+            flex-grow: 1; max-height: 48vh;
+            box-shadow: 0 0 20px var(--bg-pink);
+            mask-image: radial-gradient(circle, black 70%, rgba(0,0,0,0.4) 90%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle, black 70%, rgba(0,0,0,0.4) 90%, transparent 100%);
+        }
         
-        .buttons-wrap { flex-shrink: 0; padding-bottom: 25px; }
-        .flat-btn { display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        .buttons-wrap { padding-bottom: 30px; }
+        .flat-btn { display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         /* SECCIONES */
-        .collapsible-section { width: 92%; margin: 20px auto; border-radius: 20px; overflow: hidden; background: white; position: relative; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .section-banner-container { position: relative; width: 100%; height: 180px; }
-        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        .section-banner-container { position: relative; width: 100%; height: 200px; }
+        .section-banner { width: 100%; height: 100%; object-fit: cover; }
 
-        /* BOTONES "TOCA" ESTILIZADOS (Acordes a la estética) */
+        /* HINT ROSA ACTUALIZADO */
         .click-hint { 
-            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.85); color: var(--text-purple); 
-            padding: 6px 15px; border-radius: 30px; font-size: 0.65rem; font-weight: 700; 
-            text-transform: uppercase; border: 1px solid var(--text-purple);
-            pointer-events: none; animation: pulseHint 2.5s infinite; 
-            white-space: nowrap; z-index: 5;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            background: rgba(255, 255, 255, 0.9); color: var(--btn-pink); 
+            padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; 
+            text-transform: uppercase; border: 1.5px solid var(--btn-pink);
+            animation: pulseHint 2.5s infinite; white-space: nowrap; z-index: 5;
         }
-        @keyframes pulseHint { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
+        @keyframes pulseHint { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.03); } }
 
-        .content-area { display: none; background: var(--card-crema); padding: 40px 0 30px; text-align: center; position: relative; animation: slideUp 0.5s ease; }
-        .close-x { position: absolute; top: 10px; right: 15px; font-size: 1.8rem; color: var(--btn-pink); cursor: pointer; z-index: 10; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .content-area { display: none; background: var(--card-crema); padding: 40px 0; text-align: center; position: relative; animation: fadeIn 0.6s ease; }
+        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .active .content-area { display: block; }
         .active .section-banner-container { display: none; }
 
-        /* SLIDER AUTORIDADES (Con transición suave) */
-        .slider-wrapper { position: relative; width: 100%; overflow: hidden; padding: 10px 0; }
-        #auth-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .auth-slide { min-width: 100%; padding: 0 30px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
-        .auth-img { width: 180px; height: 240px; object-fit: cover; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-arrow { position: absolute; top: 40%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,0.1); color: var(--btn-pink); font-size: 1rem; cursor: pointer; }
-        .nav-arrow.left { left: 10px; }
-        .nav-arrow.right { right: 10px; }
+        /* AUTORIDADES - TAMAÑO ORIGINAL */
+        .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
+        #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .auth-slide { min-width: 100%; padding: 0 20px; display: flex; flex-direction: column; align-items: center; }
+        .auth-img { width: 220px; height: 300px; object-fit: cover; border-radius: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .nav-arrow { position: absolute; top: 35%; transform: translateY(-50%); background: white; border: none; width: 40px; height: 40px; border-radius: 50%; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: var(--btn-pink); font-size: 1.2rem; cursor: pointer; }
+        .nav-arrow.left { left: 15px; }
+        .nav-arrow.right { right: 15px; }
 
-        /* INSTAGRAM JEROVIAHA */
-        .ig-header { display: flex; align-items: center; margin: 0 20px 15px; }
-        .ig-header img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 1.5px solid var(--btn-pink); object-fit: cover; }
-        .ig-header span { font-weight: 700; font-size: 0.9rem; }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: pointer; }
-        .btn-help { display: block; padding: 16px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 20px; font-size: 0.85rem; }
+        /* JEROVIAHA - CUADRÍCULA ORIGINAL */
+        .ig-header { display: flex; align-items: center; margin: 0 25px 20px; }
+        .ig-header img { width: 45px; height: 45px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--btn-pink); }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
 
         /* LIGHTBOX */
-        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 11000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        #lb-ig-link { margin-top: 15px; color: white; font-size: 0.8rem; text-decoration: none; border: 1px solid white; padding: 8px 20px; border-radius: 20px; }
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 11000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        #lb-img { max-width: 90%; border-radius: 15px; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -90,11 +94,11 @@
             <p class="p1">Somos una asamblea perteneciente a la Gran Jurisdicción de Paraguay.</p>
             <p class="p2">Fundadas e instaladas con amor el 9 de octubre del 2021.</p>
         </div>
-        <button id="conocenos-btn" onclick="iniciarVideo()">Conócenos 🌸</button>
+        <button id="conocenos-btn" onclick="manejarEntrada()">Conócenos 🌸</button>
     </div>
 
     <div id="intro-screen">
-        <video id="intro-video" playsinline muted></video>
+        <video id="intro-video" playsinline muted preload="auto"></video>
     </div>
 
     <div id="app-container">
@@ -106,19 +110,19 @@
             </div>
             <img id="portada" src="" class="cover-img">
             <div class="buttons-wrap">
-                <a id="link-postulate" href="#" class="flat-btn">Postulate!</a>
-                <a id="link-instagram" href="#" class="flat-btn">Instagram</a>
+                <a id="link-postulate" href="#" class="flat-btn" target="_blank">Postulate!</a>
+                <a id="link-instagram" href="#" class="flat-btn" target="_blank">Instagram</a>
             </div>
         </div>
 
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
             <div class="section-banner-container">
                 <img id="banner-aut" src="" class="section-banner">
-                <div class="click-hint">Toca para conocer autoridades</div>
+                <div class="click-hint">Toca para conocer a nuestras autoridades</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; font-size: 1.3rem;"></h2>
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 25px;"></h2>
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -130,19 +134,19 @@
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
             <div class="section-banner-container">
                 <img id="banner-jero" src="" class="section-banner">
-                <div id="jero-tit-previo" style="position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Playfair Display'; font-size: 1.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 80%; text-align: center;"></div>
-                <div class="click-hint">Toca para conocer actividades</div>
+                <div id="jero-tit-previo" style="position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Playfair Display'; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-weight:700;"></div>
+                <div class="click-hint">Toca para conocer nuestras filantropias</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
                 <div class="ig-header">
                     <a id="j-ig-link" href="#" target="_blank" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
                         <img id="j-ig-logo" src="">
-                        <span>jeroviaha_py</span>
+                        <span style="font-weight:700;">jeroviaha_py</span>
                     </a>
                 </div>
-                <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0 20px; font-size: 1.2rem;"></h2>
-                <p id="j-desc" style="font-size: 0.8rem; margin: 10px 20px; text-align: left; line-height: 1.5;"></p>
+                <h2 id="j-tit" style="font-family:'Playfair Display'; padding: 0 20px;"></h2>
+                <p id="j-desc" style="font-size: 0.85rem; padding: 0 25px; text-align: left; line-height: 1.6;"></p>
                 <div class="insta-grid" id="j-grid"></div>
                 <a id="j-btn" href="#" class="btn-help" target="_blank"></a>
             </div>
@@ -150,29 +154,20 @@
     </div>
 
     <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lb-img" style="max-width:85%; border-radius:10px;">
-        <a id="lb-ig-link" href="#" target="_blank" onclick="event.stopPropagation()">Visita la página de Instagram</a>
+        <img id="lb-img">
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
         let autoridades = [];
         let authIdx = 0;
-        let isMoving = false; // Restaurado el seguro antivuelco del slider
+        let videoCargado = false;
 
-        // Restaurada la función fix() completa y robusta
         function fix(url) {
             if(!url) return "";
             url = url.trim();
-            if(url.includes('postimg.cc') || url.includes('postimg.org')) {
-                let parts = url.split('/');
-                let id = parts[parts.length - 1];
-                if(!url.includes('i.postimg.cc')) return `https://i.postimg.cc/${id}.jpg`;
-            }
-            if(url.includes('imgur.com')) {
-                let id = url.split('/').pop().split('#')[0].split('.')[0];
-                return `https://i.imgur.com/${id}.jpg`;
-            }
+            if(url.includes('postimg.cc')) return `https://i.postimg.cc/${url.split('/').pop()}.jpg`;
+            if(url.includes('imgur.com')) return `https://i.imgur.com/${url.split('/').pop().split('.')[0]}.jpg`;
             return url;
         }
 
@@ -181,21 +176,17 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
                 
-                // Cargar Video (Parseo robusto restaurado)
                 const vid = document.getElementById('intro-video');
-                let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
-                vid.src = `https://i.imgur.com/${vidId}.mp4`;
-                vid.load();
+                vid.src = `https://i.imgur.com/${d.principal.videoIntro.split('/').pop()}.mp4`;
+                vid.oncanplaythrough = () => { videoCargado = true; };
 
-                // Textos principales
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
-                // Redes sociales (Celda B8 lógica)
-                let w = d.principal.iconWapp.toString().trim();
+                let w = d.principal.iconWapp.toString();
                 let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
                     <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
@@ -204,74 +195,82 @@
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
-                // Autoridades
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
                 renderAuthTrack();
 
-                // JEROVIAHA - Conexiones a B6 y B15 aseguradas
-                const j = d.jeroviaha; 
-                const igLink = j.linkInsta || d.principal.linkInsta; // Toma la celda B15
-                const logoJero = fix(j.iconInst) || fix(d.principal.logo); // Toma la celda B6
-                
+                const j = d.jeroviaha;
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
-                document.getElementById('jero-tit-previo').innerText = j.tituloPrevio || "Jeroviaha"; // Restaurado
-                
-                document.getElementById('j-ig-logo').src = logoJero;
-                document.getElementById('j-ig-link').href = igLink;
-                document.getElementById('lb-ig-link').href = igLink;
-                
+                document.getElementById('jero-tit-previo').innerText = j.tituloPrevio || "Filantropía";
+                document.getElementById('j-ig-logo').src = fix(j.iconInst) || fix(d.principal.logo);
+                document.getElementById('j-ig-link').href = j.linkInsta || d.principal.linkInsta;
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
                 document.getElementById('j-btn').innerText = j.txtBoton;
                 document.getElementById('j-btn').href = j.linkBoton;
                 document.getElementById('j-grid').innerHTML = j.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
 
-            } catch (e) { console.log("Error init:", e); }
+            } catch (e) { console.error("Error init:", e); }
         }
 
-        function iniciarVideo() {
+        function manejarEntrada() {
             const v = document.getElementById('intro-video');
-            document.getElementById('welcome-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('intro-screen').style.display = 'flex';
-                document.getElementById('intro-screen').style.opacity = '1';
-                v.muted = false; v.play().catch(finalizarIntro);
-            }, 800);
-            v.onended = finalizarIntro;
+            const welcome = document.getElementById('welcome-screen');
+            
+            // Si el video no está listo o no ha cargado suficiente, saltar directo a la app
+            if (v.readyState < 3) {
+                welcome.style.opacity = '0';
+                setTimeout(() => {
+                    welcome.style.display = 'none';
+                    mostrarApp();
+                }, 1200);
+            } else {
+                welcome.style.opacity = '0';
+                setTimeout(() => {
+                    welcome.style.display = 'none';
+                    document.getElementById('intro-screen').style.display = 'flex';
+                    document.getElementById('intro-screen').style.opacity = '1';
+                    v.muted = false;
+                    v.play().catch(mostrarApp);
+                }, 1200);
+                v.onended = mostrarApp;
+            }
         }
 
-        function finalizarIntro() {
-            document.getElementById('intro-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('intro-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'block';
-                document.getElementById('app-container').style.opacity = '1';
-            }, 800);
+        function mostrarApp() {
+            const intro = document.getElementById('intro-screen');
+            const app = document.getElementById('app-container');
+            
+            if (intro.style.display !== 'none') {
+                intro.style.opacity = '0';
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                    app.style.display = 'block';
+                    setTimeout(() => { app.style.opacity = '1'; }, 50);
+                }, 1200);
+            } else {
+                app.style.display = 'block';
+                setTimeout(() => { app.style.opacity = '1'; }, 50);
+            }
         }
 
         function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
         function renderAuthTrack() {
-            if(!autoridades.length) return;
             document.getElementById('auth-track').innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
-                    <img src="${fix(a.foto) || document.getElementById('logo').src}" class="auth-img">
-                    <div style="font-weight:700; text-transform:uppercase; color:var(--text-purple);">${a.nombre}</div>
-                    <div style="font-size:0.7rem; color:var(--btn-pink); font-weight:700; margin-bottom:10px;">${a.cargo}</div>
-                    <p style="font-size:0.8rem; line-height:1.4; margin:0;">${a.bio}</p>
+                    <img src="${fix(a.foto)}" class="auth-img">
+                    <div style="font-weight:700; text-transform:uppercase;">${a.nombre}</div>
+                    <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; margin-bottom:10px;">${a.cargo}</div>
+                    <p style="font-size:0.85rem; line-height:1.5;">${a.bio}</p>
                 </div>
             `).join('');
         }
 
         function moveAuth(dir) {
-            if(isMoving) return; // Seguro para evitar deslizamiento roto
-            isMoving = true;
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
-            setTimeout(() => { isMoving = false; }, 500); // Libera el seguro tras la animación
         }
 
         function openLB(url) {
