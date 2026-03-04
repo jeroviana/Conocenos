@@ -90,7 +90,7 @@
     <div id="welcome-screen">
         <div class="welcome-text">
             <h2>Bienvenido a la Asamblea Jerovia</h2>
-            <p class="p1">Somos una asamblea perteneciente a la gran jurisdicción de Paraguay.</p>
+            <p class="p1">Somos una asamblea perteneciente a la Gran Jurisdicción de Paraguay.</p>
             <p class="p2">Fundadas e instaladas con amor el 9 de octubre del 2021.</p>
         </div>
         <button id="conocenos-btn" onclick="iniciarVideo()">Conócenos 🌸</button>
@@ -214,8 +214,8 @@
 
                 // Jeroviaha y link de B15
                 // NOTA: Si llamaste diferente a tu celda B15 en el script, cambialo acá donde dice d.principal.linkIG
-                let linkIG_B15 = d.principal.linkIG || d.principal.linkInsta || d.jeroviaha.linkBoton;
-                let logo_B6 = d.principal.iconInsta || fix(d.principal.logo);
+                let linkIG_B15 = d.Jeroviaha.linkIG || d.principal.linkInsta || d.jeroviaha.linkBoton;
+                let logo_B6 = d.Jeroviaha.iconInst || fix(d.principal.logo);
 
                 document.getElementById('banner-jero').src = fix(d.jeroviaha.fotoPortada);
                 document.getElementById('j-ig-logo').src = fix(logo_B6);
