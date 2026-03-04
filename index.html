@@ -32,7 +32,7 @@
             line-height: 1.6;
         }
 
-        /* --- PANTALLA DE BIENVENIDA (STAGGERED APPEARANCE) --- */
+        /* --- PANTALLA DE BIENVENIDA --- */
         #welcome-screen { 
             position: fixed; 
             inset: 0; 
@@ -123,32 +123,33 @@
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
-            justify-content: space-between; 
-            padding: 15px 0; /* Ajuste de padding para compactar */
+            justify-content: flex-start; /* Cambio a start para que todo suba */
+            padding: 10px 0; 
         }
 
         .header { text-align: center; padding: 5px 0; }
         .logo-img { width: 85px; height: auto; mix-blend-mode: multiply; margin-bottom: 5px; }
         h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 5px 0; font-weight: 700; }
         
-        /* PORTADA MODIFICADA: Más redondeada, más compacta y con efecto de fundido progresivo */
+        /* PORTADA CORREGIDA: Sin bordes duros y espacios cerrados */
         .cover-img { 
             width: 90%; 
-            margin: 10px auto; 
-            border-radius: 80px; /* Mucho más redondeado */
+            margin: 5px auto; /* Reducido para acercar a los iconos */
             object-fit: cover; 
-            flex-grow: 1; 
-            max-height: 35vh; /* Tamaño ajustado para ver botones */
+            flex-grow: 0; /* Evita que crezca de más */
+            max-height: 38vh; 
             display: block;
-            /* Efecto de fundido progresivo (transparencia en los bordes) */
-            -webkit-mask-image: radial-gradient(circle, black 50%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
-            mask-image: radial-gradient(circle, black 50%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
+            /* Efecto de difuminado total en los bordes para que se funda con el rosa */
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, rgba(0,0,0,0.5) 65%, transparent 95%);
+            mask-image: radial-gradient(ellipse at center, black 30%, rgba(0,0,0,0.5) 65%, transparent 95%);
         }
         
+        .buttons-wrap { margin-top: -10px; } /* Sube los botones para pegarlos a la foto */
+
         .flat-btn { 
             display: block; 
             width: 85%; 
-            margin: 8px auto; /* Margen más compacto */
+            margin: 8px auto; 
             padding: 16px 0; 
             background: var(--btn-pink); 
             color: white; 
@@ -165,7 +166,7 @@
         /* --- SECCIONES COLAPSABLES --- */
         .collapsible-section { 
             width: 92%; 
-            margin: 25px auto; 
+            margin: 20px auto; 
             border-radius: 25px; 
             overflow: hidden; 
             background: white; 
@@ -175,11 +176,9 @@
             transition: transform 0.3s;
         }
 
-        /* Banners originales (NO MODIFICAR TAMAÑO) */
         .section-banner-container { position: relative; width: 100%; height: 100%; }
         .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* AVISO "TOCA" CENTRADO */
         .click-hint { 
             position: absolute; 
             bottom: 20px; 
@@ -207,7 +206,7 @@
         .content-area { 
             display: none; 
             background: var(--card-crema); 
-            padding: 30px 0; /* Un poco más compacto */
+            padding: 30px 0; 
             text-align: center; 
             position: relative; 
             animation: fadeInContent 0.8s ease; 
@@ -217,7 +216,7 @@
             position: absolute; 
             top: 15px; 
             right: 20px; 
-            font-size: 2rem; /* Un toque más pequeño */
+            font-size: 2rem; 
             color: var(--btn-pink); 
             cursor: pointer; 
             z-index: 10;
@@ -227,15 +226,15 @@
         .active .content-area { display: block; }
         .active .section-banner-container { display: none; }
 
-        /* --- AUTORIDADES (CORREGIDO TAMAÑO UNIFORME Y MÁS COMPACTO) --- */
+        /* --- AUTORIDADES --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .auth-slide { min-width: 100%; padding: 0 25px; display: flex; flex-direction: column; align-items: center; }
         
         .auth-img { 
-            width: 200px; /* Reducido para compactar la ventana */
-            height: 280px; /* Reducido para compactar la ventana */
-            object-fit: cover; /* Garantiza uniformidad sin deformar */
+            width: 200px; 
+            height: 280px; 
+            object-fit: cover; 
             border-radius: 20px; 
             margin-bottom: 15px; 
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
@@ -279,7 +278,6 @@
         .social-bar img { width: 35px; height: 35px; transition: transform 0.2s; }
         .social-bar a:active img { transform: scale(0.9); }
 
-        /* LIGHTBOX */
         #lightbox { 
             position: fixed; 
             inset: 0; 
@@ -377,7 +375,6 @@
         let autoridades = [];
         let authIdx = 0;
 
-        // Limpieza de URLs de Imgur/PostImage
         function fix(url) {
             if(!url) return "";
             url = url.trim();
@@ -393,14 +390,12 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
                 
-                // --- DATOS PRINCIPALES ---
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
-                // Redes Sociales Dinámicas
                 let w = d.principal.iconWapp.toString();
                 let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
@@ -410,18 +405,16 @@
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
-                // --- SECCIÓN AUTORIDADES ---
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
                 document.getElementById('sub-aut').innerText = d.portadaAut.desc;
                 renderAuth();
 
-                // --- SECCIÓN JEROVIAHA (Nombres según tu script: linkIG, IconInst) ---
                 const j = d.jeroviaha;
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
                 document.getElementById('j-ig-logo').src = fix(j.IconInst) || fix(d.principal.logo);
-                document.getElementById('j-ig-link').href = j.linkIG; // <--- CELDA B15
+                document.getElementById('j-ig-link').href = j.linkIG;
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
                 document.getElementById('j-btn').innerText = j.txtBoton;
@@ -430,7 +423,6 @@
                     .map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "")
                     .join('');
 
-                // --- VIDEO INTRO ---
                 const vid = document.getElementById('intro-video');
                 let vidUrl = d.principal.videoIntro;
                 if(vidUrl.includes('imgur.com')) {
@@ -439,7 +431,7 @@
                 }
 
             } catch (e) {
-                console.error("Error en carga de datos:", e);
+                console.error("Error:", e);
                 document.getElementById('titulo').innerText = "Asamblea Jerovia N°9";
             }
         }
@@ -448,26 +440,21 @@
             const v = document.getElementById('intro-video');
             const welcome = document.getElementById('welcome-screen');
             welcome.style.opacity = '0';
-            
             setTimeout(() => {
                 welcome.style.display = 'none';
-                // Si el video tiene src y está listo, lo reproducimos
                 if (v.src && v.readyState >= 3) {
                     document.getElementById('intro-screen').style.display = 'flex';
                     setTimeout(() => { document.getElementById('intro-screen').style.opacity = '1'; }, 50);
                     v.muted = false;
                     v.play().catch(mostrarApp);
                     v.onended = mostrarApp;
-                } else {
-                    mostrarApp();
-                }
+                } else { mostrarApp(); }
             }, 1200);
         }
 
         function mostrarApp() {
             const intro = document.getElementById('intro-screen');
             const app = document.getElementById('app-container');
-            
             if (intro.style.display !== 'none') {
                 intro.style.opacity = '0';
                 setTimeout(() => {
@@ -481,9 +468,7 @@
             }
         }
 
-        function toggleSec(id) {
-            document.getElementById(id).classList.toggle('active');
-        }
+        function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
         function renderAuth() {
             const track = document.getElementById('auth-track');
@@ -507,7 +492,6 @@
             document.getElementById('lightbox').style.display = 'flex';
         }
 
-        // Ejecutar carga inicial
         init();
     </script>
 </body>
