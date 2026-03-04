@@ -10,13 +10,13 @@
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* CAPA PREVIA (MÁS RÁPIDA) */
+        /* BIENVENIDA - VELOCIDAD AJUSTADA */
         #welcome-screen { position: fixed; inset: 0; background: var(--bg-pink); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; transition: opacity 1s ease; }
-        .welcome-text h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-purple); opacity: 0; animation: fadeInPoetic 1s forwards 0.2s; }
+        .welcome-text h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; margin-bottom: 25px; color: var(--text-purple); opacity: 0; animation: fadeInPoetic 1.2s forwards 0.5s; }
         .welcome-text p { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: var(--text-purple); opacity: 0; }
-        .p1 { animation: fadeInPoetic 1s forwards 0.6s; }
-        .p2 { animation: fadeInPoetic 1s forwards 1.2s; }
-        #conocenos-btn { margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05); opacity: 0; animation: fadeInPoetic 1s forwards 1.8s; transition: transform 0.3s; }
+        .p1 { animation: fadeInPoetic 1.2s forwards 1.5s; }
+        .p2 { animation: fadeInPoetic 1.2s forwards 2.5s; }
+        #conocenos-btn { margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05); opacity: 0; animation: fadeInPoetic 1.2s forwards 3.5s; }
         @keyframes fadeInPoetic { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* INTRO VIDEO */
@@ -32,57 +32,54 @@
         .social-bar { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
         .social-bar img { width: 38px; height: 38px; }
         
-        /* PORTADA DISTINTIVA (ESTILO ARCO ESTÉTICO) */
-        .cover-img { width: 90%; margin: 10px auto; border-radius: 130px 130px 15px 15px; border: 5px solid rgba(255,255,255,0.6); object-fit: cover; flex-grow: 1; box-shadow: 0 15px 35px rgba(0,0,0,0.08); max-height: 42vh; }
+        /* PORTADA CHILL (ESTILO HOPP - Sin borde gordo, con sombra suave) */
+        .cover-img { width: 90%; margin: 10px auto; border-radius: 30px; object-fit: cover; flex-grow: 1; box-shadow: 0 10px 30px rgba(74, 35, 90, 0.15); max-height: 45vh; border: 1px solid rgba(255,255,255,0.3); }
         
         .buttons-wrap { flex-shrink: 0; padding-bottom: 25px; }
         .flat-btn { display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
 
-        /* SECCIONES Y OVERLAYS */
-        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; cursor: pointer; }
-        .section-banner-container { position: relative; width: 100%; }
-        .section-banner-container::after { content: ""; position: absolute; inset: 0; background: var(--hover-pink); opacity: 0; transition: opacity 0.3s; }
-        .collapsible-section:hover .section-banner-container::after { opacity: 1; }
-        .section-banner { width: 100%; display: block; object-fit: cover; min-height: 150px; }
+        /* SECCIONES */
+        .collapsible-section { width: 92%; margin: 20px auto; border-radius: 20px; overflow: hidden; background: white; position: relative; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .section-banner-container { position: relative; width: 100%; height: 180px; }
+        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* INDICADOR ANIMADO DE CLICK */
+        /* BOTONES "TOCA" ESTILIZADOS (Acordes a la estética) */
         .click-hint { 
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.9); color: var(--text-purple); padding: 8px 18px; 
-            border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 0.5px; pointer-events: none; animation: pulseHint 2s infinite; 
-            width: max-content; max-width: 90%; text-align: center; z-index: 5;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); 
+            background: rgba(255, 255, 255, 0.85); color: var(--text-purple); 
+            padding: 6px 15px; border-radius: 30px; font-size: 0.65rem; font-weight: 700; 
+            text-transform: uppercase; border: 1px solid var(--text-purple);
+            pointer-events: none; animation: pulseHint 2.5s infinite; 
+            white-space: nowrap; z-index: 5;
         }
-        @keyframes pulseHint { 0% { transform: translateX(-50%) scale(1); opacity: 0.9; } 50% { transform: translateX(-50%) scale(1.05); opacity: 1; } 100% { transform: translateX(-50%) scale(1); opacity: 0.9; } }
+        @keyframes pulseHint { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
 
-        .content-area { display: none; background: var(--card-crema); padding: 45px 0 30px; text-align: center; position: relative; animation: slideUp 0.6s ease; }
-        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; line-height: 1; z-index: 10; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .content-area { display: none; background: var(--card-crema); padding: 40px 0 30px; text-align: center; position: relative; animation: slideUp 0.5s ease; }
+        .close-x { position: absolute; top: 10px; right: 15px; font-size: 1.8rem; color: var(--btn-pink); cursor: pointer; z-index: 10; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .active .content-area { display: block; }
         .active .section-banner-container { display: none; }
 
-        /* SLIDER TIPO INSTAGRAM (TODO SE MUEVE) */
-        .slider-wrapper { position: relative; width: 100%; overflow: hidden; padding: 20px 35px; }
-        #auth-track { display: flex; transition: transform 0.4s ease-in-out; }
-        .auth-slide { min-width: 100%; box-sizing: border-box; padding: 0 15px; display: flex; flex-direction: column; align-items: center; }
-        .auth-img { width: 170px; height: 230px; object-fit: cover; border-radius: 20px; border: 5px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: var(--btn-pink); }
-        .nav-arrow.left { left: 5px; }
-        .nav-arrow.right { right: 5px; }
+        /* SLIDER AUTORIDADES (Con transición suave) */
+        .slider-wrapper { position: relative; width: 100%; overflow: hidden; padding: 10px 0; }
+        #auth-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .auth-slide { min-width: 100%; padding: 0 30px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+        .auth-img { width: 180px; height: 240px; object-fit: cover; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .nav-arrow { position: absolute; top: 40%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,0.1); color: var(--btn-pink); font-size: 1rem; cursor: pointer; }
+        .nav-arrow.left { left: 10px; }
+        .nav-arrow.right { right: 10px; }
 
-        /* CABECERA INSTAGRAM JEROVIAHA */
-        .ig-header { display: flex; align-items: center; margin-bottom: 20px; padding-left: 20px; }
-        .ig-header img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--btn-pink); margin-right: 12px; object-fit: cover; padding: 2px; }
-        .ig-header span { font-weight: 700; font-size: 0.95rem; }
+        /* INSTAGRAM JEROVIAHA */
+        .ig-header { display: flex; align-items: center; margin: 0 20px 15px; }
+        .ig-header img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 1.5px solid var(--btn-pink); object-fit: cover; }
+        .ig-header span { font-weight: 700; font-size: 0.9rem; }
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px; }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: pointer; }
+        .btn-help { display: block; padding: 16px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 20px; font-size: 0.85rem; }
 
-        .btn-help { display: block; padding: 18px; background: var(--btn-red); color: white; text-decoration: none; border-radius: 15px; font-weight: 700; margin: 20px 20px 0; }
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
-        
-        /* LIGHTBOX CON LINK DE INSTAGRAM */
-        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        #lb-ig-link { margin-top: 20px; color: white; font-size: 0.85rem; font-weight: 600; text-decoration: none; background: rgba(255,255,255,0.15); padding: 10px 25px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4); }
+        /* LIGHTBOX */
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 11000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        #lb-ig-link { margin-top: 15px; color: white; font-size: 0.8rem; text-decoration: none; border: 1px solid white; padding: 8px 20px; border-radius: 20px; }
     </style>
 </head>
 <body>
@@ -97,7 +94,7 @@
     </div>
 
     <div id="intro-screen">
-        <video id="intro-video" playsinline muted preload="auto"></video>
+        <video id="intro-video" playsinline muted></video>
     </div>
 
     <div id="app-container">
@@ -117,13 +114,11 @@
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
             <div class="section-banner-container">
                 <img id="banner-aut" src="" class="section-banner">
-                <div class="click-hint">👉 Toca para conocer a nuestras autoridades</div>
+                <div class="click-hint">Toca para conocer autoridades</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin: 0;"></h2>
-                <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 10px; opacity: 0.7;"></p>
-                
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; font-size: 1.3rem;"></h2>
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -135,20 +130,19 @@
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
             <div class="section-banner-container">
                 <img id="banner-jero" src="" class="section-banner">
-                <div class="click-hint">👉 Toca para conocer nuestras actividades filantrópicas</div>
+                <div id="jero-tit-previo" style="position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Playfair Display'; font-size: 1.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 80%; text-align: center;"></div>
+                <div class="click-hint">Toca para conocer actividades</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
-                
                 <div class="ig-header">
-                    <a id="j-ig-link" href="#" target="_blank" style="display: flex; align-items: center; text-decoration: none; color: var(--text-purple);">
+                    <a id="j-ig-link" href="#" target="_blank" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
                         <img id="j-ig-logo" src="">
                         <span>jeroviaha_py</span>
                     </a>
                 </div>
-                
-                <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0 20px;"></h2>
-                <p id="j-desc" style="font-size: 0.85rem; margin: 15px 20px; text-align: left; line-height: 1.6; color: #555;"></p>
+                <h2 id="j-tit" style="font-family:'Playfair Display'; margin: 0 20px; font-size: 1.2rem;"></h2>
+                <p id="j-desc" style="font-size: 0.8rem; margin: 10px 20px; text-align: left; line-height: 1.5;"></p>
                 <div class="insta-grid" id="j-grid"></div>
                 <a id="j-btn" href="#" class="btn-help" target="_blank"></a>
             </div>
@@ -156,7 +150,7 @@
     </div>
 
     <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lb-img" style="max-width:90%; border-radius:10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img id="lb-img" style="max-width:85%; border-radius:10px;">
         <a id="lb-ig-link" href="#" target="_blank" onclick="event.stopPropagation()">Visita la página de Instagram</a>
     </div>
 
@@ -164,7 +158,9 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
         let autoridades = [];
         let authIdx = 0;
+        let isMoving = false; // Restaurado el seguro antivuelco del slider
 
+        // Restaurada la función fix() completa y robusta
         function fix(url) {
             if(!url) return "";
             url = url.trim();
@@ -184,108 +180,103 @@
             try {
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
+                
+                // Cargar Video (Parseo robusto restaurado)
                 const vid = document.getElementById('intro-video');
                 let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                 vid.src = `https://i.imgur.com/${vidId}.mp4`;
                 vid.load();
 
-                // Asegurar lógica WhatsApp
-                let wappLink = d.principal.iconWapp.toString().trim();
-                if (!wappLink.startsWith('http')) wappLink = `https://wa.me/${wappLink.replace(/\\D/g, '')}`;
-
+                // Textos principales
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
+                // Redes sociales (Celda B8 lógica)
+                let w = d.principal.iconWapp.toString().trim();
+                let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
                     <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${wappLink}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${wLink}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
+                // Autoridades
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
-                document.getElementById('sub-aut').innerText = d.portadaAut.desc;
-                renderAuthTrack(); // Generar las tarjetas para el scroll
+                renderAuthTrack();
 
-                // Jeroviaha y link de B15
-                // NOTA: Si llamaste diferente a tu celda B15 en el script, cambialo acá donde dice d.principal.linkIG
-                let linkIG_B15 = d.Jeroviaha.linkIG || d.principal.linkInsta || d.jeroviaha.linkBoton;
-                let logo_B6 = d.Jeroviaha.iconInst || fix(d.principal.logo);
-
-                document.getElementById('banner-jero').src = fix(d.jeroviaha.fotoPortada);
-                document.getElementById('j-ig-logo').src = fix(logo_B6);
-                document.getElementById('j-ig-link').href = linkIG_B15;
-                document.getElementById('lb-ig-link').href = linkIG_B15;
+                // JEROVIAHA - Conexiones a B6 y B15 aseguradas
+                const j = d.jeroviaha; 
+                const igLink = j.linkInsta || d.principal.linkInsta; // Toma la celda B15
+                const logoJero = fix(j.iconInst) || fix(d.principal.logo); // Toma la celda B6
                 
-                document.getElementById('j-tit').innerText = d.jeroviaha.tituloClick;
-                document.getElementById('j-desc').innerText = d.jeroviaha.desc;
-                document.getElementById('j-btn').innerText = d.jeroviaha.txtBoton;
-                document.getElementById('j-btn').href = d.jeroviaha.linkBoton;
-                document.getElementById('j-grid').innerHTML = d.jeroviaha.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
-            } catch (e) { console.error(e); }
+                document.getElementById('banner-jero').src = fix(j.fotoPortada);
+                document.getElementById('jero-tit-previo').innerText = j.tituloPrevio || "Jeroviaha"; // Restaurado
+                
+                document.getElementById('j-ig-logo').src = logoJero;
+                document.getElementById('j-ig-link').href = igLink;
+                document.getElementById('lb-ig-link').href = igLink;
+                
+                document.getElementById('j-tit').innerText = j.tituloClick;
+                document.getElementById('j-desc').innerText = j.desc;
+                document.getElementById('j-btn').innerText = j.txtBoton;
+                document.getElementById('j-btn').href = j.linkBoton;
+                document.getElementById('j-grid').innerHTML = j.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
+
+            } catch (e) { console.log("Error init:", e); }
         }
 
         function iniciarVideo() {
-            const vid = document.getElementById('intro-video');
-            const introS = document.getElementById('intro-screen');
-            const welcomeS = document.getElementById('welcome-screen');
-            welcomeS.style.opacity = '0';
+            const v = document.getElementById('intro-video');
+            document.getElementById('welcome-screen').style.opacity = '0';
             setTimeout(() => {
-                welcomeS.style.display = 'none';
-                introS.style.display = 'flex';
-                setTimeout(() => { introS.style.opacity = '1'; }, 50);
-                vid.muted = false;
-                vid.play().catch(() => finalizarIntro());
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('intro-screen').style.display = 'flex';
+                document.getElementById('intro-screen').style.opacity = '1';
+                v.muted = false; v.play().catch(finalizarIntro);
             }, 800);
-            vid.onended = finalizarIntro;
+            v.onended = finalizarIntro;
         }
 
         function finalizarIntro() {
-            const intro = document.getElementById('intro-screen');
-            const app = document.getElementById('app-container');
-            intro.style.opacity = '0';
+            document.getElementById('intro-screen').style.opacity = '0';
             setTimeout(() => {
-                intro.style.display = 'none';
-                app.style.display = 'block';
-                setTimeout(() => { app.style.opacity = '1'; }, 50);
-            }, 1000);
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('app-container').style.opacity = '1';
+            }, 800);
         }
 
         function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
-        // Nueva lógica para mover TODO el bloque estilo Instagram
         function renderAuthTrack() {
             if(!autoridades.length) return;
-            const track = document.getElementById('auth-track');
-            track.innerHTML = autoridades.map(a => `
+            document.getElementById('auth-track').innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
                     <img src="${fix(a.foto) || document.getElementById('logo').src}" class="auth-img">
-                    <div style="font-weight: 800; text-transform: uppercase; font-size: 1.1rem; color: var(--text-purple);">${a.nombre}</div>
-                    <div style="font-size: 0.75rem; color: var(--btn-pink); font-weight: 700; margin-bottom: 8px;">${a.cargo}</div>
-                    <div style="font-size: 0.85rem; text-align: left; line-height: 1.6; color: #555;">${a.bio}</div>
+                    <div style="font-weight:700; text-transform:uppercase; color:var(--text-purple);">${a.nombre}</div>
+                    <div style="font-size:0.7rem; color:var(--btn-pink); font-weight:700; margin-bottom:10px;">${a.cargo}</div>
+                    <p style="font-size:0.8rem; line-height:1.4; margin:0;">${a.bio}</p>
                 </div>
             `).join('');
-            updateAuthTrack();
         }
 
         function moveAuth(dir) {
-            if(!autoridades.length) return;
+            if(isMoving) return; // Seguro para evitar deslizamiento roto
+            isMoving = true;
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
-            updateAuthTrack();
-        }
-
-        function updateAuthTrack() {
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
+            setTimeout(() => { isMoving = false; }, 500); // Libera el seguro tras la animación
         }
 
-        function openLB(url) { 
-            document.getElementById('lb-img').src = url; 
-            document.getElementById('lightbox').style.display = 'flex'; 
+        function openLB(url) {
+            document.getElementById('lb-img').src = url;
+            document.getElementById('lightbox').style.display = 'flex';
         }
 
         init();
