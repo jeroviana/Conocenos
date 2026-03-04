@@ -5,94 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Asamblea Jerovia N°9</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --bg-pink: #F4C7CC; --text-purple: #4A235A; --btn-pink: #B78A9C; --card-crema: #FDF8F5; --btn-red: #F26157; }
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-pink); color: var(--text-purple); margin: 0; padding: 0; overflow-x: hidden; }
-
-        /* BIENVENIDA POÉTICA */
-        #welcome-screen { 
-            position: fixed; inset: 0; background: var(--bg-pink); z-index: 10000; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 40px; text-align: center; transition: opacity 1.2s ease-in-out; 
+        :root { 
+            --bg-pink: #F4C7CC; 
+            --text-purple: #4A235A; 
+            --btn-pink: #B78A9C; 
+            --card-crema: #FDF8F5; 
+            --btn-red: #F26157; 
+            --glow-shadow: rgba(244, 199, 204, 0.8);
         }
+
+        * { 
+            -webkit-tap-highlight-color: transparent; 
+            box-sizing: border-box; 
+            outline: none; 
+            margin: 0; 
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-pink); 
+            color: var(--text-purple); 
+            overflow-x: hidden; 
+            line-height: 1.6;
+        }
+
+        /* --- PANTALLA DE BIENVENIDA (STAGGERED APPEARANCE) --- */
+        #welcome-screen { 
+            position: fixed; 
+            inset: 0; 
+            background: var(--bg-pink); 
+            z-index: 10000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px; 
+            text-align: center; 
+            transition: opacity 1.2s ease-in-out, visibility 1.2s; 
+        }
+
         .welcome-text h2 { 
-            font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; 
-            margin-bottom: 25px; color: var(--text-purple); opacity: 0;
+            font-family: 'Playfair Display', serif; 
+            font-style: italic; 
+            font-size: 1.8rem; 
+            margin-bottom: 25px; 
+            color: var(--text-purple); 
+            opacity: 0;
             animation: fadeInPoetic 1.2s forwards 0.5s; 
         }
+
         .welcome-text p { 
-            font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.8; 
-            margin-bottom: 20px; color: var(--text-purple); opacity: 0;
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.1rem; 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+            color: var(--text-purple); 
+            opacity: 0;
         }
+
         .p1 { animation: fadeInPoetic 1.2s forwards 1.2s; }
         .p2 { animation: fadeInPoetic 1.2s forwards 2.2s; }
         
         #conocenos-btn { 
-            margin-top: 20px; padding: 18px 50px; border-radius: 50px; border: none; background: white; 
-            color: var(--text-purple); font-family: 'Playfair Display', serif; font-size: 1.1rem; 
-            font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            opacity: 0; animation: fadeInPoetic 1.2s forwards 3.2s;
+            margin-top: 20px; 
+            padding: 18px 50px; 
+            border-radius: 50px; 
+            border: none; 
+            background: white; 
+            color: var(--text-purple); 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            opacity: 0; 
+            animation: fadeInPoetic 1.2s forwards 3.2s;
+            transition: transform 0.3s;
         }
-        @keyframes fadeInPoetic { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* VIDEO */
-        #intro-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 1.2s ease-in-out; }
+        #conocenos-btn:active { transform: scale(0.95); }
+
+        @keyframes fadeInPoetic { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* --- INTRO VIDEO --- */
+        #intro-screen { 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            z-index: 9999; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            transition: opacity 1.2s ease-in-out; 
+        }
+
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* APP CONTAINER */
-        #app-container { width: 100%; max-width: 450px; margin: 0 auto; display: none; opacity: 0; transition: opacity 1.5s ease-in-out; }
-        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 0; }
-        .header { text-align: center; }
-        .logo-img { width: 90px; height: auto; mix-blend-mode: multiply; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 10px 0; }
+        /* --- CONTENEDOR APP --- */
+        #app-container { 
+            width: 100%; 
+            max-width: 450px; 
+            margin: 0 auto; 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 1.5s ease-in-out; 
+            padding-bottom: 40px;
+        }
+
+        .hero-section { 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            padding: 20px 0; 
+        }
+
+        .header { text-align: center; padding: 10px 0; }
+        .logo-img { width: 90px; height: auto; mix-blend-mode: multiply; margin-bottom: 10px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 10px 0; font-weight: 700; }
         
-        /* PORTADA DIFUMINADA */
+        /* PORTADA CON EFECTO GLOW (Sin bordes, fundida al rosa) */
         .cover-img { 
-            width: 90%; margin: 15px auto; border-radius: 40px; object-fit: cover; 
-            flex-grow: 1; max-height: 48vh;
+            width: 90%; 
+            margin: 15px auto; 
+            border-radius: 40px; 
+            object-fit: cover; 
+            flex-grow: 1; 
+            max-height: 48vh;
             box-shadow: 0 0 35px 20px var(--bg-pink); 
             display: block;
         }
         
-        .flat-btn { display: block; width: 85%; margin: 12px auto; padding: 18px 0; background: var(--btn-pink); color: white; text-align: center; text-decoration: none; border-radius: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        .flat-btn { 
+            display: block; 
+            width: 85%; 
+            margin: 12px auto; 
+            padding: 18px 0; 
+            background: var(--btn-pink); 
+            color: white; 
+            text-align: center; 
+            text-decoration: none; 
+            border-radius: 15px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
 
-        /* SECCIONES COLAPSABLES */
-        .collapsible-section { width: 92%; margin: 25px auto; border-radius: 25px; overflow: hidden; background: white; position: relative; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        /* --- SECCIONES COLAPSABLES --- */
+        .collapsible-section { 
+            width: 92%; 
+            margin: 25px auto; 
+            border-radius: 25px; 
+            overflow: hidden; 
+            background: white; 
+            position: relative; 
+            cursor: pointer; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); 
+            transition: transform 0.3s;
+        }
+
         .section-banner-container { position: relative; width: 100%; height: 200px; }
         .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* HINT CENTRADO */
+        /* AVISO "TOCA" CENTRADO */
         .click-hint { 
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.9); color: var(--btn-pink); 
-            padding: 10px 22px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; 
-            text-transform: uppercase; border: 1.5px solid var(--btn-pink);
-            animation: pulseHint 2.5s infinite; white-space: nowrap; z-index: 5;
+            position: absolute; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(255, 255, 255, 0.95); 
+            color: var(--btn-pink); 
+            padding: 10px 22px; 
+            border-radius: 30px; 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            border: 1.5px solid var(--btn-pink);
+            animation: pulseHint 2.5s infinite; 
+            white-space: nowrap; 
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        @keyframes pulseHint { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
 
-        .content-area { display: none; background: var(--card-crema); padding: 40px 0; text-align: center; position: relative; animation: fadeIn 0.8s ease; }
-        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--btn-pink); cursor: pointer; z-index: 10; }
+        @keyframes pulseHint { 
+            0%, 100% { transform: translateX(-50%) scale(1); } 
+            50% { transform: translateX(-50%) scale(1.05); } 
+        }
+
+        .content-area { 
+            display: none; 
+            background: var(--card-crema); 
+            padding: 40px 0; 
+            text-align: center; 
+            position: relative; 
+            animation: fadeInContent 0.8s ease; 
+        }
+
+        .close-x { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            font-size: 2.2rem; 
+            color: var(--btn-pink); 
+            cursor: pointer; 
+            z-index: 10;
+        }
+
+        @keyframes fadeInContent { from { opacity: 0; } to { opacity: 1; } }
         .active .content-area { display: block; }
         .active .section-banner-container { display: none; }
 
-        /* AUTORIDADES */
+        /* --- AUTORIDADES (TAMAÑO ORIGINAL) --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .auth-slide { min-width: 100%; padding: 0 25px; display: flex; flex-direction: column; align-items: center; }
-        .auth-img { width: 240px; height: 320px; object-fit: cover; border-radius: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .nav-arrow { position: absolute; top: 35%; transform: translateY(-50%); background: white; border: none; width: 45px; height: 45px; border-radius: 50%; z-index: 10; color: var(--btn-pink); font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .auth-img { 
+            width: 240px; 
+            height: 320px; 
+            object-fit: cover; 
+            border-radius: 25px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+        }
+
+        .nav-arrow { 
+            position: absolute; 
+            top: 35%; 
+            transform: translateY(-50%); 
+            background: white; 
+            border: none; 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            z-index: 10; 
+            color: var(--btn-pink); 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
         .nav-arrow.left { left: 10px; }
         .nav-arrow.right { right: 10px; }
 
-        /* JEROVIAHA GRID */
-        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
-        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; cursor: pointer; }
-        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 15px 0; }
-        .social-bar img { width: 35px; height: 35px; }
+        /* --- JEROVIAHA GRID --- */
+        .insta-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            padding: 0 20px; 
+            margin-top: 20px;
+        }
+        .insta-grid img { 
+            width: 100%; 
+            aspect-ratio: 1; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            cursor: pointer;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 15px 0; }
+        .social-bar img { width: 35px; height: 35px; transition: transform 0.2s; }
+        .social-bar a:active img { transform: scale(0.9); }
+
+        /* LIGHTBOX */
+        #lightbox { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 11000; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        #lb-img { max-width: 90%; max-height: 80%; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -117,7 +310,9 @@
                 <h1 id="titulo">Cargando...</h1>
                 <div class="social-bar" id="socials"></div>
             </div>
+
             <img id="portada" src="" class="cover-img">
+
             <div class="buttons-wrap">
                 <a id="link-postulate" href="#" class="flat-btn" target="_blank">Postulate!</a>
                 <a id="link-instagram" href="#" class="flat-btn" target="_blank">Instagram</a>
@@ -132,7 +327,7 @@
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                 <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 5px;"></h2>
-                <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 25px; opacity: 0.7;"></p>
+                <p id="sub-aut" style="font-size: 0.9rem; margin-bottom: 30px; font-style: italic; color: #777;"></p>
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -144,26 +339,33 @@
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
             <div class="section-banner-container">
                 <img id="banner-jero" src="" class="section-banner">
-                <div class="click-hint">Conoce nuestras filantropias</div>
+                <div class="click-hint">Conoce nuestras filantropías</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
-                <div style="display:flex; align-items:center; margin: 0 25px 20px;">
+                
+                <div style="display:flex; align-items:center; margin: 0 25px 20px; text-align: left;">
                     <a id="j-ig-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
-                        <img id="j-ig-logo" src="" style="width:45px; height:45px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
-                        <span style="font-weight:700; color:var(--text-purple);">jeroviaha_py</span>
+                        <img id="j-ig-logo" src="" style="width:48px; height:48px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
+                        <div>
+                            <span style="font-weight:700; display:block; font-size: 0.95rem;">jeroviaha_py</span>
+                            <span style="font-size:0.75rem; color: var(--btn-pink);">Ver perfil</span>
+                        </div>
                     </a>
                 </div>
-                <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 10px 0;"></h2>
-                <p id="j-desc" style="font-size:0.85rem; padding:0 25px; text-align:left; line-height:1.6; color:#555;"></p>
+
+                <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 10px 0; text-align: left;"></h2>
+                <p id="j-desc" style="font-size:0.85rem; padding:0 25px; text-align:left; line-height:1.6; color:#555; margin-bottom: 20px;"></p>
+                
                 <div class="insta-grid" id="j-grid"></div>
-                <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
+                
+                <a id="j-btn" href="#" class="flat-btn" style="margin:30px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
             </div>
         </div>
     </div>
 
-    <div id="lightbox" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:11000; display:none; align-items:center; justify-content:center;" onclick="this.style.display='none'">
-        <img id="lb-img" style="max-width:90%; border-radius:15px;">
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lb-img" src="">
     </div>
 
     <script>
@@ -171,10 +373,10 @@
         let autoridades = [];
         let authIdx = 0;
 
+        // Limpieza de URLs de Imgur/PostImage
         function fix(url) {
             if(!url) return "";
             url = url.trim();
-            if(url.includes('postimg.cc')) return `https://i.postimg.cc/${url.split('/').pop()}.jpg`;
             if(url.includes('imgur.com')) {
                 const id = url.split('/').pop().split('.')[0];
                 return `https://i.imgur.com/${id}.jpg`;
@@ -187,84 +389,106 @@
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
                 
-                // --- HOJA PRINCIPAL ---
+                // --- DATOS PRINCIPALES ---
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
+                // Redes Sociales Dinámicas
                 let w = d.principal.iconWapp.toString();
                 let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
-                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${wLink}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${d.principal.linkInsta}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="${wLink}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
 
-                // --- HOJA AUTORIDADES ---
+                // --- SECCIÓN AUTORIDADES ---
                 autoridades = d.listaAutoridades;
                 document.getElementById('banner-aut').src = fix(d.portadaAut.img);
                 document.getElementById('tit-aut').innerText = d.portadaAut.titulo;
                 document.getElementById('sub-aut').innerText = d.portadaAut.desc;
                 renderAuth();
 
-                // --- HOJA JEROVIAHA (NOMBRES SEGÚN TU SCRIPT) ---
+                // --- SECCIÓN JEROVIAHA (Nombres según tu script: linkIG, IconInst) ---
                 const j = d.jeroviaha;
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
                 document.getElementById('j-ig-logo').src = fix(j.IconInst) || fix(d.principal.logo);
-                document.getElementById('j-ig-link').href = j.linkIG; // <--- CELDA B15 (linkIG en tu script)
+                document.getElementById('j-ig-link').href = j.linkIG; // <--- CELDA B15
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
                 document.getElementById('j-btn').innerText = j.txtBoton;
                 document.getElementById('j-btn').href = j.linkBoton;
-                document.getElementById('j-grid').innerHTML = j.fotos.map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "").join('');
+                document.getElementById('j-grid').innerHTML = j.fotos
+                    .map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "")
+                    .join('');
 
-                // --- VIDEO ---
+                // --- VIDEO INTRO ---
                 const vid = document.getElementById('intro-video');
-                let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
-                vid.src = `https://i.imgur.com/${vidId}.mp4`;
+                let vidUrl = d.principal.videoIntro;
+                if(vidUrl.includes('imgur.com')) {
+                    let vidId = vidUrl.split('/').pop().split('#')[0];
+                    vid.src = `https://i.imgur.com/${vidId}.mp4`;
+                }
 
-            } catch (e) { console.error("Error cargando datos:", e); }
+            } catch (e) {
+                console.error("Error en carga de datos:", e);
+                document.getElementById('titulo').innerText = "Asamblea Jerovia N°9";
+            }
         }
 
         function manejarEntrada() {
             const v = document.getElementById('intro-video');
             const welcome = document.getElementById('welcome-screen');
             welcome.style.opacity = '0';
+            
             setTimeout(() => {
                 welcome.style.display = 'none';
-                if (v.readyState >= 3) {
+                // Si el video tiene src y está listo, lo reproducimos
+                if (v.src && v.readyState >= 3) {
                     document.getElementById('intro-screen').style.display = 'flex';
                     setTimeout(() => { document.getElementById('intro-screen').style.opacity = '1'; }, 50);
                     v.muted = false;
                     v.play().catch(mostrarApp);
                     v.onended = mostrarApp;
-                } else { mostrarApp(); }
+                } else {
+                    mostrarApp();
+                }
             }, 1200);
         }
 
         function mostrarApp() {
             const intro = document.getElementById('intro-screen');
             const app = document.getElementById('app-container');
-            intro.style.opacity = '0';
-            setTimeout(() => {
-                intro.style.display = 'none';
+            
+            if (intro.style.display !== 'none') {
+                intro.style.opacity = '0';
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                    app.style.display = 'block';
+                    setTimeout(() => { app.style.opacity = '1'; }, 50);
+                }, 1200);
+            } else {
                 app.style.display = 'block';
                 setTimeout(() => { app.style.opacity = '1'; }, 50);
-            }, 1200);
+            }
         }
 
-        function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
+        function toggleSec(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
 
         function renderAuth() {
-            document.getElementById('auth-track').innerHTML = autoridades.map(a => `
+            const track = document.getElementById('auth-track');
+            track.innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
                     <img src="${fix(a.foto)}" class="auth-img">
-                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:1.1rem;">${a.nombre}</div>
-                    <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px;">${a.cargo}</div>
-                    <p style="font-size:0.85rem; line-height:1.6; color:#555;">${a.bio}</p>
+                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:1.1rem; letter-spacing:1px;">${a.nombre}</div>
+                    <div style="font-size:0.8rem; color:var(--btn-pink); font-weight:700; margin-bottom:15px; text-transform:uppercase;">${a.cargo}</div>
+                    <p style="font-size:0.85rem; line-height:1.7; color:#555; padding: 0 10px;">${a.bio}</p>
                 </div>
             `).join('');
         }
@@ -279,6 +503,7 @@
             document.getElementById('lightbox').style.display = 'flex';
         }
 
+        // Ejecutar carga inicial
         init();
     </script>
 </body>
