@@ -162,61 +162,54 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- NUEVO SISTEMA DE CAPAS SUPERPUESTAS --- */
+        /* --- SECCIONES CORREGIDAS PARA SUPERPOSICIÓN --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
             border-radius: 25px; 
-            overflow: hidden; 
             background: var(--card-crema); 
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            /* Altura fija inicial que coincide con el banner */
+            height: 230px; 
+            overflow: hidden;
+            transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .collapsible-section.active {
             height: auto;
-            min-height: 200px; /* Ajuste base para mostrar el banner */
+            overflow: visible;
         }
 
-        /* Capa 3 (Arriba): El Banner que sube */
         .section-banner-container { 
-            position: relative; 
-            width: 100%; 
-            z-index: 30; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            display: block;
-        }
-
-        .section-banner { width: 100%; height: auto; display: block; }
-
-        .active .section-banner-container { 
-            transform: translateY(-100%); 
-        }
-
-        /* Capa 2 (Medio): El cuadro que siempre está ahí */
-        .cuadro-blanco-fondo {
-            position: absolute;
+            position: absolute; /* Superpuesto */
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%; /* Toma la altura que le dé el contenido */
-            background: var(--card-crema);
-            z-index: 20;
+            width: 100%; 
+            height: 100%;
+            z-index: 20; 
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* Capa 1 (Fondo): El Contenido */
+        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .active .section-banner-container { 
+            transform: translateY(-101%); 
+        }
+
         .content-area { 
-            position: relative;
-            z-index: 25;
+            position: relative; /* Vive debajo del banner */
+            z-index: 10;
             background: var(--card-crema); 
             padding: 40px 0 20px; 
             text-align: center; 
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         .active .content-area { 
             opacity: 1;
-            visibility: visible;
         }
 
         .click-hint { 
@@ -258,13 +251,15 @@
 
         .auth-slide { 
             min-width: 100%; 
-            max-height: 450px; 
+            height: 380px; 
             overflow-y: auto; 
             padding: 0 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+        .auth-slide::-webkit-scrollbar { width: 2px; }
+        .auth-slide::-webkit-scrollbar-thumb { background: var(--btn-pink-light); border-radius: 10px; }
 
         .auth-img { 
             width: 180px; 
@@ -272,7 +267,17 @@
             object-fit: cover; 
             border-radius: 20px; 
             margin-bottom: 10px;
+            flex-shrink: 0;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .auth-info-header {
+            position: sticky;
+            top: 0;
+            background: var(--card-crema);
+            width: 100%;
+            padding: 10px 0;
+            z-index: 10;
         }
 
         .auth-name { font-weight: 800; text-transform: uppercase; color: var(--text-purple); font-size: 0.95rem; }
@@ -288,7 +293,7 @@
 
         .nav-arrow { 
             position: absolute; 
-            top: 30%; 
+            top: 40%; 
             transform: translateY(-50%); 
             background: white; 
             border: none; 
@@ -365,7 +370,6 @@
         </div>
 
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
-            <div class="cuadro-blanco-fondo"></div>
             <div class="section-banner-container">
                 <img id="banner-aut" src="" class="section-banner">
                 <div class="click-hint">Conoce a nuestras autoridades</div>
@@ -385,7 +389,6 @@
         </div>
 
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
-            <div class="cuadro-blanco-fondo"></div>
             <div class="section-banner-container">
                 <img id="banner-jero" src="" class="section-banner">
                 <div class="click-hint">Conoce nuestras filantropías</div>
@@ -505,6 +508,10 @@
 
         function toggleSec(id) { 
             const sec = document.getElementById(id);
+            // Cierra las demás antes de abrir la nueva
+            document.querySelectorAll('.collapsible-section').forEach(s => {
+                if(s.id !== id) s.classList.remove('active');
+            });
             sec.classList.toggle('active'); 
         }
 
@@ -512,8 +519,10 @@
             document.getElementById('auth-track').innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
                     <img src="${fix(a.foto)}" class="auth-img">
-                    <div class="auth-name">${a.nombre}</div>
-                    <div class="auth-role">${a.cargo}</div>
+                    <div class="auth-info-header">
+                        <div class="auth-name">${a.nombre}</div>
+                        <div class="auth-role">${a.cargo}</div>
+                    </div>
                     <div class="auth-description">
                         <p>${a.bio.replace(/\n/g, '<br>')}</p>
                     </div>
