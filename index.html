@@ -11,6 +11,7 @@
             --bg-pink: #F4C7CC; 
             --text-purple: #4A235A; 
             --btn-pink: #B78A9C; 
+            --btn-pink-light: #E6B0AA; /* Rosa más clarito para la barra */
             --card-crema: #FDF8F5; 
             --btn-red: #F26157; 
             --glow-shadow: rgba(244, 199, 204, 0.8);
@@ -29,18 +30,19 @@
             background-color: var(--bg-pink); 
             color: var(--text-purple); 
             overflow-x: hidden; 
-            line-height: 1.4; /* Reducido sutilmente */
+            line-height: 1.5;
         }
 
-        /* --- PERSONALIZACIÓN DE BARRA DESLIZADORA (Hilo Rosa) --- */
-        .auth-bio-container::-webkit-scrollbar {
-            width: 4px;
+        /* --- SCROLLBAR DELICADA (Hilo Rosa) --- */
+        .auth-bio-scroll::-webkit-scrollbar {
+            width: 2px; /* Más finita */
         }
-        .auth-bio-container::-webkit-scrollbar-track {
+        .auth-bio-scroll::-webkit-scrollbar-track {
             background: transparent;
+            margin: 30px 0; /* Hace que la barra sea más cortita */
         }
-        .auth-bio-container::-webkit-scrollbar-thumb {
-            background: var(--btn-pink);
+        .auth-bio-scroll::-webkit-scrollbar-thumb {
+            background: var(--btn-pink-light);
             border-radius: 10px;
         }
 
@@ -173,12 +175,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- ANIMACIÓN DE ENTRADA SECCIONES --- */
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* --- SECCIONES COLAPSABLES --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -191,7 +188,7 @@
             transition: transform 0.3s;
         }
 
-        .section-banner-container { position: relative; width: 100%; height: 100%; transition: opacity 0.5s; }
+        .section-banner-container { position: relative; width: 100%; height: 100%; transition: opacity 0.4s; }
         .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         .click-hint { 
@@ -218,6 +215,12 @@
             50% { transform: translateX(-50%) scale(1.05); } 
         }
 
+        /* ANIMACIÓN DE EXPANSIÓN PARA EVITAR FLASH */
+        @keyframes expandBox {
+            from { height: 0; opacity: 0; }
+            to { height: auto; opacity: 1; }
+        }
+
         .content-area { 
             display: none; 
             background: var(--card-crema); 
@@ -228,9 +231,9 @@
 
         .active .content-area { 
             display: block; 
-            animation: slideUpFade 0.6s ease-out;
+            animation: expandBox 0.5s ease-out forwards;
         }
-        .active .section-banner-container { display: none; }
+        .active .section-banner-container { opacity: 0; position: absolute; pointer-events: none; }
 
         .close-x { 
             position: absolute; 
@@ -242,48 +245,48 @@
             z-index: 10;
         }
 
-        /* --- AUTORIDADES (ESTILO CAJA FIJA) --- */
+        /* --- AUTORIDADES: CABECERA ESTÁTICA Y BIO OCULTA --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .auth-slide { min-width: 100%; padding: 0 25px; display: flex; flex-direction: column; align-items: center; }
         
+        .auth-header-fixed { width: 100%; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+        
         .auth-img { 
-            width: 180px; 
-            height: 250px; 
+            width: 190px; 
+            height: 260px; 
             object-fit: cover; 
             border-radius: 20px; 
             margin-bottom: 12px; 
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
         }
 
-        /* Contenedor de Bio con Scroll Independiente */
-        .auth-bio-container {
-            height: 120px; 
+        .auth-name { font-weight: 800; text-transform: uppercase; color: var(--text-purple); font-size: 1rem; letter-spacing: 1px; }
+        .auth-role { font-size: 0.75rem; color: var(--btn-pink); font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
+
+        /* Contenedor de Bio con altura para que nada se vea al inicio */
+        .auth-bio-scroll {
+            height: 100px; /* Altura controlada */
             overflow-y: auto;
             width: 100%;
-            padding: 0 10px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .auth-bio-container p {
-            font-size: 0.82rem;
-            line-height: 1.5;
-            color: #555;
-            margin-bottom: 8px; /* Espacio reducido entre párrafos */
-        }
-
-        #scroll-hint-text {
-            font-size: 0.7rem;
-            color: var(--btn-pink);
-            font-style: italic;
+            padding: 0 15px;
             margin-top: 5px;
-            opacity: 0.8;
+            text-align: justify; /* Justificado como pediste */
+        }
+
+        /* Este spacer empuja el texto hacia abajo para que no se vea nada al cargar */
+        .scroll-spacer { height: 95px; } 
+
+        .auth-bio-scroll p {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px; /* Reducción de espacio entre párrafos */
         }
 
         .nav-arrow { 
             position: absolute; 
-            top: 30%; 
+            top: 35%; 
             transform: translateY(-50%); 
             background: white; 
             border: none; 
@@ -377,7 +380,7 @@
                     <div id="auth-track"></div>
                     <button class="nav-arrow right" onclick="moveAuth(1)">&#10095;</button>
                 </div>
-                <div id="scroll-hint-text"></div>
+                <p id="hint-text" style="font-size: 0.65rem; color: var(--btn-pink); font-style: italic; margin-top: 10px;"></p>
             </div>
         </div>
 
@@ -398,7 +401,7 @@
                     </a>
                 </div>
                 <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 5px 0; text-align: left; font-size: 1.3rem;"></h2>
-                <p id="j-desc" style="font-size:0.8rem; padding:0 25px; text-align:left; line-height:1.6; color:#555; margin-bottom: 15px;"></p>
+                <p id="j-desc" style="font-size:0.8rem; padding:0 25px; text-align:justify; line-height:1.6; color:#555; margin-bottom: 15px;"></p>
                 <div class="insta-grid" id="j-grid"></div>
                 <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
             </div>
@@ -499,35 +502,36 @@
             }
         }
 
-        function toggleSec(id) { 
-            const section = document.getElementById(id);
-            section.classList.toggle('active');
-        }
+        function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
         function renderAuth() {
             document.getElementById('auth-track').innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
-                    <img src="${fix(a.foto)}" class="auth-img">
-                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:0.95rem; letter-spacing:1px; margin-bottom:2px;">${a.nombre}</div>
-                    <div style="font-size:0.7rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px; text-transform:uppercase;">${a.cargo}</div>
-                    <div class="auth-bio-container">
+                    <div class="auth-header-fixed">
+                        <img src="${fix(a.foto)}" class="auth-img">
+                        <div class="auth-name">${a.nombre}</div>
+                        <div class="auth-role">${a.cargo}</div>
+                    </div>
+                    <div class="auth-bio-scroll">
+                        <div class="scroll-spacer"></div>
                         <p>${a.bio.replace(/\n/g, '<br>')}</p>
                     </div>
                 </div>
             `).join('');
-            updateScrollHint();
+            updateHint();
         }
 
         function moveAuth(dir) {
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
-            updateScrollHint();
+            // Reiniciar scroll de la bio al cambiar de autoridad
+            document.querySelectorAll('.auth-bio-scroll').forEach(el => el.scrollTop = 0);
+            updateHint();
         }
 
-        function updateScrollHint() {
-            const hint = document.getElementById('scroll-hint-text');
+        function updateHint() {
             if(autoridades[authIdx]) {
-                hint.innerText = `Desliza hacia abajo para leer más sobre ${autoridades[authIdx].nombre}`;
+                document.getElementById('hint-text').innerText = `Desliza hacia abajo para leer más sobre ${autoridades[authIdx].nombre}`;
             }
         }
 
