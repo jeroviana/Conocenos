@@ -14,7 +14,6 @@
             --btn-pink-light: #E6B0AA; 
             --card-crema: #FDF8F5; 
             --btn-red: #F26157; 
-            --glow-shadow: rgba(244, 199, 204, 0.8);
         }
 
         * { 
@@ -87,8 +86,6 @@
             transition: transform 0.3s;
         }
 
-        #conocenos-btn:active { transform: scale(0.95); }
-
         @keyframes fadeInPoetic { 
             from { opacity: 0; transform: translateY(15px); } 
             to { opacity: 1; transform: translateY(0); } 
@@ -136,14 +133,11 @@
             margin: 15px auto; 
             border-radius: 80px; 
             object-fit: cover; 
-            flex-grow: 0; 
             max-height: 38vh; 
             display: block;
             -webkit-mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
             mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
         }
-        
-        .buttons-wrap { margin-top: 10px; margin-bottom: 20px; } 
 
         .flat-btn { 
             display: block; 
@@ -159,10 +153,9 @@
             text-transform: uppercase; 
             font-size: 0.8rem; 
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES CORREGIDAS --- */
+        /* --- SECCIONES REFINADAS --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -170,43 +163,39 @@
             background: var(--card-crema); 
             position: relative; 
             cursor: pointer; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            overflow: hidden; /* Corta el banner cuando sube */
-            transition: all 0.5s ease;
+            overflow: hidden; 
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .section-banner-container { 
             position: relative; 
             width: 100%; 
             z-index: 20; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            display: block;
+            transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .section-banner { width: 100%; height: auto; display: block; }
 
         .active .section-banner-container { 
             transform: translateY(-100%); 
-            position: absolute; /* Deja de ocupar espacio para que el contenido suba */
+            position: absolute;
         }
 
         .content-area { 
-            display: none; 
             background: var(--card-crema); 
             padding: 40px 0 20px; 
             text-align: center; 
             opacity: 0;
+            transition: opacity 0.3s ease;
+            visibility: hidden; /* Evita que ocupe espacio si no está activo */
+            height: 0;
         }
 
         .active .content-area { 
-            display: block; 
             opacity: 1;
-            animation: fadeInContent 0.8s forwards;
-        }
-
-        @keyframes fadeInContent {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            visibility: visible;
+            height: auto;
+            transition: opacity 0.6s ease 0.2s; /* Espera un poco a que el banner suba */
         }
 
         .click-hint { 
@@ -223,7 +212,6 @@
             text-transform: uppercase; 
             border: 1.5px solid var(--btn-pink);
             animation: pulseHint 2.5s infinite; 
-            white-space: nowrap; 
             z-index: 5;
         }
 
@@ -242,9 +230,13 @@
             z-index: 100;
         }
 
-        /* --- AUTORIDADES: SLIDER --- */
+        /* --- SLIDER AUTORIDADES --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
-        #auth-track { display: flex; transition: transform 0.6s ease; }
+        
+        #auth-track { 
+            display: flex; 
+            transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1); 
+        }
 
         .auth-slide { 
             min-width: 100%; 
@@ -254,9 +246,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Ocultar barra de scroll en el slide individual */
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
         }
-        .auth-slide::-webkit-scrollbar { width: 2px; }
-        .auth-slide::-webkit-scrollbar-thumb { background: var(--btn-pink-light); border-radius: 10px; }
+        .auth-slide::-webkit-scrollbar { display: none; }
 
         .auth-img { 
             width: 180px; 
@@ -300,6 +294,7 @@
             z-index: 10; 
             color: var(--btn-pink); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            cursor: pointer;
         }
         .nav-arrow.left { left: 5px; }
         .nav-arrow.right { right: 5px; }
@@ -312,13 +307,7 @@
             padding: 0 20px; 
             margin-top: 15px;
         }
-        .insta-grid img { 
-            width: 100%; 
-            aspect-ratio: 1; 
-            object-fit: cover; 
-            border-radius: 10px; 
-            cursor: pointer;
-        }
+        .insta-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
 
         .social-bar { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
         .social-bar img { width: 35px; height: 35px; }
@@ -332,7 +321,6 @@
             align-items: center; 
             justify-content: center; 
         }
-        #lb-img { max-width: 90%; max-height: 80%; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -357,10 +345,8 @@
                 <h1 id="titulo">Cargando...</h1>
                 <div class="social-bar" id="socials"></div>
             </div>
-
             <img id="portada" src="" class="cover-img">
-
-            <div class="buttons-wrap">
+            <div class="buttons-wrap" style="margin-top: 20px;">
                 <a id="link-postulate" href="#" class="flat-btn" target="_blank">Postulate!</a>
                 <a id="link-instagram" href="#" class="flat-btn" target="_blank">Instagram</a>
             </div>
@@ -375,7 +361,6 @@
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                 <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
                 <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
-                
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -393,7 +378,7 @@
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
                 <div style="display:flex; align-items:center; margin: 0 25px 15px; text-align: left;">
-                    <a id="j-ig-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
+                    <a id="j-ig-link" href="#" target="_blank" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
                         <img id="j-ig-logo" src="" style="width:45px; height:45px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
                         <div>
                             <span style="font-weight:700; display:block; font-size: 0.9rem;">jeroviaha_py</span>
@@ -410,7 +395,7 @@
     </div>
 
     <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lb-img" src="">
+        <img id="lb-img" style="max-width: 90%; max-height: 80%; border-radius: 15px;">
     </div>
 
     <script>
@@ -420,7 +405,6 @@
 
         function fix(url) {
             if(!url) return "";
-            url = url.trim();
             if(url.includes('imgur.com')) {
                 const id = url.split('/').pop().split('.')[0];
                 return `https://i.imgur.com/${id}.jpg`;
@@ -438,11 +422,9 @@
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
                 document.getElementById('link-instagram').href = d.principal.linkInsta;
 
-                let w = d.principal.iconWapp.toString();
-                let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
-                    <a href="${d.principal.linkInsta}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${wLink}" target="_blank" rel="noopener"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="https://wa.me/${d.principal.iconWapp.toString().replace(/\D/g,'')}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
@@ -470,15 +452,14 @@
                     let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
                     vid.src = `https://i.imgur.com/${vidId}.mp4`;
                 }
-            } catch (e) { console.error("Error:", e); }
+            } catch (e) { console.error(e); }
         }
 
         function manejarEntrada() {
             const v = document.getElementById('intro-video');
-            const welcome = document.getElementById('welcome-screen');
-            welcome.style.opacity = '0';
+            document.getElementById('welcome-screen').style.opacity = '0';
             setTimeout(() => {
-                welcome.style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'none';
                 if (v.src && v.readyState >= 3) {
                     document.getElementById('intro-screen').style.display = 'flex';
                     setTimeout(() => { document.getElementById('intro-screen').style.opacity = '1'; }, 50);
@@ -489,18 +470,12 @@
 
         function mostrarApp() {
             const intro = document.getElementById('intro-screen');
-            const app = document.getElementById('app-container');
-            if (intro.style.display !== 'none') {
-                intro.style.opacity = '0';
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                    app.style.display = 'block';
-                    setTimeout(() => { app.style.opacity = '1'; }, 50);
-                }, 1200);
-            } else {
-                app.style.display = 'block';
-                setTimeout(() => { app.style.opacity = '1'; }, 50);
-            }
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                setTimeout(() => { document.getElementById('app-container').style.opacity = '1'; }, 50);
+            }, 1200);
         }
 
         function toggleSec(id) { 
@@ -519,18 +494,19 @@
                         <div class="auth-name">${a.nombre}</div>
                         <div class="auth-role">${a.cargo}</div>
                     </div>
-                    <div class="auth-description">
-                        <p>${a.bio.replace(/\n/g, '<br>')}</p>
-                    </div>
+                    <div class="auth-description"><p>${a.bio.replace(/\n/g, '<br>')}</p></div>
                 </div>
             `).join('');
             updateHint();
         }
 
         function moveAuth(dir) {
+            // 1. Resetear scroll de todos los slides antes de mover
+            document.querySelectorAll('.auth-slide').forEach(s => s.scrollTo({top: 0, behavior: 'auto'}));
+            
+            // 2. Mover track
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
-            document.querySelectorAll('.auth-slide').forEach(el => el.scrollTop = 0);
             updateHint();
         }
 
