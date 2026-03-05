@@ -122,7 +122,7 @@
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; /* Centrado para que no flote arriba del todo */
+            justify-content: center; 
             padding: 20px 0; 
         }
 
@@ -130,7 +130,6 @@
         .logo-img { width: 85px; height: auto; mix-blend-mode: multiply; margin-bottom: 5px; }
         h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 5px 0; font-weight: 700; }
         
-        /* PORTADA: Redondeado recuperado y difuminado suave */
         .cover-img { 
             width: 90%; 
             margin: 15px auto; 
@@ -139,8 +138,8 @@
             flex-grow: 0; 
             max-height: 38vh; 
             display: block;
-            -webkit-mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
-            mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle, black 30%, rgba(0, 0, 0, 0.4) 70%, transparent 95%);
+            mask-image: radial-gradient(circle, black 30%, rgba(0, 0, 0, 0.4) 70%, transparent 95%);
         }
         
         .buttons-wrap { margin-top: 10px; margin-bottom: 20px; } 
@@ -148,7 +147,7 @@
         .flat-btn { 
             display: block; 
             width: 85%; 
-            margin: 12px auto; /* Más espacio entre botones */
+            margin: 12px auto; 
             padding: 16px 0; 
             background: var(--btn-pink); 
             color: white; 
@@ -209,6 +208,8 @@
             text-align: center; 
             position: relative; 
             animation: fadeInContent 0.8s ease; 
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .close-x { 
@@ -458,14 +459,31 @@
         function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
 
         function renderAuth() {
-            document.getElementById('auth-track').innerHTML = autoridades.map(a => `
-                <div class="auth-slide">
-                    <img src="${fix(a.foto)}" class="auth-img">
-                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:1rem; letter-spacing:1px;">${a.nombre}</div>
-                    <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px; text-transform:uppercase;">${a.cargo}</div>
-                    <p style="font-size:0.8rem; line-height:1.6; color:#555; padding: 0 10px;">${a.bio}</p>
-                </div>
-            `).join('');
+            document.getElementById('auth-track').innerHTML = autoridades.map(a => {
+                const bioOriginal = a.bio || "";
+                
+                // 1. Contar caracteres sin puntuación (puntos y comas)
+                const conteoLimpio = bioOriginal.replace(/[.,]/g, "").length;
+                
+                // 2. Definir tamaño de letra: si pasa 436, baja de 0.8rem a 0.7rem
+                const fontSize = conteoLimpio > 436 ? "0.7rem" : "0.8rem";
+                
+                // 3. Convertir puntos en puntos aparte (salto doble)
+                // Limpiamos espacios y evitamos saltos vacíos al final
+                const bioProcesada = bioOriginal.split('.')
+                                    .map(p => p.trim())
+                                    .filter(p => p !== "")
+                                    .join('.<br><br>') + '.';
+
+                return `
+                    <div class="auth-slide">
+                        <img src="${fix(a.foto)}" class="auth-img">
+                        <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:1rem; letter-spacing:1px;">${a.nombre}</div>
+                        <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px; text-transform:uppercase;">${a.cargo}</div>
+                        <p style="font-size:${fontSize}; line-height:1.5; color:#555; padding: 0 15px; text-align: justify;">${bioProcesada}</p>
+                    </div>
+                `;
+            }).join('');
         }
 
         function moveAuth(dir) {
