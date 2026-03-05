@@ -162,7 +162,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES CORREGIDAS (ELIMINANDO EL ESPACIO FANTASMA) --- */
+        /* --- NUEVA LÓGICA DE BLOQUE ÚNICO PEGADO --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -172,56 +172,42 @@
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            transition: height 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-            height: auto; /* Dejar que el banner mande al inicio */
+            /* Altura fija inicial que coincide con el banner */
+            height: 180px; 
+            transition: height 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
+        /* El contenedor que desliza todo el contenido como una sola pieza */
         .sliding-content {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            width: 100%;
-            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            transform: translateY(0);
         }
 
-        /* Mientras está cerrada, el content-area NO ocupa espacio */
+        .section-banner-container { 
+            width: 100%; 
+            height: 180px;
+            position: relative; 
+            flex-shrink: 0;
+        }
+
+        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .active { height: 600px; } /* Ajuste de altura cuando está abierto */
+        
+        .active .sliding-content { 
+            transform: translateY(-180px); /* Sube exactamente lo que mide el banner */
+        }
+
         .content-area { 
             background: var(--card-crema); 
             padding: 40px 0 20px; 
             text-align: center; 
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            height: 0;
-            overflow: hidden;
-        }
-
-        /* Cuando se activa, el contenido fluye y se vuelve visible */
-        .active .content-area { 
-            opacity: 1;
-            height: auto;
-            overflow: visible;
-        }
-
-        .active .section-banner-container {
-            /* Al abrirse, el banner deja de ocupar espacio para no empujar hacia abajo */
-            position: absolute;
-            top: 0;
             width: 100%;
         }
 
-        .section-banner-container { 
-            position: relative; 
-            width: 100%; 
-            display: block;
-            z-index: 1;
-        }
-
-        .section-banner { width: 100%; height: auto; display: block; }
-
-        .active .sliding-content { 
-            transform: translateY(var(--move-up, 0)); 
-        }
-
-        /* Resto de estilos igual... */
         .click-hint { 
             position: absolute; 
             bottom: 20px; 
@@ -238,12 +224,10 @@
             animation: pulseHint 2.5s infinite; 
             white-space: nowrap; 
             z-index: 5;
+            transition: opacity 0.3s;
         }
 
-        @keyframes pulseHint { 
-            0%, 100% { transform: translateX(-50%) scale(1); } 
-            50% { transform: translateX(-50%) scale(1.05); } 
-        }
+        .active .click-hint { opacity: 0; }
 
         .close-x { 
             position: absolute; 
@@ -255,6 +239,7 @@
             z-index: 100;
         }
 
+        /* --- AUTORIDADES: SLIDER Y STICKY --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s ease; }
 
@@ -269,7 +254,6 @@
             scrollbar-width: none;
         }
         .auth-slide::-webkit-scrollbar { width: 2px; }
-        .auth-slide::-webkit-scrollbar-thumb { background: var(--btn-pink-light); border-radius: 10px; }
 
         .auth-img { 
             width: 180px; 
@@ -317,6 +301,7 @@
         .nav-arrow.left { left: 5px; }
         .nav-arrow.right { right: 5px; }
 
+        /* --- JEROVIAHA GRID --- */
         .insta-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -345,6 +330,11 @@
             justify-content: center; 
         }
         #lb-img { max-width: 90%; max-height: 80%; border-radius: 15px; }
+
+        @keyframes pulseHint { 
+            0%, 100% { transform: translateX(-50%) scale(1); } 
+            50% { transform: translateX(-50%) scale(1.05); } 
+        }
     </style>
 </head>
 <body>
@@ -388,7 +378,6 @@
                     <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                     <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
                     <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
-                    
                     <div class="slider-wrapper">
                         <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                         <div id="auth-track"></div>
@@ -521,18 +510,7 @@
 
         function toggleSec(id) { 
             const sec = document.getElementById(id);
-            const banner = sec.querySelector('.section-banner');
-            const content = sec.querySelector('.content-area');
-            
-            if (!sec.classList.contains('active')) {
-                // Al activar, subimos el banner fuera de la vista
-                sec.style.setProperty('--move-up', `-${banner.offsetHeight}px`);
-                sec.classList.add('active');
-            } else {
-                // Al cerrar, volvemos a la normalidad
-                sec.classList.remove('active');
-                sec.style.setProperty('--move-up', `0px`);
-            }
+            sec.classList.toggle('active'); 
         }
 
         function renderAuth() {
