@@ -162,7 +162,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES CORREGIDAS --- */
+        /* --- SECCIONES CORREGIDAS (ELIMINANDO EL ESPACIO FANTASMA) --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -172,14 +172,40 @@
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            transition: all 0.5s ease;
+            transition: height 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            height: auto; /* Dejar que el banner mande al inicio */
         }
 
-        /* Riel que mueve todo junto */
         .sliding-content {
             display: flex;
             flex-direction: column;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        /* Mientras está cerrada, el content-area NO ocupa espacio */
+        .content-area { 
+            background: var(--card-crema); 
+            padding: 40px 0 20px; 
+            text-align: center; 
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            height: 0;
+            overflow: hidden;
+        }
+
+        /* Cuando se activa, el contenido fluye y se vuelve visible */
+        .active .content-area { 
+            opacity: 1;
+            height: auto;
+            overflow: visible;
+        }
+
+        .active .section-banner-container {
+            /* Al abrirse, el banner deja de ocupar espacio para no empujar hacia abajo */
+            position: absolute;
+            top: 0;
+            width: 100%;
         }
 
         .section-banner-container { 
@@ -191,23 +217,11 @@
 
         .section-banner { width: 100%; height: auto; display: block; }
 
-        /* El truco: al activar, el riel sube exactamente el alto del banner */
         .active .sliding-content { 
-            transform: translateY(var(--move-up, -100%)); 
+            transform: translateY(var(--move-up, 0)); 
         }
 
-        .content-area { 
-            background: var(--card-crema); 
-            padding: 40px 0 20px; 
-            text-align: center; 
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .active .content-area { 
-            opacity: 1;
-        }
-
+        /* Resto de estilos igual... */
         .click-hint { 
             position: absolute; 
             bottom: 20px; 
@@ -241,7 +255,6 @@
             z-index: 100;
         }
 
-        /* --- AUTORIDADES: SLIDER Y STICKY --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s ease; }
 
@@ -304,7 +317,6 @@
         .nav-arrow.left { left: 5px; }
         .nav-arrow.right { right: 5px; }
 
-        /* --- JEROVIAHA GRID --- */
         .insta-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -510,13 +522,17 @@
         function toggleSec(id) { 
             const sec = document.getElementById(id);
             const banner = sec.querySelector('.section-banner');
+            const content = sec.querySelector('.content-area');
             
-            // Calculamos el alto del banner actual para el desplazamiento
             if (!sec.classList.contains('active')) {
+                // Al activar, subimos el banner fuera de la vista
                 sec.style.setProperty('--move-up', `-${banner.offsetHeight}px`);
+                sec.classList.add('active');
+            } else {
+                // Al cerrar, volvemos a la normalidad
+                sec.classList.remove('active');
+                sec.style.setProperty('--move-up', `0px`);
             }
-            
-            sec.classList.toggle('active'); 
         }
 
         function renderAuth() {
