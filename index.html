@@ -155,7 +155,7 @@
             letter-spacing: 1px;
         }
 
-        /* --- SECCIONES REFINADAS --- */
+        /* --- SECCIONES --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -164,6 +164,8 @@
             position: relative; 
             cursor: pointer; 
             overflow: hidden; 
+            height: auto;
+            min-height: 200px;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -174,10 +176,10 @@
             transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        .section-banner { width: 100%; height: auto; display: block; }
+        .section-banner { width: 100%; height: auto; display: block; border-radius: 25px; }
 
         .active .section-banner-container { 
-            transform: translateY(-100%); 
+            transform: translateY(-101%); 
             position: absolute;
         }
 
@@ -186,18 +188,18 @@
             padding: 40px 0 20px; 
             text-align: center; 
             opacity: 0;
-            transition: opacity 0.3s ease;
-            visibility: hidden; /* Evita que ocupe espacio si no está activo */
-            height: 0;
+            display: none; /* Evita el espacio abajo */
         }
 
         .active .content-area { 
+            display: block;
             opacity: 1;
-            visibility: visible;
-            height: auto;
-            transition: opacity 0.6s ease 0.2s; /* Espera un poco a que el banner suba */
+            animation: fadeInContent 0.8s forwards;
         }
 
+        @keyframes fadeInContent { from { opacity: 0; } to { opacity: 1; } }
+
+        /* REVERTIDO: Botón "Toca" Original */
         .click-hint { 
             position: absolute; 
             bottom: 20px; 
@@ -212,7 +214,8 @@
             text-transform: uppercase; 
             border: 1.5px solid var(--btn-pink);
             animation: pulseHint 2.5s infinite; 
-            z-index: 5;
+            white-space: nowrap;
+            z-index: 25;
         }
 
         @keyframes pulseHint { 
@@ -232,11 +235,7 @@
 
         /* --- SLIDER AUTORIDADES --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
-        
-        #auth-track { 
-            display: flex; 
-            transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1); 
-        }
+        #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1); }
 
         .auth-slide { 
             min-width: 100%; 
@@ -246,8 +245,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Ocultar barra de scroll en el slide individual */
-            -ms-overflow-style: none; 
             scrollbar-width: none; 
         }
         .auth-slide::-webkit-scrollbar { display: none; }
@@ -359,7 +356,7 @@
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
+                <h2 id="tit-aut" style="font-family:'Playfair Display'; font-size: 1.3rem;"></h2>
                 <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
@@ -501,10 +498,7 @@
         }
 
         function moveAuth(dir) {
-            // 1. Resetear scroll de todos los slides antes de mover
             document.querySelectorAll('.auth-slide').forEach(s => s.scrollTo({top: 0, behavior: 'auto'}));
-            
-            // 2. Mover track
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
             updateHint();
