@@ -162,7 +162,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES: EFECTO CARTA SIN ESPACIOS BLANCOS --- */
+        /* --- NUEVA LÓGICA DE BLOQUE ÚNICO PEGADO --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -172,43 +172,40 @@
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            /* Importante: el contenedor se ajusta al contenido visible */
-            height: auto;
-            transition: all 0.5s ease;
+            /* Altura fija inicial que coincide con el banner */
+            height: 180px; 
+            transition: height 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        /* El contenedor que desliza todo el contenido como una sola pieza */
+        .sliding-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            transform: translateY(0);
         }
 
         .section-banner-container { 
-            position: relative; 
             width: 100%; 
-            z-index: 20; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            display: block;
+            height: 180px;
+            position: relative; 
+            flex-shrink: 0;
         }
 
-        .section-banner { width: 100%; height: auto; display: block; }
+        .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .active .section-banner-container { 
-            transform: translateY(-100%); 
-            position: absolute; /* Deja de ocupar espacio en el flujo */
+        .active { height: 600px; } /* Ajuste de altura cuando está abierto */
+        
+        .active .sliding-content { 
+            transform: translateY(-180px); /* Sube exactamente lo que mide el banner */
         }
 
         .content-area { 
-            display: none; /* No ocupa espacio hasta activarse */
             background: var(--card-crema); 
             padding: 40px 0 20px; 
             text-align: center; 
-            opacity: 0;
-        }
-
-        .active .content-area { 
-            display: block; 
-            opacity: 1;
-            animation: fadeInContent 0.8s forwards;
-        }
-
-        @keyframes fadeInContent {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            width: 100%;
         }
 
         .click-hint { 
@@ -227,12 +224,10 @@
             animation: pulseHint 2.5s infinite; 
             white-space: nowrap; 
             z-index: 5;
+            transition: opacity 0.3s;
         }
 
-        @keyframes pulseHint { 
-            0%, 100% { transform: translateX(-50%) scale(1); } 
-            50% { transform: translateX(-50%) scale(1.05); } 
-        }
+        .active .click-hint { opacity: 0; }
 
         .close-x { 
             position: absolute; 
@@ -250,7 +245,7 @@
 
         .auth-slide { 
             min-width: 100%; 
-            height: 380px; /* Altura de la ventana de visualización */
+            height: 380px; 
             overflow-y: auto; 
             padding: 0 25px;
             display: flex;
@@ -259,7 +254,6 @@
             scrollbar-width: none;
         }
         .auth-slide::-webkit-scrollbar { width: 2px; }
-        .auth-slide::-webkit-scrollbar-thumb { background: var(--btn-pink-light); border-radius: 10px; }
 
         .auth-img { 
             width: 180px; 
@@ -336,6 +330,11 @@
             justify-content: center; 
         }
         #lb-img { max-width: 90%; max-height: 80%; border-radius: 15px; }
+
+        @keyframes pulseHint { 
+            0%, 100% { transform: translateX(-50%) scale(1); } 
+            50% { transform: translateX(-50%) scale(1.05); } 
+        }
     </style>
 </head>
 <body>
@@ -370,44 +369,47 @@
         </div>
 
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
-            <div class="section-banner-container">
-                <img id="banner-aut" src="" class="section-banner">
-                <div class="click-hint">Conoce a nuestras autoridades</div>
-            </div>
-            <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
-                <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
-                <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
-                
-                <div class="slider-wrapper">
-                    <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
-                    <div id="auth-track"></div>
-                    <button class="nav-arrow right" onclick="moveAuth(1)">&#10095;</button>
+            <div class="sliding-content">
+                <div class="section-banner-container">
+                    <img id="banner-aut" src="" class="section-banner">
+                    <div class="click-hint">Conoce a nuestras autoridades</div>
                 </div>
-                <p id="hint-text" style="font-size: 0.65rem; color: var(--btn-pink); font-style: italic; margin-top: 10px;"></p>
+                <div class="content-area" onclick="event.stopPropagation()">
+                    <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
+                    <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
+                    <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
+                    <div class="slider-wrapper">
+                        <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
+                        <div id="auth-track"></div>
+                        <button class="nav-arrow right" onclick="moveAuth(1)">&#10095;</button>
+                    </div>
+                    <p id="hint-text" style="font-size: 0.65rem; color: var(--btn-pink); font-style: italic; margin-top: 10px;"></p>
+                </div>
             </div>
         </div>
 
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
-            <div class="section-banner-container">
-                <img id="banner-jero" src="" class="section-banner">
-                <div class="click-hint">Conoce nuestras filantropías</div>
-            </div>
-            <div class="content-area" onclick="event.stopPropagation()">
-                <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
-                <div style="display:flex; align-items:center; margin: 0 25px 15px; text-align: left;">
-                    <a id="j-ig-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
-                        <img id="j-ig-logo" src="" style="width:45px; height:45px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
-                        <div>
-                            <span style="font-weight:700; display:block; font-size: 0.9rem;">jeroviaha_py</span>
-                            <span style="font-size:0.7rem; color: var(--btn-pink);">Ver perfil</span>
-                        </div>
-                    </a>
+            <div class="sliding-content">
+                <div class="section-banner-container">
+                    <img id="banner-jero" src="" class="section-banner">
+                    <div class="click-hint">Conoce nuestras filantropías</div>
                 </div>
-                <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 5px 0; text-align: left; font-size: 1.3rem;"></h2>
-                <p id="j-desc" style="font-size:0.8rem; padding:0 25px; text-align:justify; line-height:1.6; color:#555; margin-bottom: 15px;"></p>
-                <div class="insta-grid" id="j-grid"></div>
-                <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
+                <div class="content-area" onclick="event.stopPropagation()">
+                    <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
+                    <div style="display:flex; align-items:center; margin: 0 25px 15px; text-align: left;">
+                        <a id="j-ig-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
+                            <img id="j-ig-logo" src="" style="width:45px; height:45px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
+                            <div>
+                                <span style="font-weight:700; display:block; font-size: 0.9rem;">jeroviaha_py</span>
+                                <span style="font-size:0.7rem; color: var(--btn-pink);">Ver perfil</span>
+                            </div>
+                        </a>
+                    </div>
+                    <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 5px 0; text-align: left; font-size: 1.3rem;"></h2>
+                    <p id="j-desc" style="font-size:0.8rem; padding:0 25px; text-align:justify; line-height:1.6; color:#555; margin-bottom: 15px;"></p>
+                    <div class="insta-grid" id="j-grid"></div>
+                    <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
+                </div>
             </div>
         </div>
     </div>
