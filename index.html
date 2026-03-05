@@ -29,7 +29,19 @@
             background-color: var(--bg-pink); 
             color: var(--text-purple); 
             overflow-x: hidden; 
-            line-height: 1.6;
+            line-height: 1.4; /* Reducido sutilmente */
+        }
+
+        /* --- PERSONALIZACIÓN DE BARRA DESLIZADORA (Hilo Rosa) --- */
+        .auth-bio-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .auth-bio-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .auth-bio-container::-webkit-scrollbar-thumb {
+            background: var(--btn-pink);
+            border-radius: 10px;
         }
 
         /* --- PANTALLA DE BIENVENIDA --- */
@@ -138,8 +150,8 @@
             flex-grow: 0; 
             max-height: 38vh; 
             display: block;
-            -webkit-mask-image: radial-gradient(circle, black 30%, rgba(0, 0, 0, 0.4) 70%, transparent 95%);
-            mask-image: radial-gradient(circle, black 30%, rgba(0, 0, 0, 0.4) 70%, transparent 95%);
+            -webkit-mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
+            mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
         }
         
         .buttons-wrap { margin-top: 10px; margin-bottom: 20px; } 
@@ -161,7 +173,12 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- SECCIONES COLAPSABLES --- */
+        /* --- ANIMACIÓN DE ENTRADA SECCIONES --- */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -174,7 +191,7 @@
             transition: transform 0.3s;
         }
 
-        .section-banner-container { position: relative; width: 100%; height: 100%; }
+        .section-banner-container { position: relative; width: 100%; height: 100%; transition: opacity 0.5s; }
         .section-banner { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         .click-hint { 
@@ -207,10 +224,13 @@
             padding: 30px 0; 
             text-align: center; 
             position: relative; 
-            animation: fadeInContent 0.8s ease; 
-            max-height: 85vh;
-            overflow-y: auto;
         }
+
+        .active .content-area { 
+            display: block; 
+            animation: slideUpFade 0.6s ease-out;
+        }
+        .active .section-banner-container { display: none; }
 
         .close-x { 
             position: absolute; 
@@ -222,27 +242,48 @@
             z-index: 10;
         }
 
-        @keyframes fadeInContent { from { opacity: 0; } to { opacity: 1; } }
-        .active .content-area { display: block; }
-        .active .section-banner-container { display: none; }
-
-        /* --- AUTORIDADES --- */
+        /* --- AUTORIDADES (ESTILO CAJA FIJA) --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
         #auth-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .auth-slide { min-width: 100%; padding: 0 25px; display: flex; flex-direction: column; align-items: center; }
         
         .auth-img { 
-            width: 200px; 
-            height: 280px; 
+            width: 180px; 
+            height: 250px; 
             object-fit: cover; 
             border-radius: 20px; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+        }
+
+        /* Contenedor de Bio con Scroll Independiente */
+        .auth-bio-container {
+            height: 120px; 
+            overflow-y: auto;
+            width: 100%;
+            padding: 0 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .auth-bio-container p {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 8px; /* Espacio reducido entre párrafos */
+        }
+
+        #scroll-hint-text {
+            font-size: 0.7rem;
+            color: var(--btn-pink);
+            font-style: italic;
+            margin-top: 5px;
+            opacity: 0.8;
         }
 
         .nav-arrow { 
             position: absolute; 
-            top: 35%; 
+            top: 30%; 
             transform: translateY(-50%); 
             background: white; 
             border: none; 
@@ -330,11 +371,13 @@
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                 <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 5px; font-size: 1.4rem;"></h2>
                 <p id="sub-aut" style="font-size: 0.85rem; margin-bottom: 25px; font-style: italic; color: #777;"></p>
+                
                 <div class="slider-wrapper">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
                     <button class="nav-arrow right" onclick="moveAuth(1)">&#10095;</button>
                 </div>
+                <div id="scroll-hint-text"></div>
             </div>
         </div>
 
@@ -456,39 +499,36 @@
             }
         }
 
-        function toggleSec(id) { document.getElementById(id).classList.toggle('active'); }
+        function toggleSec(id) { 
+            const section = document.getElementById(id);
+            section.classList.toggle('active');
+        }
 
         function renderAuth() {
-            document.getElementById('auth-track').innerHTML = autoridades.map(a => {
-                const bioOriginal = a.bio || "";
-                
-                // 1. Contar caracteres sin puntuación (puntos y comas)
-                const conteoLimpio = bioOriginal.replace(/[.,]/g, "").length;
-                
-                // 2. Definir tamaño de letra: si pasa 436, baja de 0.8rem a 0.7rem
-                const fontSize = conteoLimpio > 436 ? "0.7rem" : "0.8rem";
-                
-                // 3. Convertir puntos en puntos aparte (salto doble)
-                // Limpiamos espacios y evitamos saltos vacíos al final
-                const bioProcesada = bioOriginal.split('.')
-                                    .map(p => p.trim())
-                                    .filter(p => p !== "")
-                                    .join('.<br><br>') + '.';
-
-                return `
-                    <div class="auth-slide">
-                        <img src="${fix(a.foto)}" class="auth-img">
-                        <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:1rem; letter-spacing:1px;">${a.nombre}</div>
-                        <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px; text-transform:uppercase;">${a.cargo}</div>
-                        <p style="font-size:${fontSize}; line-height:1.5; color:#555; padding: 0 15px; text-align: justify;">${bioProcesada}</p>
+            document.getElementById('auth-track').innerHTML = autoridades.map(a => `
+                <div class="auth-slide">
+                    <img src="${fix(a.foto)}" class="auth-img">
+                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:0.95rem; letter-spacing:1px; margin-bottom:2px;">${a.nombre}</div>
+                    <div style="font-size:0.7rem; color:var(--btn-pink); font-weight:700; margin-bottom:12px; text-transform:uppercase;">${a.cargo}</div>
+                    <div class="auth-bio-container">
+                        <p>${a.bio.replace(/\n/g, '<br>')}</p>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
+            updateScrollHint();
         }
 
         function moveAuth(dir) {
             authIdx = (authIdx + dir + autoridades.length) % autoridades.length;
             document.getElementById('auth-track').style.transform = `translateX(-${authIdx * 100}%)`;
+            updateScrollHint();
+        }
+
+        function updateScrollHint() {
+            const hint = document.getElementById('scroll-hint-text');
+            if(autoridades[authIdx]) {
+                hint.innerText = `Desliza hacia abajo para leer más sobre ${autoridades[authIdx].nombre}`;
+            }
         }
 
         function openLB(url) {
