@@ -140,22 +140,25 @@
             mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
         }
 
-        /* --- ACORDEÓN CON FLECHITA --- */
+        /* --- BOTONES TRANSPARENTOSOS (ACORDEÓN) --- */
         .info-accordion {
             width: 90%;
             margin: 0 auto 20px;
         }
 
         .acc-item {
-            background: rgba(255, 255, 255, 0.4);
-            margin-bottom: 8px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin-bottom: 10px;
+            border-radius: 18px;
             overflow: hidden;
-            transition: background 0.3s;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .acc-header {
-            padding: 15px 20px;
+            padding: 16px 22px;
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             font-size: 0.95rem;
@@ -163,33 +166,42 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            color: var(--text-purple);
         }
 
-        .acc-header span {
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .acc-item.open .acc-header span {
-            transform: rotate(180deg);
+        .arrow-icon {
+            font-size: 0.8rem;
+            transition: transform 0.4s ease;
         }
 
         .acc-content {
             max-height: 0;
+            opacity: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease, padding 0.5s ease;
-            font-size: 0.85rem;
-            color: #444;
-            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.88rem;
+            color: #333;
+            padding: 0 22px;
             text-align: justify;
+            transform: translateY(-10px);
+        }
+
+        .acc-item.open {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .acc-item.open .acc-content {
-            max-height: 500px;
-            padding: 15px 20px;
+            max-height: 400px;
+            opacity: 1;
+            padding-bottom: 20px;
+            transform: translateY(0);
         }
 
-        /* --- BOTONES PRINCIPALES (SÓLIDOS) --- */
+        .acc-item.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* --- BOTONES DE ACCIÓN --- */
         .flat-btn { 
             display: block; 
             width: 85%; 
@@ -213,12 +225,12 @@
         }
 
         @keyframes pulseButton {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 var(--glow-shadow); }
-            50% { transform: scale(1.03); box-shadow: 0 0 20px 10px rgba(183, 138, 156, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(183, 138, 156, 0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
 
-        /* --- SECCIONES COLAPSIBLES --- */
+        /* --- SECCIONES COLAPSIBLES (NUEVA ANIMACIÓN) --- */
         .collapsible-section { 
             width: 92%; 
             margin: 15px auto; 
@@ -228,83 +240,61 @@
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            transition: all 0.5s ease;
+            transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
         .section-banner-container { 
             position: relative; 
             width: 100%; 
             z-index: 20; 
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .section-banner { width: 100%; height: auto; display: block; }
 
-        /* Botón de banner casi transparente */
-        .btn-toca {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 8px 20px;
-            border-radius: 20px;
-            color: white;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
+        /* Cuando está activa, ocultamos el banner suavemente */
         .active .section-banner-container { 
-            transform: translateY(-100%); 
-            position: absolute; 
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transform: scale(0.95);
         }
 
         .content-area { 
             display: none; 
             background: var(--card-crema); 
-            padding: 45px 0 20px; 
+            padding: 45px 0 25px; 
             text-align: center; 
             opacity: 0;
+            transform: scale(0.98);
+            transition: all 0.5s ease;
         }
 
-        /* Animación de apertura suave sin fallos */
         .active .content-area { 
             display: block; 
             opacity: 1;
-            animation: fadeInSimple 0.5s forwards;
+            transform: scale(1);
         }
 
-        @keyframes fadeInSimple {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Botón cerrar sutil */
         .close-x { 
             position: absolute; 
-            top: 12px; 
+            top: 15px; 
             right: 20px; 
-            font-size: 1.8rem; 
+            font-size: 2rem; 
             color: var(--btn-pink); 
             cursor: pointer; 
             z-index: 100;
-            line-height: 1;
         }
 
-        /* --- SLIDER AUTORIDADES --- */
+        /* --- SLIDER AUTORIDADES (INSTAGRAM STYLE) --- */
         .slider-wrapper { position: relative; width: 100%; overflow: hidden; }
-        #auth-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        #auth-track { display: flex; transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
 
         .auth-slide { 
             min-width: 100%; 
-            height: 380px; 
+            height: 400px; 
             overflow-y: auto; 
-            padding: 0 25px;
+            padding: 0 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -312,23 +302,26 @@
         }
 
         .auth-img { 
-            width: 180px; height: 240px; 
+            width: 190px; height: 250px; 
             object-fit: cover; border-radius: 20px; 
-            margin-bottom: 10px; flex-shrink: 0;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            margin-bottom: 12px; flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
+        /* Flechas finas sin círculo */
         .nav-arrow { 
             position: absolute; 
-            top: 40%; 
+            top: 35%; 
             transform: translateY(-50%); 
             background: transparent; 
             border: none; 
-            font-size: 2.5rem;
+            font-size: 2rem;
+            font-weight: 100;
             z-index: 10; 
             color: var(--text-purple); 
-            padding: 10px;
+            padding: 15px;
             cursor: pointer;
+            opacity: 0.6;
         }
         .nav-arrow.left { left: 0; }
         .nav-arrow.right { right: 0; }
@@ -377,23 +370,23 @@
 
             <div class="info-accordion">
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">¿Qué es IORG? <span>▾</span></div>
+                    <div class="acc-header">¿Qué es IORG? <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-iorg"></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">¿Cuáles son nuestros valores? <span>▾</span></div>
+                    <div class="acc-header">¿Cuáles son nuestros valores? <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-valores"></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">Perfil de una niña arcoiris <span>▾</span></div>
+                    <div class="acc-header">Perfil de una niña arcoiris <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-perfil"></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">¿Qué es Jerovia? <span>▾</span></div>
+                    <div class="acc-header">¿Qué es Jerovia? <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-jerovia"></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">¿Quién puede ser parte? <span>▾</span></div>
+                    <div class="acc-header">¿Quién puede ser parte? <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-parte"></div>
                 </div>
             </div>
@@ -407,7 +400,6 @@
         <div id="sec-aut" class="collapsible-section" onclick="toggleSec('sec-aut')">
             <div class="section-banner-container">
                 <img id="banner-aut" src="" class="section-banner">
-                <div class="btn-toca">Toca para ver</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
@@ -425,7 +417,6 @@
         <div id="sec-jero" class="collapsible-section" onclick="toggleSec('sec-jero')">
             <div class="section-banner-container">
                 <img id="banner-jero" src="" class="section-banner">
-                <div class="btn-toca">Toca para ver</div>
             </div>
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
@@ -509,11 +500,11 @@
                 document.getElementById('j-ig-link').href = j.linkIG;
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
+                document.getElementById('j-btn').innerText = j.txtBoton;
+                document.getElementById('j-btn').href = j.linkBoton;
                 document.getElementById('j-grid').innerHTML = j.fotos
                     .map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "")
                     .join('');
-                document.getElementById('j-btn').innerText = j.txtBoton;
-                document.getElementById('j-btn').href = j.linkBoton;
 
                 const vid = document.getElementById('intro-video');
                 if(d.principal.videoIntro.includes('imgur.com')) {
