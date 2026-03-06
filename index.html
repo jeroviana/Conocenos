@@ -15,6 +15,8 @@
             --card-crema: #FDF8F5; 
             --btn-red: #F26157; 
             --glow-shadow: rgba(183, 138, 156, 0.6);
+            /* Nueva variable para la transparencia cristalina */
+            --glass-white: rgba(255, 255, 255, 0.25); 
         }
 
         * { 
@@ -140,18 +142,22 @@
             mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.3) 70%, transparent 80%);
         }
 
-        /* --- NUEVO ACORDEÓN DE INFORMACIÓN --- */
+        /* --- ACORDEÓN MEJORADO (Transparente y Suave) --- */
         .info-accordion {
             width: 90%;
             margin: 0 auto 20px;
         }
 
         .acc-item {
-            background: rgba(255, 255, 255, 0.4);
+            /* Mucho más transparente y con efecto blur */
+            background: var(--glass-white);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             margin-bottom: 8px;
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
         .acc-header {
@@ -163,24 +169,40 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            color: var(--text-purple);
         }
 
         .acc-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease, padding 0.5s ease;
+            /* Transición fluida para la altura */
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.15); /* Transparencia interna */
+        }
+
+        /* EL TRUCO: Un contenedor interno con padding para que las letras no se aprieten */
+        .acc-inner {
+            padding: 15px 20px;
             font-size: 0.85rem;
-            color: #444;
-            background: rgba(255, 255, 255, 0.6);
+            color: var(--text-purple);
             text-align: justify;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .acc-item.open {
+            background: rgba(255, 255, 255, 0.4);
         }
 
         .acc-item.open .acc-content {
             max-height: 500px;
-            padding: 15px 20px;
         }
 
-        /* --- BOTÓN POSTULATE BAILARÍN --- */
+        .acc-item.open .acc-inner {
+            opacity: 1;
+        }
+
+        /* --- BOTONES --- */
         .flat-btn { 
             display: block; 
             width: 85%; 
@@ -215,12 +237,15 @@
             margin: 15px auto; 
             border-radius: 25px; 
             overflow: hidden; 
-            background: var(--card-crema); 
+            background: rgba(253, 248, 245, 0.7); /* Más transparente también */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             position: relative; 
             cursor: pointer; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             height: auto;
             transition: all 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .section-banner-container { 
@@ -240,7 +265,6 @@
 
         .content-area { 
             display: none; 
-            background: var(--card-crema); 
             padding: 40px 0 20px; 
             text-align: center; 
             opacity: 0;
@@ -344,23 +368,23 @@
             <div class="info-accordion">
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">¿Qué es IORG? <span>+</span></div>
-                    <div class="acc-content" id="txt-iorg"></div>
+                    <div class="acc-content"><div class="acc-inner" id="txt-iorg"></div></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">¿Cuáles son nuestros valores? <span>+</span></div>
-                    <div class="acc-content" id="txt-valores"></div>
+                    <div class="acc-content"><div class="acc-inner" id="txt-valores"></div></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">Perfil de una niña arcoiris <span>+</span></div>
-                    <div class="acc-content" id="txt-perfil"></div>
+                    <div class="acc-content"><div class="acc-inner" id="txt-perfil"></div></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">¿Qué es Jerovia? <span>+</span></div>
-                    <div class="acc-content" id="txt-jerovia"></div>
+                    <div class="acc-content"><div class="acc-inner" id="txt-jerovia"></div></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">¿Quién puede ser parte? <span>+</span></div>
-                    <div class="acc-content" id="txt-parte"></div>
+                    <div class="acc-content"><div class="acc-inner" id="txt-parte"></div></div>
                 </div>
             </div>
 
@@ -413,9 +437,6 @@
     <div id="lightbox" onclick="this.style.display='none'"><img id="lb-img" src=""></div>
 
     <script>
-        // ==========================================
-        //      SECCIÓN: EDITAR DESCRIPCIONES
-        // ==========================================
         const DESCRIPCIONES = {
             iorg: "La Orden Internacional del Arco Iris para Niñas es una organización filantrópica dedicada a enseñar liderazgo y servicio...",
             valores: "Amor, Religión, Naturaleza, Inmortalidad, Fidelidad, Patriotismo y Servicio son los pilares que guían nuestro camino.",
@@ -423,7 +444,6 @@
             jerovia: "Asamblea Jerovia N°9 es un espacio de fe y esperanza donde jóvenes líderes se forman bajo los principios del Arcoiris.",
             parte: "Pueden ser parte niñas entre 11 y 20 años que crean en un ser superior y deseen impactar positivamente su entorno."
         };
-        // ==========================================
 
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
         let autoridades = [];
@@ -441,7 +461,6 @@
         }
 
         async function init() {
-            // Cargar descripciones editables
             document.getElementById('txt-iorg').innerText = DESCRIPCIONES.iorg;
             document.getElementById('txt-valores').innerText = DESCRIPCIONES.valores;
             document.getElementById('txt-perfil').innerText = DESCRIPCIONES.perfil;
@@ -526,8 +545,6 @@
         function toggleSec(id) { 
             const sec = document.getElementById(id);
             const isActive = sec.classList.contains('active');
-            
-            // Cerrar otras secciones si se abre una
             document.querySelectorAll('.collapsible-section').forEach(s => s.classList.remove('active'));
             if (!isActive) {
                 sec.classList.add('active');
@@ -548,7 +565,6 @@
                 </div>
             `).join('');
             
-            // Soporte Táctil (Swipe)
             const track = document.getElementById('auth-track');
             track.ontouchstart = e => startX = e.touches[0].clientX;
             track.ontouchend = e => {
