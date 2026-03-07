@@ -65,7 +65,7 @@
             margin-bottom: 20px; 
             color: var(--text-purple); 
             opacity: 0;
-            text-align: justify; /* Justificado según solicitado */
+            text-align: justify;
         }
 
         .p1 { animation: fadeInPoetic 1.2s forwards 1.2s; }
@@ -189,7 +189,7 @@
 
         .acc-item.open { background: rgba(255, 255, 255, 0.5); }
         .acc-item.open .acc-content {
-            max-height: 1000px; /* Aumentado para dar espacio a los colores */
+            max-height: 1000px;
             opacity: 1;
             padding-bottom: 20px;
             transform: translateY(0);
@@ -277,19 +277,16 @@
             position: relative; 
             width: 100%; 
             z-index: 20; 
-            /* Se quitó la transición aquí para que al cerrar aparezca directo */
         }
 
         .section-banner { width: 100%; height: auto; display: block; }
 
-        /* Apertura: El banner sube como carta SOLO al abrir */
         .active .section-banner-container { 
             transform: translateY(-100%); 
             position: absolute; 
             transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* Aviso de Click */
         .click-notice {
             position: absolute;
             bottom: 15px;
@@ -322,7 +319,6 @@
             animation: fadeInContent 0.8s forwards;
         }
 
-        /* Cierre suave de opacidad */
         .closing {
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -365,7 +361,6 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
-        /* Header flotante para autoridades */
         .sticky-info {
             position: sticky;
             top: 0;
@@ -604,8 +599,8 @@
             `;
 
             document.getElementById('txt-valores').innerText = DESCRIPCIONES.valores;
-            document.getElementById('txt-perfil').innerText = DESCRIPCIONES.perfil;
-            document.getElementById('txt-jerovia').innerText = DESCRIPCIONES.jerovia;
+            document.getElementById('txt-perfil').innerHTML = DESCRIPCIONES.perfil;
+            document.getElementById('txt-jerovia').innerHTML = DESCRIPCIONES.jerovia;
             document.getElementById('txt-parte').innerText = DESCRIPCIONES.parte;
 
             try {
@@ -659,15 +654,13 @@
         }
 
         function toggleColor(el, event) {
-            event.stopPropagation(); // Evita que se cierre el acordeón principal entero
+            event.stopPropagation();
             const isOpen = el.classList.contains('open');
             
-            // Cierra todos los otros colores
             document.querySelectorAll('.color-item').forEach(item => {
                 item.classList.remove('open');
             });
             
-            // Abre el que tocaste
             if (!isOpen) {
                 el.classList.add('open');
             }
