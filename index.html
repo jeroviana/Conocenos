@@ -1122,6 +1122,10 @@
 
             }
 
+            // Si la URL no empieza con http, asumimos que es https
+            if (!url.startsWith('http')) {
+                return `https://${url}`;
+            }
             return url;
 
         }
@@ -1165,41 +1169,42 @@
                 const res = await fetch(SCRIPT_URL);
 
                 const d = await res.json();
-
                 
+                // Función para asegurar HTTPS en URLs
+                function asegurarHttps(url) {
+                    if (!url) return url;
+                    url = url.trim();
+                    // Si empieza con http://, lo cambiamos a https://
+                    if (url.startsWith('http://')) {
+                        return 'https://' + url.substring(7);
+                    }
+                    // Si no tiene protocolo, agregamos https://
+                    if (!url.startsWith('http')) {
+                        return 'https://' + url;
+                    }
+                    return url;
+                }
 
                 // Asegurar HTTPS en los links del JSON
-
-                const cleanInsta = d.principal.linkInsta.startsWith('http') ? d.principal.linkInsta : `https://${d.principal.linkInsta}`;
-
-                
+                const cleanInsta = asegurarHttps(d.principal.linkInsta);
+                const cleanLinkPostulate = asegurarHttps(d.principal.linkPostulate);
 
                 document.getElementById('logo').src = fix(d.principal.logo);
-
                 document.getElementById('titulo').innerText = d.principal.titulo;
-
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
-
-                document.getElementById('link-postulate').href = d.principal.linkPostulate;
-
+                document.getElementById('link-postulate').href = cleanLinkPostulate;
                 document.getElementById('link-instagram').href = cleanInsta;
 
 
 
                 let w = d.principal.iconWapp.toString();
-
-                let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
-
+                // Asegurar HTTPS para WhatsApp
+                let wLink = asegurarHttps(`wa.me/${w.replace(/\D/g,'')}`);
                 document.getElementById('socials').innerHTML = `
-
                     <a href="${cleanInsta}" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-
                     <a href="${wLink}" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
-
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
-
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
-
                 `;
 
 
@@ -1217,39 +1222,29 @@
 
 
                 const j = d.jeroviaha;
-
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
-
                 document.getElementById('j-ig-logo').src = fix(j.IconInst) || fix(d.principal.logo);
-
-                document.getElementById('j-ig-link').href = j.linkIG.startsWith('http') ? j.linkIG : `https://${j.linkIG}`;
-
+                document.getElementById('j-ig-link').href = asegurarHttps(j.linkIG);
                 document.getElementById('j-tit').innerText = j.tituloClick;
-
                 document.getElementById('j-desc').innerText = j.desc;
-
                 document.getElementById('j-btn').innerText = j.txtBoton;
-
-                document.getElementById('j-btn').href = j.linkBoton;
-
+                document.getElementById('j-btn').href = asegurarHttps(j.linkBoton);
                 document.getElementById('j-grid').innerHTML = j.fotos
-
                     .map(f => f ? `<img src="${fix(f)}" onclick="openLB('${fix(f)}')">` : "")
-
                     .join('');
 
 
 
                 const vid = document.getElementById('intro-video');
-
-                if(d.principal.videoIntro.includes('imgur.com')) {
-
-                    let vidId = d.principal.videoIntro.split('/').pop().split('#')[0];
-
-                    vid.src = `https://i.imgur.com/${vidId}.mp4`;
-
+                if(d.principal.videoIntro) {
+                    let videoUrl = asegurarHttps(d.principal.videoIntro);
+                    if(videoUrl.includes('imgur.com')) {
+                        let vidId = videoUrl.split('/').pop().split('#')[0];
+                        vid.src = `https://i.imgur.com/${vidId}.mp4`;
+                    } else {
+                        vid.src = videoUrl;
+                    }
                 }
-
             } catch (e) { console.error("Error:", e); }
 
         }
@@ -1385,7 +1380,6 @@
                 </div>
 
             `).join('');
-
             
 
             const track = document.getElementById('auth-track');
