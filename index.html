@@ -65,6 +65,7 @@
             margin-bottom: 20px; 
             color: var(--text-purple); 
             opacity: 0;
+            text-align: justify; /* Justificado según solicitado */
         }
 
         .p1 { animation: fadeInPoetic 1.2s forwards 1.2s; }
@@ -186,19 +187,48 @@
             transform: translateY(-10px);
         }
 
-        .acc-item.open {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
+        .acc-item.open { background: rgba(255, 255, 255, 0.5); }
         .acc-item.open .acc-content {
-            max-height: 400px;
+            max-height: 1000px; /* Aumentado para dar espacio a los colores */
             opacity: 1;
             padding-bottom: 20px;
             transform: translateY(0);
         }
+        .acc-item.open .arrow-icon { transform: rotate(180deg); }
 
-        .acc-item.open .arrow-icon {
-            transform: rotate(180deg);
+        /* --- ARCO IRIS ACORDEON (COLORES) --- */
+        .color-accordion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px 0 15px 0;
+            gap: 12px;
+        }
+        .color-item { width: 100%; text-align: center; cursor: pointer; }
+        .color-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        .color-desc {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            font-size: 0.85rem;
+            color: #333;
+            padding: 0 10px;
+            text-align: justify;
+        }
+        .color-item.open .color-desc {
+            max-height: 400px;
+            opacity: 1;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+        .color-item.open .color-title {
+            transform: scale(1.15);
         }
 
         /* --- BOTONES DE ACCIÓN --- */
@@ -247,18 +277,19 @@
             position: relative; 
             width: 100%; 
             z-index: 20; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            /* Se quitó la transición aquí para que al cerrar aparezca directo */
         }
 
         .section-banner { width: 100%; height: auto; display: block; }
 
-        /* Apertura: El banner sube como carta */
+        /* Apertura: El banner sube como carta SOLO al abrir */
         .active .section-banner-container { 
             transform: translateY(-100%); 
             position: absolute; 
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* Aviso de Click (Los que estaban antes) */
+        /* Aviso de Click */
         .click-notice {
             position: absolute;
             bottom: 15px;
@@ -291,7 +322,7 @@
             animation: fadeInContent 0.8s forwards;
         }
 
-        /* Cierre suave: La sección entera se desvanece */
+        /* Cierre suave de opacidad */
         .closing {
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -334,6 +365,17 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
+        /* Header flotante para autoridades */
+        .sticky-info {
+            position: sticky;
+            top: 0;
+            background: var(--card-crema);
+            width: 100%;
+            text-align: center;
+            padding: 10px 0 5px 0;
+            z-index: 10;
+        }
+
         .nav-arrow { 
             position: absolute; 
             top: 35%; 
@@ -342,7 +384,7 @@
             border: none; 
             font-size: 2rem;
             font-weight: 100;
-            z-index: 10; 
+            z-index: 15; 
             color: var(--text-purple); 
             padding: 15px;
             cursor: pointer;
@@ -402,6 +444,65 @@
                     <div class="acc-header">¿Cuáles son nuestros valores? <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-valores"></div>
                 </div>
+
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-header">Arco iris <span class="arrow-icon">▼</span></div>
+                    <div class="acc-content" id="txt-arcoiris" onclick="event.stopPropagation()">
+                        <div class="color-accordion">
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #D8303B;">Amor</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado. Si quieres separar párrafos, usa la etiqueta &lt;br&gt;&lt;br&gt; y listo.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #F58634;">Religión</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Religión.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #FFE61C; text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">Naturaleza</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Naturaleza.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #00A859;">Inmortalidad</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Inmortalidad.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #00AFEF;">Fidelidad</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Fidelidad.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #0065A0;">Patriotismo</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Patriotismo.
+                                </div>
+                            </div>
+                            
+                            <div class="color-item" onclick="toggleColor(this, event)">
+                                <div class="color-title" style="color: #727CB6;">Servicio</div>
+                                <div class="color-desc">
+                                    Escribe aquí el significado de Servicio.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="acc-item" onclick="toggleAcc(this)">
                     <div class="acc-header">Perfil de una niña arcoiris <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-perfil"></div>
@@ -491,7 +592,17 @@
         }
 
         async function init() {
-            document.getElementById('txt-iorg').innerText = DESCRIPCIONES.iorg;
+            // Se inyecta el logo y el link oficial para IORG
+            document.getElementById('txt-iorg').innerHTML = `
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <img src="https://i.postimg.cc/cLkK9fV6/logo-con-pote-removebg-preview.png" style="width: 100px; height: auto;">
+                </div>
+                <p style="text-align: justify;">${DESCRIPCIONES.iorg}</p>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="https://www.iorg.org" target="_blank" style="color: var(--text-purple); font-weight: bold; text-decoration: underline;">Página Oficial de la Orden</a>
+                </div>
+            `;
+
             document.getElementById('txt-valores').innerText = DESCRIPCIONES.valores;
             document.getElementById('txt-perfil').innerText = DESCRIPCIONES.perfil;
             document.getElementById('txt-jerovia').innerText = DESCRIPCIONES.jerovia;
@@ -543,8 +654,23 @@
 
         function toggleAcc(el) {
             const isOpen = el.classList.contains('open');
-            document.querySelectorAll('.acc-item').forEach(item => item.classList.remove('open'));
+            document.querySelectorAll('.info-accordion > .acc-item').forEach(item => item.classList.remove('open'));
             if (!isOpen) el.classList.add('open');
+        }
+
+        function toggleColor(el, event) {
+            event.stopPropagation(); // Evita que se cierre el acordeón principal entero
+            const isOpen = el.classList.contains('open');
+            
+            // Cierra todos los otros colores
+            document.querySelectorAll('.color-item').forEach(item => {
+                item.classList.remove('open');
+            });
+            
+            // Abre el que tocaste
+            if (!isOpen) {
+                el.classList.add('open');
+            }
         }
 
         function manejarEntrada() {
@@ -577,13 +703,11 @@
             const isActive = sec.classList.contains('active');
             
             if (isActive) {
-                // Cierre suave con Fade Out
                 sec.classList.add('closing');
                 setTimeout(() => {
                     sec.classList.remove('active', 'closing');
                 }, 500);
             } else {
-                // Apertura normal (Banner sube)
                 document.querySelectorAll('.collapsible-section').forEach(s => s.classList.remove('active'));
                 sec.classList.add('active');
                 setTimeout(() => {
@@ -597,8 +721,10 @@
             document.getElementById('auth-track').innerHTML = autoridades.map(a => `
                 <div class="auth-slide">
                     <img src="${fix(a.foto)}" class="auth-img">
-                    <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:0.95rem;">${a.nombre}</div>
-                    <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; text-transform:uppercase; margin-bottom:10px;">${a.cargo}</div>
+                    <div class="sticky-info">
+                        <div style="font-weight:800; text-transform:uppercase; color:var(--text-purple); font-size:0.95rem;">${a.nombre}</div>
+                        <div style="font-size:0.75rem; color:var(--btn-pink); font-weight:700; text-transform:uppercase;">${a.cargo}</div>
+                    </div>
                     <div style="text-align:justify; color:#555; font-size:0.85rem; line-height:1.6;"><p>${a.bio.replace(/\n/g, '<br>')}</p></div>
                 </div>
             `).join('');
