@@ -65,7 +65,7 @@
             margin-bottom: 20px; 
             color: var(--text-purple); 
             opacity: 0;
-            text-align: justify; /* Justificado según solicitado */
+            text-align: justify;
         }
 
         .p1 { animation: fadeInPoetic 1.2s forwards 1.2s; }
@@ -189,14 +189,14 @@
 
         .acc-item.open { background: rgba(255, 255, 255, 0.5); }
         .acc-item.open .acc-content {
-            max-height: 1000px; /* Aumentado para dar espacio a los colores */
+            max-height: 1000px; 
             opacity: 1;
             padding-bottom: 20px;
             transform: translateY(0);
         }
         .acc-item.open .arrow-icon { transform: rotate(180deg); }
 
-        /* --- ARCO IRIS ACORDEON (COLORES) --- */
+        /* --- ARCO IRIS ACORDEON --- */
         .color-accordion {
             display: flex;
             flex-direction: column;
@@ -277,19 +277,16 @@
             position: relative; 
             width: 100%; 
             z-index: 20; 
-            /* Se quitó la transición aquí para que al cerrar aparezca directo */
         }
 
         .section-banner { width: 100%; height: auto; display: block; }
 
-        /* Apertura: El banner sube como carta SOLO al abrir */
         .active .section-banner-container { 
             transform: translateY(-100%); 
             position: absolute; 
             transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* Aviso de Click */
         .click-notice {
             position: absolute;
             bottom: 15px;
@@ -322,7 +319,6 @@
             animation: fadeInContent 0.8s forwards;
         }
 
-        /* Cierre suave de opacidad */
         .closing {
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -365,7 +361,6 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
-        /* Header flotante para autoridades */
         .sticky-info {
             position: sticky;
             top: 0;
@@ -393,7 +388,7 @@
         .nav-arrow.left { left: 0; }
         .nav-arrow.right { right: 0; }
 
-        /* --- JEROVIAHA GRID --- */
+        /* --- GRID --- */
         .insta-grid { 
             display: grid; grid-template-columns: repeat(3, 1fr); 
             gap: 8px; padding: 0 20px; margin-top: 15px;
@@ -446,65 +441,43 @@
                 </div>
 
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">Arco iris <span class="arrow-icon">▼</span></div>
-                    <div class="acc-content" id="txt-arcoiris" onclick="event.stopPropagation()">
+                    <div class="acc-header">Arcoíris <span class="arrow-icon">▼</span></div>
+                    <div class="acc-content" id="txt-arcoíris" onclick="event.stopPropagation()">
                         <div class="color-accordion">
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #D8303B;">Amor</div>
-                                <div class="color-desc">
-                                    Es la puerta a todas las demás virtudes. El amor está por sobre todas las cosas: el amor a la familia, al hogar, a la patria y, por sobre todo, el amor a Dios
-                                </div>
+                                <div class="color-desc">Es la puerta a todas las demás virtudes...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #F58634;">Religión</div>
-                                <div class="color-desc">
-                                    Para una niña arcoíris la creencia en un ser superior es muy importante ya que la orden tiene sus bases en la religión. Pertenecer a una religión potencia la solidaridad, el respeto, la fraternidad y por sobre todo el perdón
-                                </div>
+                                <div class="color-desc">Para las niñas arcoíris la creencia en un ser superior es muy importante...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #FFE61C; text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">Naturaleza</div>
-                                <div class="color-desc">
-                                    Para una niña arcoíris es esencial el respeto a toda fauna y flora, es esencial que cada niña se preocupe por ella y viva la naturaleza en su máximo esplendor
-                                </div>
+                                <div class="color-desc">El respeto a toda fauna y flora es esencial...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #00A859;">Inmortalidad</div>
-                                <div class="color-desc">
-                                    Simboliza que la niña arcoiris debe aprender que la muerte es parte de la vida y no debe temer a ella. ya que la muerte puede ser física pero el alma perdura eternamente
-                                </div>
+                                <div class="color-desc">Las niñas arcoíris aprenden que la muerte es parte de la vida...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #00AFEF;">Fidelidad</div>
-                                <div class="color-desc">
-                                    Todas las niñas arcoiris son hermanas. Debemos ser fieles entre nosotras, a nuestra familia, a la sociedad, a Dios y a nosotras mismas. Sin la fidelidad en nuestro corazón nuestras promesas y palabras carecen de valor
-                                </div>
+                                <div class="color-desc">Todas las niñas arcoíris son hermanas. Debemos ser fieles...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #0065A0;">Patriotismo</div>
-                                <div class="color-desc">
-                                    Las niñas arcoiris aprenden a honrar y respetar la patria, la bandera y la historia. Tener conocimiento real de nuestro pasado abarca valorar sus glorias, aceptar sus episodios oscuros y aprender de estos.
-                                </div>
+                                <div class="color-desc">Las niñas arcoíris aprenden a honrar y respetar la patria...</div>
                             </div>
-                            
                             <div class="color-item" onclick="toggleColor(this, event)">
                                 <div class="color-title" style="color: #727CB6;">Servicio</div>
-                                <div class="color-desc">
-                                    Es la base de nuestra orden y de la vida de cada integrante. Es importante prestar servicio desinteresado todos los días de nuestras vidad, esta virtud es esencial para comprender el verdadero significado de todas las demas virtudes. El servicio al prójimo es necesario para una realización personal y espiritual.
-                                </div>
+                                <div class="color-desc">Es la base de nuestra orden y de la vida de cada integrante...</div>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
                 <div class="acc-item" onclick="toggleAcc(this)">
-                    <div class="acc-header">Perfil de una niña arcoiris <span class="arrow-icon">▼</span></div>
+                    <div class="acc-header">Perfil de una niña arcoíris <span class="arrow-icon">▼</span></div>
                     <div class="acc-content" id="txt-perfil"></div>
                 </div>
                 <div class="acc-item" onclick="toggleAcc(this)">
@@ -518,8 +491,8 @@
             </div>
 
             <div class="buttons-wrap">
-                <a id="link-postulate" href="#" class="flat-btn" target="_blank">¡Postulate ahora! ✨</a>
-                <a id="link-instagram" href="#" class="flat-btn" target="_blank">Nuestro Instagram</a>
+                <a id="link-postulate" href="#" class="flat-btn" target="_blank" rel="noopener noreferrer">¡Postulate ahora! ✨</a>
+                <a id="link-instagram" href="#" class="flat-btn" target="_blank" rel="noopener noreferrer">Nuestro Instagram</a>
             </div>
         </div>
 
@@ -532,7 +505,6 @@
                 <span class="close-x" onclick="toggleSec('sec-aut')">&times;</span>
                 <h2 id="tit-aut" style="font-family:'Playfair Display'; margin-bottom: 2px; font-size: 1.3rem;"></h2>
                 <p id="sub-aut" style="font-size: 0.8rem; margin-bottom: 20px; font-style: italic; color: #777;"></p>
-                
                 <div class="slider-wrapper" id="slider-container">
                     <button class="nav-arrow left" onclick="moveAuth(-1)">&#10094;</button>
                     <div id="auth-track"></div>
@@ -549,7 +521,7 @@
             <div class="content-area" onclick="event.stopPropagation()">
                 <span class="close-x" onclick="toggleSec('sec-jero')">&times;</span>
                 <div style="display:flex; align-items:center; margin: 0 25px 15px; text-align: left;">
-                    <a id="j-ig-link" href="#" target="_blank" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
+                    <a id="j-ig-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
                         <img id="j-ig-logo" src="" style="width:45px; height:45px; border-radius:50%; margin-right:12px; border:2.5px solid var(--btn-pink); object-fit:cover;">
                         <div>
                             <span style="font-weight:700; display:block; font-size: 0.9rem;">jeroviaha_py</span>
@@ -560,7 +532,7 @@
                 <h2 id="j-tit" style="font-family:'Playfair Display'; padding:0 20px; margin: 5px 0; text-align: left; font-size: 1.3rem;"></h2>
                 <p id="j-desc" style="font-size:0.8rem; padding:0 25px; text-align:justify; line-height:1.6; color:#555; margin-bottom: 15px;"></p>
                 <div class="insta-grid" id="j-grid"></div>
-                <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank"></a>
+                <a id="j-btn" href="#" class="flat-btn" style="margin:25px auto; width:85%; background:var(--btn-red);" target="_blank" rel="noopener noreferrer"></a>
             </div>
         </div>
     </div>
@@ -569,11 +541,11 @@
 
     <script>
         const DESCRIPCIONES = {
-            iorg: "La Orden Internacional del Arco Iris para Niñas (IORG por sus siglas en inglés) es una organización basada en el servicio, pensada para que niñas y jóvenes se preparen para la vida de una manera divertida. <br> Nuestra organización forma el carácter, fortalece la confianza, enseña el valor del voluntariado y la sororidad, promueve la expresión oral y brinda la oportunidad de hacer amistades que pueden durar para toda la vida",
-            valores: "Contamos con tres pilares principales: Fe, Esperanza y Caridad.<br>Por medio de ellos y de los valores representados por los colores del arcoiris, las niñas adquieren razgos de personalidad fundamentales que las impulsan a ser personas amables y responsables.",
-            perfil: "Las niñas en Jerovia desarrollan sus habilidades organizando actividades y aprendiendo sobre nuestros valores cada sábado.<br>Se convierten en fuertes lideres, patriotas, serviciales y consientes de su entorno social, y lo hacen en un ambiente lleno de confianza y diversión",
-            jerovia: "Somos la novena asamblea fundada e instalada en Paraguay, nuestro color es el rosa y formamos parte de la Gran Jurisdicción de Paraguay. <br> Nos destacamos por ser una asamblea llena de hermandad y alegría, al mismo tiempo que de retos y pruebas ",
-            parte: "Pueden ser parte niñas entre 11 y 20 años que deseen impactar positivamente su entorno, aprender y crecer como personas."
+            iorg: "La Orden Internacional del Arcoíris para Niñas (IORG por sus siglas en inglés) es una organización basada en el servicio, pensada para que niñas y jóvenes se preparen para la vida de una manera divertida. <br> Nuestra organización forma el carácter, fortalece la confianza, enseña el valor del voluntariado y la sororidad, promueve la expresión oral y brinda la oportunidad de hacer amistades que pueden durar para toda la vida",
+            valores: "Contamos con tres pilares principales: Fe, Esperanza y Caridad...",
+            perfil: "Las niñas en Jerovia desarrollan sus habilidades...",
+            jerovia: "Somos la novena asamblea fundada e instalada en Paraguay...",
+            parte: "Pueden ser parte niñas entre 11 y 20 años..."
         };
 
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyoB49Pt_LuqAUZ6NjewotFA4soB_64V0gbDk_MNR-YV6vWrHccfWcUeb8ZcLoovKa/exec";
@@ -592,14 +564,13 @@
         }
 
         async function init() {
-            // Se inyecta el logo y el link oficial para IORG
             document.getElementById('txt-iorg').innerHTML = `
                 <div style="text-align: center; margin-bottom: 15px;">
                     <img src="https://i.postimg.cc/cLkK9fV6/logo-con-pote-removebg-preview.png" style="width: 100px; height: auto;">
                 </div>
                 <p style="text-align: justify;">${DESCRIPCIONES.iorg}</p>
                 <div style="text-align: center; margin-top: 15px;">
-                    <a href="https://www.iorg.org" target="_blank" style="color: var(--text-purple); font-weight: bold; text-decoration: underline;">Página Oficial de la Orden</a>
+                    <a href="https://www.iorg.org" target="_blank" rel="noopener noreferrer" style="color: var(--text-purple); font-weight: bold; text-decoration: underline;">Página Oficial de la Orden</a>
                 </div>
             `;
 
@@ -611,17 +582,21 @@
             try {
                 const res = await fetch(SCRIPT_URL);
                 const d = await res.json();
+                
+                // Asegurar HTTPS en los links del JSON
+                const cleanInsta = d.principal.linkInsta.startsWith('http') ? d.principal.linkInsta : `https://${d.principal.linkInsta}`;
+                
                 document.getElementById('logo').src = fix(d.principal.logo);
                 document.getElementById('titulo').innerText = d.principal.titulo;
                 document.getElementById('portada').src = fix(d.principal.fotoPortada);
                 document.getElementById('link-postulate').href = d.principal.linkPostulate;
-                document.getElementById('link-instagram').href = d.principal.linkInsta;
+                document.getElementById('link-instagram').href = cleanInsta;
 
                 let w = d.principal.iconWapp.toString();
                 let wLink = w.startsWith('http') ? w : `https://wa.me/${w.replace(/\D/g,'')}`;
                 document.getElementById('socials').innerHTML = `
-                    <a href="${d.principal.linkInsta}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-                    <a href="${wLink}" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
+                    <a href="${cleanInsta}" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+                    <a href="${wLink}" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"></a>
                     <a href="tel:${d.principal.iconTel}"><img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png"></a>
                     <a href="mailto:${d.principal.correo}"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"></a>
                 `;
@@ -635,7 +610,7 @@
                 const j = d.jeroviaha;
                 document.getElementById('banner-jero').src = fix(j.fotoPortada);
                 document.getElementById('j-ig-logo').src = fix(j.IconInst) || fix(d.principal.logo);
-                document.getElementById('j-ig-link').href = j.linkIG;
+                document.getElementById('j-ig-link').href = j.linkIG.startsWith('http') ? j.linkIG : `https://${j.linkIG}`;
                 document.getElementById('j-tit').innerText = j.tituloClick;
                 document.getElementById('j-desc').innerText = j.desc;
                 document.getElementById('j-btn').innerText = j.txtBoton;
@@ -659,18 +634,10 @@
         }
 
         function toggleColor(el, event) {
-            event.stopPropagation(); // Evita que se cierre el acordeón principal entero
+            event.stopPropagation();
             const isOpen = el.classList.contains('open');
-            
-            // Cierra todos los otros colores
-            document.querySelectorAll('.color-item').forEach(item => {
-                item.classList.remove('open');
-            });
-            
-            // Abre el que tocaste
-            if (!isOpen) {
-                el.classList.add('open');
-            }
+            document.querySelectorAll('.color-item').forEach(item => item.classList.remove('open'));
+            if (!isOpen) el.classList.add('open');
         }
 
         function manejarEntrada() {
@@ -701,12 +668,9 @@
         function toggleSec(id) { 
             const sec = document.getElementById(id);
             const isActive = sec.classList.contains('active');
-            
             if (isActive) {
                 sec.classList.add('closing');
-                setTimeout(() => {
-                    sec.classList.remove('active', 'closing');
-                }, 500);
+                setTimeout(() => sec.classList.remove('active', 'closing'), 500);
             } else {
                 document.querySelectorAll('.collapsible-section').forEach(s => s.classList.remove('active'));
                 sec.classList.add('active');
